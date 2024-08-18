@@ -18,15 +18,9 @@ provider "azurerm" {
   tenant_id       = "4878e7ff-70ef-4ed9-8e6e-f13f1073f0ea"
 }
 
-resource "azurerm_resource_group" "example" {
-  name     = "example-resources"
-  location = "East US"
-}
+module "resource_group" {
+  source = "./resource_group"  # Adjust the path to your resource_group module if necessary
 
-resource "azurerm_storage_account" "example" {
-  name                     = "somestgacc1234"
-  resource_group_name      = azurerm_resource_group.example.name
-  location                 = azurerm_resource_group.example.location
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
+  resource_group_name = "rg-eastasia-001"
+  location            = var.location  # Use the default or specify another location
 }
