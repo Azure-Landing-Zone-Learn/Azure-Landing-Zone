@@ -33,11 +33,11 @@ module "virtual_network_1" {
 
   subnets = [
     {
-      name            = "subnet1"
+      name            = "snet-eastasia-001"
       address_prefixes = ["10.0.1.0/24"]
     },
     {
-      name            = "subnet2"
+      name            = "snet-eastasia-002"
       address_prefixes = ["10.0.2.0/24"]
     }
   ]
@@ -52,11 +52,11 @@ module "virtual_network_2" {
 
   subnets = [
     {
-      name            = "subnet1"
+      name            = "snet-eastasia-001"
       address_prefixes = ["10.1.1.0/24"]
     },
     {
-      name            = "subnet2"
+      name            = "snet-eastasia-002"
       address_prefixes = ["10.1.2.0/24"]
     }
   ]
