@@ -28,7 +28,7 @@ module "virtual_network" {
   source              = "./modules/virtual_network"
   vnet_name           = "vnet-eastasia-001"
   address_space       = ["10.0.0.0/16"]
-  location            = module.resource_group.location
+  location            = module.resource_group.resource_group_location
   resource_group_name = module.resource_group.resource_group_name
 
   subnets = [
