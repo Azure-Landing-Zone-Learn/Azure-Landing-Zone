@@ -2,7 +2,7 @@ module "vm_vnet1" {
   source              = "./modules/virtual_machine"
   vm_name             = "vm-windows-2022"
   resource_group_name = module.resource_group.resource_group_name
-  location            = module.resource_group.location
+  location            = var.location
   vm_size             = "Standard_B2s"
 
   network_interface_ids = [azurerm_network_interface.nic_vnet1.id]
