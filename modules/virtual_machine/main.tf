@@ -27,4 +27,8 @@ resource "azurerm_virtual_machine" "this" {
     create_option     = "FromImage"
   }
 
+  os_profile_windows_config {
+    provision_vm_agent = true
+  }
+
 }
