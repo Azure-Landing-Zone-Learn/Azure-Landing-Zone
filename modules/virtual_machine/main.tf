@@ -23,7 +23,7 @@ resource "azurerm_virtual_machine" "this" {
     name              = "${var.vm_name}-osdisk"
     caching           = "ReadWrite"
     managed_disk_type = "Standard_LRS"
-    disk_size_gb      = 30
+    disk_size_gb      = 127  # Ensure this is equal to or larger than the required disk size
     create_option     = "FromImage"
   }
 
