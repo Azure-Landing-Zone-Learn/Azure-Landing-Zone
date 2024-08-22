@@ -1,6 +1,6 @@
 module "vm_vnet1" {
   source              = "./modules/virtual_machine"
-  vm_name             = "vm-windows-2022"
+  vm_name             = "vm-eastasia-vnet1-001"
   resource_group_name = module.resource_group.resource_group_name
   location            = var.location
   vm_size             = "Standard_B2s"
@@ -18,7 +18,7 @@ module "vm_vnet1" {
 
 module "vm_vnet2" {
   source              = "./modules/virtual_machine"
-  vm_name             = "vm-windows-2022-2"
+  vm_name             = "vm-eastasia-vnet2-001"
   resource_group_name = module.resource_group.resource_group_name
   location            = var.location
   vm_size             = "Standard_B2s"
