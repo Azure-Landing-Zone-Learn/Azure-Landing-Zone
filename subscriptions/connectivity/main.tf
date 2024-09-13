@@ -1,14 +1,15 @@
 locals {
   routes = {
     route1 = {
-      name = "route1"
+      name           = "route1"
       address_prefix = "10.0.0.0/24"
-      next_hop_type = "VirtualNetworkGateway"
+      next_hop_type  = "VirtualNetworkGateway"
     },
     route2 = {
-      name = "route2"
-      address_prefix = "10.0.1.0/24"
-      next_hop_type = "VirtualAppliance"
+      name                   = "route2"
+      address_prefix         = "10.0.1.0/24"
+      next_hop_type          = "VirtualAppliance"
+      next_hop_in_ip_address = "0.0.0.0"
     }
   }
 }
@@ -50,6 +51,6 @@ module "rt" {
   name                = "rt-${var.subscription_name}-${var.location}-001"
   location            = var.location
   resource_group_name = module.rg.name
-  routes = local.routes
-  tags = var.tags
+  routes              = local.routes
+  tags                = var.tags
 }
