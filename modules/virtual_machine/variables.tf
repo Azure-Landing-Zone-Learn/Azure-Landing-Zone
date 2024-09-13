@@ -46,5 +46,5 @@ variable "os_sku" {
 
 variable "network_interface_ids" {
   description = "The ID of the network interface"
-  type        = list(string) 
+  type        = list(string)
 }
