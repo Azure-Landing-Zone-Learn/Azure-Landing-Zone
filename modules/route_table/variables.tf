@@ -17,8 +17,8 @@ variable "resource_group_name" {
 }
 
 variable "routes" {
-  description = "A list of routes to associate with the route table"
-  nullable    = false
+    description = "A list of routes to associate with the route table"
+    nullable    = false
 }
 
 variable "tags" {

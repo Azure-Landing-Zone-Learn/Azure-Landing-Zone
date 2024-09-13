@@ -4,7 +4,6 @@ locals {
       name                   = "route1"
       address_prefix         = "10.0.0.0/24"
       next_hop_type          = "VirtualNetworkGateway"
-      next_hop_in_ip_address = null
     },
     route2 = {
       name                   = "route2"
