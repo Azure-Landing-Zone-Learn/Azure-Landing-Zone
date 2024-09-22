@@ -36,7 +36,7 @@ locals {
 }
 
 output "test" {
-  value = { for i, route in local.routes : "${route.name + tostring(i)}" => route }
+  value = { for i, route in local.routes : "${route.name}${tostring(i)}" => route }
 }
 
 
