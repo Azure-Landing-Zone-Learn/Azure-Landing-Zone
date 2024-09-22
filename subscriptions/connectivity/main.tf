@@ -27,7 +27,7 @@ locals {
     {
       name             = "subnet-${var.subscription_name}-${var.location}-003"
       address_prefixes = ["10.0.2.0/24"]
-      route_table_id   = module.rt.it
+      route_table_id   = module.rt.id
     }
   ]
 }
