@@ -17,3 +17,7 @@ resource "azurerm_route_table" "rt" {
     Name = var.name
   }, var.tags)
 }
+
+output "id" {
+  value = azurerm_route_table.rt.id
+}

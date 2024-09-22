@@ -17,6 +17,7 @@ locals {
     {
       name             = "subnet-${var.subscription_name}-${var.location}-001"
       address_prefixes = ["10.0.0.0/24"]
+      route_table_id   = module.rt.id
     },
     {
       name             = "subnet-${var.subscription_name}-${var.location}-002"
@@ -55,4 +56,8 @@ module "rt" {
   resource_group_name = module.rg.name
   routes              = { for route in local.routes : route.name => route }
   tags                = var.tags
+}
+
+output "subnet_ids" {
+  value = module.vnet.subnet_ids
 }

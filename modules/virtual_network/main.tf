@@ -31,6 +31,12 @@ resource "azurerm_subnet" "subnet" {
   }
 }
 
+/* resource "azurerm_subnet_route_table_association" "example" {
+  for_each       = var.subnets
+  subnet_id      = azurerm_subnet.subnet.id
+  route_table_id = each.value.route_table_id
+} */
+
 output "id" {
   value = azurerm_virtual_network.vnet.id
 }
@@ -39,3 +45,6 @@ output "name" {
   value = azurerm_virtual_network.vnet.name
 }
 
+output "subnet_ids" {
+  value = [for subnet in azurerm_subnet.subnet : subnet.id]
+}

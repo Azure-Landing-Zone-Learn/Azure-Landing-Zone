@@ -35,11 +35,6 @@ locals {
   ]
 }
 
-output "test" {
-  value = { for i, route in local.routes : "route${tostring(i)}" => route }
-}
-
-
 module "connectivity_subscription" {
   source = "./subscriptions/connectivity"
 
@@ -48,3 +43,6 @@ module "connectivity_subscription" {
   tags              = local.tags
 }
 
+output "subnet_ids" {
+  value = module.connectivity_subscription.subnet_ids
+}
