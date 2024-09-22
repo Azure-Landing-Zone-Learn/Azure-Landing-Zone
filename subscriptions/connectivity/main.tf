@@ -40,6 +40,7 @@ locals {
       direction                  = "Inbound"
       source_address_prefix      = "89.244.82.247"
       destination_address_prefix = "*"
+      source_port_range          = "*"
     }
   ]
 }
