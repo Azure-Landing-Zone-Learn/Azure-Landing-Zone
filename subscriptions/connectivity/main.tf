@@ -18,7 +18,6 @@ locals {
       name                      = "subnet-${var.subscription_name}-${var.location}-001"
       address_prefixes          = ["10.0.0.0/24"]
       route_table_id            = module.rt.id
-      network_security_group_id = module.nsg.id
     },
     {
       name                      = "subnet-${var.subscription_name}-${var.location}-002"
