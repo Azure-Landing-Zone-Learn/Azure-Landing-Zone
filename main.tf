@@ -42,7 +42,7 @@ locals {
 }
 
 output "test" {
-  value = [for s in local.list_test : upper(s)]
+  value = {for s in local.list_test : s => upper(s)}
 }
 
 /* module "connectivity_subscription" {
