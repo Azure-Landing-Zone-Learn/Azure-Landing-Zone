@@ -20,7 +20,7 @@ resource "azurerm_subnet" "subnet" {
   service_endpoint_policy_ids                   = contains(keys(each.value), "service_endpoint_policy_ids") ? each.value.service_endpoint_policy_ids : []
 
   dynamic "delegation" {
-    for_each = each.value.delegations
+    for_each = contains(keys(each.value), "delegations") ? each.value.delegations : {}
     content {
       name = delegation.value.name
       service_delegation {
