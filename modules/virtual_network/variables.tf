@@ -27,8 +27,4 @@ variable "resource_group_name" {
 variable "subnets" {
   description = "A list of subnets to be created within the virtual network"
   nullable    = false
-  type = list(object({
-    name             = string
-    address_prefixes = list(string)
-  }))
 }
