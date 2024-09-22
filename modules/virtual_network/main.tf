@@ -37,6 +37,12 @@ resource "azurerm_subnet_route_table_association" "snet_rt_association" {
   route_table_id = each.value.route_table_id
 }
 
+resource "azurerm_subnet_network_security_group_association" "nsg_snet_association" {
+  for_each                  = var.subnets
+  subnet_id                 = azurerm_subnet.subnet[each.key].id
+  network_security_group_id = each.value.network_security_group_id
+}
+
 output "id" {
   value = azurerm_virtual_network.vnet.id
 }
