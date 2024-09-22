@@ -29,3 +29,7 @@ resource "azurerm_network_security_group" "nsg" {
     Name = var.name
   }, var.tags)
 }
+
+output "id" {
+  value = azurerm_network_security_group.nsg.id
+}
