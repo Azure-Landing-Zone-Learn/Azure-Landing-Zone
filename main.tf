@@ -20,32 +20,31 @@ locals {
     environment = "Terraform Demo"
   }
 
-    subnets = [
+  routes = [
     {
-      name             = "subnet-abc-001"
-      address_prefixes = ["10.0.0.0/24"]
+      name           = "route1"
+      address_prefix = "10.0.0.0/24"
+      next_hop_type  = "VirtualNetworkGateway"
     },
     {
-      name             = "subnet-abc-${var.location}-002"
-      address_prefixes = ["10.0.1.0/24"]
-    },
-    {
-      name             = "subnet-abc-${var.location}-003"
-      address_prefixes = ["10.0.2.0/24"]
+      name                   = "route2"
+      address_prefix         = "10.0.1.0/24"
+      next_hop_type          = "VirtualAppliance"
+      next_hop_in_ip_address = "0.0.0.0"
     }
   ]
-
 }
 
 output "test" {
-  value = {for s in local.subnets : s.name => s}
+  value = { for i, route in local.routes : route.name + tostring(i) => route }
 }
 
-/* module "connectivity_subscription" {
+
+module "connectivity_subscription" {
   source = "./subscriptions/connectivity"
 
   location          = var.location
   subscription_name = var.subscription_connectivity_name
   tags              = local.tags
-} */
+}
 

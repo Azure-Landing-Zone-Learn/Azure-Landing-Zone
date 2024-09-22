@@ -1,17 +1,32 @@
 locals {
-  routes = {
-    route1 = {
+  routes = [
+    {
       name           = "route1"
       address_prefix = "10.0.0.0/24"
       next_hop_type  = "VirtualNetworkGateway"
     },
-    route2 = {
+    {
       name                   = "route2"
       address_prefix         = "10.0.1.0/24"
       next_hop_type          = "VirtualAppliance"
       next_hop_in_ip_address = "0.0.0.0"
     }
-  }
+  ]
+
+  subnets = [
+    {
+      name             = "subnet-${var.subscription_name}-${var.location}-001"
+      address_prefixes = ["10.0.0.0/24"]
+    },
+    {
+      name             = "subnet-${var.subscription_name}-${var.location}-002"
+      address_prefixes = ["10.0.1.0/24"]
+    },
+    {
+      name             = "subnet-${var.subscription_name}-${var.location}-003"
+      address_prefixes = ["10.0.2.0/24"]
+    }
+  ]
 }
 
 module "rg" {
@@ -29,20 +44,7 @@ module "vnet" {
   location            = var.location
   resource_group_name = module.rg.name
   address_space       = var.address_space
-  subnets = [
-    {
-      name             = "subnet-${var.subscription_name}-${var.location}-001"
-      address_prefixes = ["10.0.0.0/24"]
-    },
-    {
-      name             = "subnet-${var.subscription_name}-${var.location}-002"
-      address_prefixes = ["10.0.1.0/24"]
-    },
-    {
-      name             = "subnet-${var.subscription_name}-${var.location}-003"
-      address_prefixes = ["10.0.2.0/24"]
-    }
-  ]
+  subnets             = { for subnet in local.subnets : subnet.name => subnet }
 }
 
 module "rt" {
@@ -51,6 +53,6 @@ module "rt" {
   name                = "rt-${var.subscription_name}-${var.location}-001"
   location            = var.location
   resource_group_name = module.rg.name
-  routes              = local.routes
+  routes              = { for route in local.routes : route.name => route }
   tags                = var.tags
 }
