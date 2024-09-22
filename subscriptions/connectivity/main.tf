@@ -60,6 +60,15 @@ module "rt" {
   tags                = var.tags
 }
 
+module "nsg" {
+  source = "../../modules/network_security_group"
+
+  name           = "nsg-${var.subscription_name}-${var.location}-001"
+  location       = var.location
+  resource_group = module.rg.name
+  tags           = var.tags
+}
+
 output "subnet_ids" {
   value = module.vnet.subnet_ids
 }
