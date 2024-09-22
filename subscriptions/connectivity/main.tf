@@ -30,6 +30,18 @@ locals {
       route_table_id   = module.rt.id
     }
   ]
+
+  security_rules = [
+    {
+      name                       = "AllowMyIpAddressCustom8080Inbound"
+      protocol                   = "*"
+      access                     = "Allow"
+      priority                   = 100
+      direction                  = "Inbound"
+      source_address_prefix      = "89.244.82.247"
+      destination_address_prefix = "*"
+    }
+  ]
 }
 
 module "rg" {
@@ -67,6 +79,7 @@ module "nsg" {
   location       = var.location
   resource_group = module.rg.name
   tags           = var.tags
+  security_rules = { for rule in local.security_rules : rule.name => rule }
 }
 
 output "subnet_ids" {
