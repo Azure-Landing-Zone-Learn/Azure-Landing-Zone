@@ -35,14 +35,10 @@ locals {
     }
   ]
 
-  list_test = [
-    "abc",
-    "test"
-  ]
 }
 
 output "test" {
-  value = {for s in local.list_test : s => upper(s)}
+  value = {for s in local.subnets : s.name => s}
 }
 
 /* module "connectivity_subscription" {
