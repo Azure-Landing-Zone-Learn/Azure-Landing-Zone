@@ -31,11 +31,11 @@ resource "azurerm_subnet" "subnet" {
   }
 }
 
-/* resource "azurerm_subnet_route_table_association" "example" {
+resource "azurerm_subnet_route_table_association" "snet_rt_association" {
   for_each       = var.subnets
-  subnet_id      = azurerm_subnet.subnet.id
+  subnet_id      = azurerm_subnet.subnet[each.key].id
   route_table_id = each.value.route_table_id
-} */
+}
 
 output "id" {
   value = azurerm_virtual_network.vnet.id
