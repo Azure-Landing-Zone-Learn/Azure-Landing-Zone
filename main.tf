@@ -43,6 +43,14 @@ module "connectivity_subscription" {
   tags              = local.tags
 }
 
+module "dms_subscription" {
+  source = "./subscriptions/dms"
+
+  location          = var.location
+  subscription_name = var.subscription_dms_name
+  tags              = local.tags
+}
+
 output "subnet_ids" {
   value = module.connectivity_subscription.subnet_ids
 }

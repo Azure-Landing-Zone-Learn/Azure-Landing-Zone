@@ -15,3 +15,9 @@ variable "location" {
   type        = string
   default     = "eastasia"
 }
+
+variable "subscription_dms_name" {
+  description = "The Azure subscription name of dms subscription"
+  type        = string
+  default     = "dms"
+}
