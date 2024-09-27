@@ -1,6 +1,6 @@
 # Root module variables.tf
 
-variable "subscription_id" {
+variable "subscription_connectivity_id" {
   description = "The Azure subscription id"
   type        = string
 }
@@ -20,4 +20,9 @@ variable "subscription_dms_name" {
   description = "The Azure subscription name of dms subscription"
   type        = string
   default     = "dms"
+}
+
+variable "subscription_dms_id" {
+  description = "The Azure subscription id"
+  type        = string
 }

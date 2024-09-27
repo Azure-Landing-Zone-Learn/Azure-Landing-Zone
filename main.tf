@@ -11,7 +11,15 @@ terraform {
 provider "azurerm" {
   features {}
 
-  subscription_id = var.subscription_id
+  subscription_id = var.subscription_connectivity_id
+  alias = "connectivity"
+}
+
+provider "azurerm" {
+  features {}
+
+  subscription_id = var.subscription_dms_id
+  alias = "dms"
 }
 
 locals {
