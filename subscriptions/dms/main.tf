@@ -76,7 +76,7 @@ module "network_interfaces_first_subnet" {
   tags                = var.tags
 }
 
-module "virtual_machines" {
+module "virtual_machines_first_subnet" {
   source = "../../modules/virtual_machine"
 
   for_each = { for idx, vm in local.virtual_machines : idx => vm }
@@ -90,5 +90,5 @@ module "virtual_machines" {
   os_publisher          = each.value.os_publisher
   os_offer              = each.value.os_offer
   os_sku                = each.value.os_sku
-  network_interface_ids = [module.network_interfaces[each.key].id]
+  network_interface_ids = [module.network_interfaces_first_subnet[each.key].id]
 }
