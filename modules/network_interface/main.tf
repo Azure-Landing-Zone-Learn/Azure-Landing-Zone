@@ -14,3 +14,7 @@ resource "azurerm_network_interface" "nic" {
   }, var.tags)
 
 }
+
+output "id" {
+  value = azurerm_network_interface.nic.id
+}
