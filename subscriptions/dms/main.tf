@@ -11,18 +11,39 @@ locals {
   ]
   virtual_machines = [
     {
-      vm_name               = "vm-${var.subscription_name}-${var.location}-001"
-      resource_group_name   = module.rg.name
-      location              = var.location
-      vm_size               = "STANDARD_DS1_V2"
-      admin_username        = "tung"
-      admin_password        = "tunghaha2754!-"
-      os_publisher          = "Canonical"
-      os_offer              = "UbuntuServer"
-      os_sku                = "16.04-LTS"
-      network_interface_ids = [module.nic.id]
+      vm_name                 = "vm-${var.subscription_name}-${var.location}-001"
+      vm_size                 = "STANDARD_DS1_V2"
+      admin_username          = "tung"
+      admin_password          = "Password123!"
+      os_publisher            = "Canonical"
+      os_offer                = "UbuntuServer"
+      os_sku                  = "16.04-LTS"
+      os_profile_linux_config = false
+    },
+    {
+      vm_name                 = "vm-${var.subscription_name}-${var.location}-002"
+      vm_size                 = "STANDARD_DS1_V2"
+      admin_username          = "tung"
+      admin_password          = "Password123!"
+      os_publisher            = "Canonical"
+      os_offer                = "UbuntuServer"
+      os_sku                  = "16.04-LTS"
+      os_profile_linux_config = false
+
+    },
+    {
+      vm_name                 = "vm-${var.subscription_name}-${var.location}-003"
+      vm_size                 = "STANDARD_DS1_V2"
+      admin_username          = "tung"
+      admin_password          = "Password123!"
+      os_publisher            = "Canonical"
+      os_offer                = "UbuntuServer"
+      os_sku                  = "16.04-LTS"
+      os_profile_linux_config = false
+
     }
   ]
+
 }
 
 module "rg" {
@@ -43,27 +64,31 @@ module "vnet" {
   subnets             = { for subnet in local.subnets : subnet.name => subnet }
 }
 
-module "nic" {
+module "network_interfaces_first_subnet" {
   source = "../../modules/network_interface"
 
-  name                = "nic-${var.subscription_name}-${var.location}-001"
+  for_each = { for idx, vm in local.virtual_machines : idx => vm }
+
+  name                = "nic-${var.subscription_name}-${var.location}-${each.key + 1}"
   location            = var.location
   resource_group_name = module.rg.name
-  subnet_id           = module.vnet.subnet_ids[0]
+  subnet_id           = module.vnet.subnet_ids[0]  
   tags                = var.tags
 }
 
-module "vm_1" {
+module "virtual_machines" {
   source = "../../modules/virtual_machine"
 
-  vm_name               = "vm-${var.subscription_name}-${var.location}-001"
+  for_each = { for idx, vm in local.virtual_machines : idx => vm }
+
+  vm_name               = each.value.vm_name
   resource_group_name   = module.rg.name
   location              = var.location
-  vm_size               = local.virtual_machines[0].vm_size
-  admin_username        = local.virtual_machines[0].admin_username
-  admin_password        = local.virtual_machines[0].admin_password
-  os_publisher          = local.virtual_machines[0].os_publisher
-  os_offer              = local.virtual_machines[0].os_offer
-  os_sku                = local.virtual_machines[0].os_sku
-  network_interface_ids = [module.nic.id]
+  vm_size               = each.value.vm_size
+  admin_username        = each.value.admin_username
+  admin_password        = each.value.admin_password
+  os_publisher          = each.value.os_publisher
+  os_offer              = each.value.os_offer
+  os_sku                = each.value.os_sku
+  network_interface_ids = [module.network_interfaces[each.key].id]
 }

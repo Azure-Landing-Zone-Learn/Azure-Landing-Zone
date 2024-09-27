@@ -16,6 +16,17 @@ variable "location" {
   type        = string
 }
 
+variable "network_interface_ids" {
+  description = "The ID of the network interface"
+  nullable    = false
+  type        = list(string)
+}
+
+variable "os_profile_linux_config" {
+  description = "The OS profile linux configuration"
+  default     = false
+}
+
 variable "vm_size" {
   description = "The size of the virtual machine"
   type        = string
@@ -47,8 +58,3 @@ variable "os_sku" {
   type        = string
 }
 
-variable "network_interface_ids" {
-  description = "The ID of the network interface"
-  nullable    = false
-  type        = list(string)
-}
