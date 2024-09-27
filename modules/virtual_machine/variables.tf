@@ -1,15 +1,18 @@
 variable "vm_name" {
   description = "The name of the virtual machine"
+  nullable    = false
   type        = string
 }
 
 variable "resource_group_name" {
   description = "The name of the resource group where the VM will be created"
+  nullable    = false
   type        = string
 }
 
 variable "location" {
   description = "The location where the VM will be created"
+  nullable    = false
   type        = string
 }
 
@@ -46,5 +49,6 @@ variable "os_sku" {
 
 variable "network_interface_ids" {
   description = "The ID of the network interface"
+  nullable    = false
   type        = list(string)
 }

@@ -1,4 +1,4 @@
-resource "azurerm_virtual_machine" "this" {
+resource "azurerm_virtual_machine" "vm" {
   name                = var.vm_name
   resource_group_name = var.resource_group_name
   location            = var.location
@@ -23,7 +23,7 @@ resource "azurerm_virtual_machine" "this" {
     name              = "${var.vm_name}-osdisk"
     caching           = "ReadWrite"
     managed_disk_type = "Standard_LRS"
-    disk_size_gb      = 127 # Ensure this is equal to or larger than the required disk size
+    disk_size_gb      = 127 # Ensure vm is equal to or larger than the required disk size
     create_option     = "FromImage"
   }
 

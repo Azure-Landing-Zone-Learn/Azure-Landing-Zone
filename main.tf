@@ -12,14 +12,14 @@ provider "azurerm" {
   features {}
 
   subscription_id = var.subscription_connectivity_id
-  alias = "connectivity"
+  alias           = "connectivity"
 }
 
 provider "azurerm" {
   features {}
 
   subscription_id = var.subscription_dms_id
-  alias = "dms"
+  alias           = "dms"
 }
 
 locals {
