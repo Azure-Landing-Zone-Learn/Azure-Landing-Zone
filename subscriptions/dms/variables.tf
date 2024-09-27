@@ -18,5 +18,5 @@ variable "subscription_name" {
 variable "address_space" {
   description = "The address space that is used by the virtual network"
   type        = list(string)
-  default     = ["10.0.0.0/16"]
+  default     = ["10.1.0.0/16"]
 }
