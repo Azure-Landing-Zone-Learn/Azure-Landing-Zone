@@ -16,7 +16,7 @@ locals {
       location              = var.location
       vm_size               = "STANDARD_DS1_V2"
       admin_username        = "tung"
-      admin_password        = "tung"
+      admin_password        = "tunghaha2754!-"
       os_publisher          = "Canonical"
       os_offer              = "UbuntuServer"
       os_sku                = "16.04-LTS"
