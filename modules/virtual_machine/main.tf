@@ -27,8 +27,8 @@ resource "azurerm_virtual_machine" "vm" {
     create_option     = "FromImage"
   }
 
-  os_profile_windows_config {
-    provision_vm_agent = true
+  os_profile_linux_config {
+    disable_password_authentication = false
   }
 
 }
