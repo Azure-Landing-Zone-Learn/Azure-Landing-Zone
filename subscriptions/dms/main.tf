@@ -78,7 +78,7 @@ locals {
 
 
 resource "random_password" "linux_server_password" {
-  for_each    = { for vm in local.virtual_machines : vm.name => vm }
+  for_each    = { for vm in local.virtual_machines : vm.vm_name => vm }
   length      = 30
   min_lower   = 1
   min_upper   = 1
@@ -109,7 +109,7 @@ module "vnet" {
 module "linux_vms" {
   source = "../../modules/virtual_machine_linux"
 
-  for_each = { for vm in local.virtual_machines : vm.name => vm }
+  for_each = { for vm in local.virtual_machines : vm.vm_name => vm }
 
   name                = each.value.vm_name
   location            = var.location
