@@ -126,3 +126,7 @@ module "linux_vms" {
   nics                = each.value.nics
   disk_size_gb        = each.value.disk_size_gb
 }
+
+output "vnet_id" {
+  value = module.vnet.id
+}

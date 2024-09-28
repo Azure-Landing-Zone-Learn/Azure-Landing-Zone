@@ -95,10 +95,6 @@ module "nsg" {
   security_rules = { for rule in local.security_rules : rule.name => rule }
 }
 
-output "subnet_ids" {
-  value = module.vnet.subnet_ids
-}
-
 output "vnet_id" {
   value = module.vnet.id
 }
