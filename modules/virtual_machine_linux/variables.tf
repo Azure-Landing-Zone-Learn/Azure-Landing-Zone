@@ -1,5 +1,5 @@
 variable "name" {
-  description = "The name of the route table"
+  description = "The name of the vm"
   nullable    = false
   type        = string
 }

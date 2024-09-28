@@ -122,10 +122,10 @@ module "linux_vm" {
   source = "../../modules/virtual_machine_linux"
 
   nics                = { for idx, nic in local.network_interfaces : idx => nic }
-  name                = each.value.nic_name
-  location            = each.value.location
-  resource_group_name = each.value.resource_group_name
-  tags                = each.value.tags
+  name                = ""
+  location            = var.location
+  resource_group_name = module.rg.name
+  tags                = var.tags
   admin_username      = ""
 }
 
