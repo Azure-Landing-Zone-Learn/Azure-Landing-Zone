@@ -67,11 +67,3 @@ module "dms_subscription" {
     azurerm = azurerm.dms
   }
 }
-
-output "subnet_ids" {
-  value = module.connectivity_subscription.subnet_ids
-}
-
-output "nic_ids" {
-  value = module.dms_subscription.nic_ids
-}

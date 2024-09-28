@@ -9,40 +9,6 @@ locals {
       address_prefixes = ["10.1.1.0/24"]
     },
   ]
-  virtual_machines = [
-    {
-      vm_name                 = "vm-${var.subscription_name}-${var.location}-001"
-      vm_size                 = "STANDARD_DS1_V2"
-      admin_username          = "tung"
-      admin_password          = "Password123!"
-      os_publisher            = "Canonical"
-      os_offer                = "UbuntuServer"
-      os_sku                  = "16.04-LTS"
-      os_profile_linux_config = false
-    },
-    {
-      vm_name                 = "vm-${var.subscription_name}-${var.location}-002"
-      vm_size                 = "STANDARD_DS1_V2"
-      admin_username          = "tung"
-      admin_password          = "Password123!"
-      os_publisher            = "Canonical"
-      os_offer                = "UbuntuServer"
-      os_sku                  = "16.04-LTS"
-      os_profile_linux_config = false
-
-    },
-    {
-      vm_name                 = "vm-${var.subscription_name}-${var.location}-003"
-      vm_size                 = "STANDARD_DS1_V2"
-      admin_username          = "tung"
-      admin_password          = "Password123!"
-      os_publisher            = "Canonical"
-      os_offer                = "UbuntuServer"
-      os_sku                  = "16.04-LTS"
-      os_profile_linux_config = false
-
-    }
-  ]
   peerings = [
     {
       name                      = "vnet-peer-${var.subscription_name}-to-connectivity"
@@ -66,8 +32,67 @@ locals {
       resource_group_name = module.rg.name
       subnet_id           = module.vnet.subnet_ids[1]
       tags                = var.tags
+    },
+    {
+      nic_name            = "nic-${var.subscription_name}-${var.location}-003"
+      location            = var.location
+      resource_group_name = module.rg.name
+      subnet_id           = module.vnet.subnet_ids[1]
+      tags                = var.tags
     }
   ]
+
+  virtual_machines = [
+    {
+      vm_name        = "vm-${var.subscription_name}-${var.location}-001"
+      vm_size        = "STANDARD_DS1_V2"
+      admin_username = "tung"
+      os_disk_name   = "os-disk-${var.subscription_name}-${var.location}-001"
+      os_publisher   = "Canonical"
+      os_offer       = "UbuntuServer"
+      os_sku         = "16.04-LTS"
+      computer_name  = "Tung macbook 1"
+      disk_size_gb   = 30
+      nics           = { local.network_interfaces[0].name = local.network_interfaces[0] }
+    },
+    {
+      vm_name        = "vm-${var.subscription_name}-${var.location}-002"
+      vm_size        = "STANDARD_DS1_V2"
+      admin_username = "tung"
+      os_disk_name   = "os-disk-${var.subscription_name}-${var.location}-002"
+      os_publisher   = "Canonical"
+      os_offer       = "UbuntuServer"
+      os_sku         = "16.04-LTS"
+      computer_name  = "Tung macbook 2"
+      disk_size_gb   = 30
+      nics           = { local.network_interfaces[1].name = local.network_interfaces[1] }
+
+    },
+    {
+      vm_name        = "vm-${var.subscription_name}-${var.location}-003"
+      vm_size        = "STANDARD_DS1_V2"
+      admin_username = "tung"
+      os_disk_name   = "os-disk-${var.subscription_name}-${var.location}-003"
+      os_publisher   = "Canonical"
+      os_offer       = "UbuntuServer"
+      os_sku         = "16.04-LTS"
+      computer_name  = "Tung macbook 3"
+      disk_size_gb   = 30
+      nics           = { local.network_interfaces[2].name = local.network_interfaces[2] }
+
+    }
+  ]
+}
+
+
+resource "random_password" "linux_server_password" {
+  for_each    = { for vm in local.virtual_machines : vm.name => vm }
+  length      = 30
+  min_lower   = 1
+  min_upper   = 1
+  min_numeric = 1
+  min_special = 1
+  special     = false
 }
 
 module "rg" {
@@ -89,44 +114,25 @@ module "vnet" {
   peerings            = { for peering in local.peerings : peering.name => peering }
 }
 
-/* module "network_interfaces_first_subnet" {
-  source = "../../modules/network_interface"
-
-  for_each = { for idx, vm in local.virtual_machines : idx => vm }
-
-  name                = "nic-${var.subscription_name}-${var.location}-${each.key + 1}"
-  location            = var.location
-  resource_group_name = module.rg.name
-  subnet_id           = module.vnet.subnet_ids[0]  
-  tags                = var.tags
-}
-
-module "virtual_machines_first_subnet" {
-  source = "../../modules/virtual_machine"
-
-  for_each = { for idx, vm in local.virtual_machines : idx => vm }
-
-  vm_name               = each.value.vm_name
-  resource_group_name   = module.rg.name
-  location              = var.location
-  vm_size               = each.value.vm_size
-  admin_username        = each.value.admin_username
-  admin_password        = each.value.admin_password
-  os_publisher          = each.value.os_publisher
-  os_offer              = each.value.os_offer
-  os_sku                = each.value.os_sku
-  network_interface_ids = [module.network_interfaces_first_subnet[each.key].id]
-} */
-
-module "linux_vm" {
+module "linux_vms" {
   source = "../../modules/virtual_machine_linux"
 
-  nics                = { for idx, nic in local.network_interfaces : idx => nic }
-  name                = ""
+  for_each = { for vm in local.virtual_machines : vm.name => vm }
+
+  name                = each.value.vm_name
   location            = var.location
   resource_group_name = module.rg.name
   tags                = var.tags
-  admin_username      = ""
+  size                = each.value.vm_size
+  computer_name       = each.value.computer_name
+  admin_username      = each.value.admin_username
+  admin_password      = random_password.linux_server_password[each.key].result
+  os_disk_name        = each.value.os_disk_name
+  publisher           = each.value.os_publisher
+  offer               = each.value.os_offer
+  sku                 = each.value.os_sku
+  nics                = each.value.nics
+  disk_size_gb        = each.value.disk_size_gb
 }
 
 output "nic_ids" {
