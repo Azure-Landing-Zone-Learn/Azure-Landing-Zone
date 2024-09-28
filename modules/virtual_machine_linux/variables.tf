@@ -94,11 +94,6 @@ variable "sku" {
   type        = string
 }
 
-variable "tags" {
-  description = "value of tags"
-  type        = map(any)
-}
-
 variable "image_version" {
   description = "The version of the OS image"
   type        = string
