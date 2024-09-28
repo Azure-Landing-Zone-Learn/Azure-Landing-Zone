@@ -31,7 +31,7 @@ locals {
     },
     {
       name      = "nic-${var.subscription_name}-${var.location}-003"
-      subnet_id = module.vnet.subnet_ids[1]
+      subnet_id = module.vnet.subnet_ids[2]
       tags      = var.tags
     }
   ]
