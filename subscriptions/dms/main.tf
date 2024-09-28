@@ -20,25 +20,19 @@ locals {
 
   network_interfaces = [
     {
-      nic_name            = "nic-${var.subscription_name}-${var.location}-001"
-      location            = var.location
-      resource_group_name = module.rg.name
-      subnet_id           = module.vnet.subnet_ids[0]
-      tags                = var.tags
+      name      = "nic-${var.subscription_name}-${var.location}-001"
+      subnet_id = module.vnet.subnet_ids[0]
+      tags      = var.tags
     },
     {
-      nic_name            = "nic-${var.subscription_name}-${var.location}-002"
-      location            = var.location
-      resource_group_name = module.rg.name
-      subnet_id           = module.vnet.subnet_ids[1]
-      tags                = var.tags
+      name      = "nic-${var.subscription_name}-${var.location}-002"
+      subnet_id = module.vnet.subnet_ids[1]
+      tags      = var.tags
     },
     {
-      nic_name            = "nic-${var.subscription_name}-${var.location}-003"
-      location            = var.location
-      resource_group_name = module.rg.name
-      subnet_id           = module.vnet.subnet_ids[1]
-      tags                = var.tags
+      name      = "nic-${var.subscription_name}-${var.location}-003"
+      subnet_id = module.vnet.subnet_ids[1]
+      tags      = var.tags
     }
   ]
 

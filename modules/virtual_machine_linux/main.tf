@@ -2,8 +2,8 @@ module "nics" {
   source = "../../modules/network_interface"
 
   for_each            = var.nics
-  name                = each.value.nic_name
-  location            = each.value.location
+  name                = each.value.name
+  location            = var.location
   resource_group_name = var.resource_group_name
   subnet_id           = each.value.subnet_id
   tags                = var.tags
