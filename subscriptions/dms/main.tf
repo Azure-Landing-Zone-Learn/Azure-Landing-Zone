@@ -129,6 +129,10 @@ module "linux_vm" {
   admin_username      = ""
 }
 
+output "nic_ids" {
+  value = module.linux_vm.nic_ids
+}
+
 output "vnet_id" {
   value = module.vnet.id
 }

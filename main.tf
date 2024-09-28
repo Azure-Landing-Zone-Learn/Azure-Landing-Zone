@@ -71,3 +71,7 @@ module "dms_subscription" {
 output "subnet_ids" {
   value = module.connectivity_subscription.subnet_ids
 }
+
+output "nic_ids" {
+  value = module.dms.nic_ids
+}

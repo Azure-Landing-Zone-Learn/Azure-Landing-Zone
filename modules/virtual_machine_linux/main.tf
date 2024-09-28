@@ -17,3 +17,7 @@ module "nics" {
    admin_username = var.admin_username
    network_interface_ids = { for idx, nic in module.nics : idx => nic.id }
 } */
+
+output "nic_ids" {
+  value = [for nic in module.nics : nic.id]
+}
