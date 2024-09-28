@@ -73,5 +73,5 @@ output "subnet_ids" {
 }
 
 output "nic_ids" {
-  value = module.dms.nic_ids
+  value = module.dms_subscription.nic_ids
 }
