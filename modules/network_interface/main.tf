@@ -4,9 +4,9 @@ resource "azurerm_network_interface" "nic" {
   resource_group_name = var.resource_group_name
 
   ip_configuration {
-    name                          = "ipconfig1"
+    name                          = var.ip_configuration_name
     subnet_id                     = var.subnet_id
-    private_ip_address_allocation = "Dynamic"
+    private_ip_address_allocation = var.private_ip_address_allocation
   }
 
   tags = merge({

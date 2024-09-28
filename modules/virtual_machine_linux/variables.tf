@@ -16,26 +16,20 @@ variable "resource_group_name" {
   type        = string
 }
 
-variable "subnet_id" {
-  description = "The ID of the subnet to associate with the route table"
-  nullable    = false
-  type        = string
-}
-
 variable "tags" {
   description = "A mapping of tags to assign to the resource group"
   nullable    = false
   type        = map(any)
 }
 
-variable "private_ip_address_allocation" {
-  description = "The private IP address allocation method"
+variable "admin_username" {
+  description = "The username for the virtual machine"
+  nullable    = false
   type        = string
-  default     = "Dynamic"
 }
 
-variable "ip_configuration_name" {
-  description = "The name of the IP configuration"
-  type        = string
-  default     = "ipconfig1"
+variable "nics" {
+  description = "list of network interfaces"
+  nullable    = false
+  type        = map(any)
 }

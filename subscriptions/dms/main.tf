@@ -52,6 +52,22 @@ locals {
     }
   ]
 
+  network_interfaces = [
+    {
+      nic_name            = "nic-${var.subscription_name}-${var.location}-001"
+      location            = var.location
+      resource_group_name = module.rg.name
+      subnet_id           = module.vnet.subnet_ids[0]
+      tags                = var.tags
+    },
+    {
+      nic_name            = "nic-${var.subscription_name}-${var.location}-002"
+      location            = var.location
+      resource_group_name = module.rg.name
+      subnet_id           = module.vnet.subnet_ids[1]
+      tags                = var.tags
+    }
+  ]
 }
 
 module "rg" {
@@ -101,6 +117,17 @@ module "virtual_machines_first_subnet" {
   os_sku                = each.value.os_sku
   network_interface_ids = [module.network_interfaces_first_subnet[each.key].id]
 } */
+
+module "linux_vm" {
+  source = "../../modules/virtual_machine_linux"
+
+  nics                = { for idx, nic in local.network_interfaces : idx => nic }
+  name                = each.value.nic_name
+  location            = each.value.location
+  resource_group_name = each.value.resource_group_name
+  tags                = each.value.tags
+  admin_username      = ""
+}
 
 output "vnet_id" {
   value = module.vnet.id
