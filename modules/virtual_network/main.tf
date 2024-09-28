@@ -43,6 +43,23 @@ resource "azurerm_subnet_network_security_group_association" "nsg_snet_associati
   network_security_group_id = each.value.network_security_group_id
 }
 
+resource "azurerm_virtual_network_peering" "vnet_peerings" {
+  for_each                               = var.peerings
+  name                                   = each.value.name
+  resource_group_name                    = each.value.resource_group_name
+  virtual_network_name                   = azurerm_virtual_network.vnet.name
+  remote_virtual_network_id              = each.value.remote_virtual_network_id
+  allow_virtual_network_access           = contains(keys(each.value), "allow_virtual_network_access") ? each.value.allow_virtual_network_access : true
+  allow_forwarded_traffic                = contains(keys(each.value), "allow_forwarded_traffic") ? each.value.allow_forwarded_traffic : false
+  allow_gateway_transit                  = contains(keys(each.value), "allow_gateway_transit") ? each.value.allow_gateway_transit : false
+  local_subnet_names                     = contains(keys(each.value), "local_subnet_names") ? each.value.local_subnet_names : []
+  only_ipv6_peering_enabled              = contains(keys(each.value), "only_ipv6_peering_enabled") ? each.value.only_ipv6_peering_enabled : false
+  peer_complete_virtual_networks_enabled = contains(keys(each.value), "peer_complete_virtual_networks_enabled") ? each.value.peer_complete_virtual_networks_enabled : true
+  remote_subnet_names                    = contains(keys(each.value), "remote_subnet_names") ? each.value.remote_subnet_names : []
+  use_remote_gateways                    = contains(keys(each.value), "use_remote_gateways") ? each.value.use_remote_gateways : false
+  // triggers
+}
+
 output "id" {
   value = azurerm_virtual_network.vnet.id
 }

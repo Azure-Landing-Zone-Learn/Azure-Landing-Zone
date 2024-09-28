@@ -44,6 +44,14 @@ locals {
       destination_port_range     = "8080"
     }
   ]
+
+  peerings = [
+    {
+      name                      = "vnet-peer-${var.subscription_name}-to-dms"
+      resource_group_name       = module.rg.name
+      remote_virtual_network_id = var.remote_virtual_network_id
+    }
+  ]
 }
 
 module "rg" {
@@ -62,6 +70,7 @@ module "vnet" {
   resource_group_name = module.rg.name
   address_space       = var.address_space
   subnets             = { for subnet in local.subnets : subnet.name => subnet }
+  peerings            = { for peering in local.peerings : peering.name => peering }
 }
 
 module "rt" {
@@ -86,4 +95,8 @@ module "nsg" {
 
 output "subnet_ids" {
   value = module.vnet.subnet_ids
+}
+
+output "vnet_id" {
+  value = module.vnet.id
 }

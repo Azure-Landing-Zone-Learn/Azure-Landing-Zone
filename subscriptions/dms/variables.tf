@@ -20,3 +20,8 @@ variable "address_space" {
   type        = list(string)
   default     = ["10.1.0.0/16"]
 }
+
+variable "remote_virtual_network_id" {
+  description = "The ID of the remote virtual network to peer with"
+  type        = string
+}

@@ -28,3 +28,8 @@ variable "subnets" {
   description = "A list of subnets to be created within the virtual network"
   nullable    = false
 }
+
+variable "peerings" {
+  description = "A list of virtual network peerings to be created"
+  nullable    = true
+}

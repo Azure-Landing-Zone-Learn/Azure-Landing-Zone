@@ -43,6 +43,13 @@ locals {
 
     }
   ]
+  peerings = [
+    {
+      name                      = "vnet-peer-${var.subscription_name}-to-connectivity"
+      resource_group_name       = module.rg.name
+      remote_virtual_network_id = var.remote_virtual_network_id
+    }
+  ]
 
 }
 
@@ -62,9 +69,10 @@ module "vnet" {
   resource_group_name = module.rg.name
   address_space       = var.address_space
   subnets             = { for subnet in local.subnets : subnet.name => subnet }
+  peerings            = { for peering in local.peerings : peering.name => peering }
 }
 
-module "network_interfaces_first_subnet" {
+/* module "network_interfaces_first_subnet" {
   source = "../../modules/network_interface"
 
   for_each = { for idx, vm in local.virtual_machines : idx => vm }
@@ -91,4 +99,8 @@ module "virtual_machines_first_subnet" {
   os_offer              = each.value.os_offer
   os_sku                = each.value.os_sku
   network_interface_ids = [module.network_interfaces_first_subnet[each.key].id]
+} */
+
+output "vnet_id" {
+  value = module.vnet.id
 }
