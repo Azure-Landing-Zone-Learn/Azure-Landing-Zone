@@ -67,7 +67,7 @@ variable "admin_password" {
 variable "disable_password_authentication" {
   description = "Should password authentication be disabled for the VM"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "public_key" {
