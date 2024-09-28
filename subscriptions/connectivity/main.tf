@@ -50,6 +50,7 @@ locals {
       name                      = "vnet-peer-${var.subscription_name}-to-dms"
       resource_group_name       = module.rg.name
       remote_virtual_network_id = var.remote_virtual_network_id
+      allowed_forwarded_traffic = true
     }
   ]
 }
