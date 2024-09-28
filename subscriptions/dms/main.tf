@@ -47,7 +47,7 @@ locals {
       os_sku         = "16.04-LTS"
       computer_name  = "Tung macbook 1"
       disk_size_gb   = 30
-      nics           = { local.network_interfaces[0].name = local.network_interfaces[0] }
+      nics           = { "${local.network_interfaces[0].name}" = local.network_interfaces[0] }
     },
     {
       vm_name        = "vm-${var.subscription_name}-${var.location}-002"
