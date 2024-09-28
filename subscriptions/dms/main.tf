@@ -59,8 +59,7 @@ locals {
       os_sku         = "16.04-LTS"
       computer_name  = "Tung macbook 2"
       disk_size_gb   = 30
-      nics           = { local.network_interfaces[1].name = local.network_interfaces[1] }
-
+      nics           = { "${local.network_interfaces[1].name}" = local.network_interfaces[1] }
     },
     {
       vm_name        = "vm-${var.subscription_name}-${var.location}-003"
@@ -72,8 +71,7 @@ locals {
       os_sku         = "16.04-LTS"
       computer_name  = "Tung macbook 3"
       disk_size_gb   = 30
-      nics           = { local.network_interfaces[2].name = local.network_interfaces[2] }
-
+      nics           = { "${local.network_interfaces[2].name}" = local.network_interfaces[2] }
     }
   ]
 }
