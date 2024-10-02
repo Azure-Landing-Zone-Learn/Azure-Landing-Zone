@@ -115,20 +115,21 @@ module "linux_vms" {
 
   for_each = { for vm in local.virtual_machines : vm.vm_name => vm }
 
-  name                = each.value.vm_name
-  location            = var.location
-  resource_group_name = module.rg.name
-  tags                = var.tags
-  size                = each.value.vm_size
-  computer_name       = each.value.computer_name
-  admin_username      = each.value.admin_username
-  admin_password      = random_password.linux_server_password[each.key].result
-  os_disk_name        = each.value.os_disk_name
-  publisher           = each.value.os_publisher
-  offer               = each.value.os_offer
-  sku                 = each.value.os_sku
-  nics                = each.value.nics
-  disk_size_gb        = each.value.disk_size_gb
+  name                            = each.value.vm_name
+  location                        = var.location
+  resource_group_name             = module.rg.name
+  tags                            = var.tags
+  size                            = each.value.vm_size
+  computer_name                   = each.value.computer_name
+  admin_username                  = each.value.admin_username
+  admin_password                  = random_password.linux_server_password[each.key].result
+  os_disk_name                    = each.value.os_disk_name
+  publisher                       = each.value.os_publisher
+  offer                           = each.value.os_offer
+  sku                             = each.value.os_sku
+  nics                            = each.value.nics
+  disk_size_gb                    = each.value.disk_size_gb
+  disable_password_authentication = false
 }
 
 output "vnet_id" {

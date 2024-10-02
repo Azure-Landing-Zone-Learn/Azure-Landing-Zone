@@ -23,13 +23,12 @@ resource "azurerm_linux_virtual_machine" "linux_vm" {
     disk_size_gb         = var.disk_size_gb
   }
 
-  size = var.size
+  size          = var.size
   computer_name = var.computer_name
 
   admin_username = var.admin_username
   admin_password = var.disable_password_authentication == false ? var.admin_password : null
 
-  # Ensure that SSH key is provided when password authentication is disabled
   dynamic "admin_ssh_key" {
     for_each = var.disable_password_authentication == true ? [1] : []
     content {
