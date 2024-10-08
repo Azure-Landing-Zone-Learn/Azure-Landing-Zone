@@ -83,17 +83,6 @@ locals {
   ]
 }
 
-
-resource "random_password" "linux_server_password" {
-  for_each    = { for vm in local.virtual_machines : vm.vm_name => vm }
-  length      = 30
-  min_lower   = 1
-  min_upper   = 1
-  min_numeric = 1
-  min_special = 1
-  special     = false
-}
-
 module "rg" {
   source = "../../modules/resource_group"
 
@@ -111,6 +100,16 @@ module "vnet" {
   address_space       = var.address_space
   subnets             = { for subnet in local.subnets : subnet.name => subnet }
   peerings            = { for peering in local.peerings : peering.name => peering }
+}
+
+resource "random_password" "linux_server_password" {
+  for_each    = { for vm in local.virtual_machines : vm.vm_name => vm }
+  length      = 30
+  min_lower   = 1
+  min_upper   = 1
+  min_numeric = 1
+  min_special = 1
+  special     = false
 }
 
 module "linux_vms" {
