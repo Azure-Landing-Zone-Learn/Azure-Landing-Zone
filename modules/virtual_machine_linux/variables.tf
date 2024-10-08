@@ -61,7 +61,6 @@ variable "size" {
 variable "admin_password" {
   description = "The password for the virtual machine"
   type        = string
-  default     = null
 }
 
 variable "disable_password_authentication" {
