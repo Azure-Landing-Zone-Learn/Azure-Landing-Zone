@@ -131,7 +131,7 @@ module "linux_vms" {
   sku                             = each.value.os_sku
   nics                            = each.value.nics
   disk_size_gb                    = each.value.disk_size_gb
-  disable_password_authentication = each.value.disable_password_authentication
+  disable_password_authentication = false
 }
 
 output "vnet_id" {
