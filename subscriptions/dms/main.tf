@@ -123,7 +123,7 @@ module "linux_vms" {
   tags                            = var.tags
   size                            = each.value.vm_size
   computer_name                   = each.value.computer_name
-  disable_password_authentication = false
+  disable_password_authentication = each.value.disable_password_authentication
   admin_username                  = each.value.admin_username
   admin_password                  = random_password.linux_server_password[each.key].result
   os_disk_name                    = each.value.os_disk_name
