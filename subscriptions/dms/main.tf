@@ -123,6 +123,7 @@ module "linux_vms" {
   tags                            = var.tags
   size                            = each.value.vm_size
   computer_name                   = each.value.computer_name
+  disable_password_authentication = false
   admin_username                  = each.value.admin_username
   admin_password                  = random_password.linux_server_password[each.key].result
   os_disk_name                    = each.value.os_disk_name
@@ -131,7 +132,6 @@ module "linux_vms" {
   sku                             = each.value.os_sku
   nics                            = each.value.nics
   disk_size_gb                    = each.value.disk_size_gb
-  disable_password_authentication = false
 }
 
 output "vnet_id" {
