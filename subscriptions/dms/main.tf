@@ -88,15 +88,15 @@ locals {
   ]
   window_virtual_machines = [
     {
-      vm_name                         = "vm-${var.subscription_name}-${var.location}-004"
-      vm_size                         = "STANDARD_DS1_V2"
-      admin_username                  = "tung"
-      os_disk_name                    = "os-disk-${var.subscription_name}-${var.location}-004"
-      os_publisher                    = "MicrosoftWindowsServer"
-      os_offer                        = "WindowsServer"
-      os_sku                          = "2019-Datacenter"
-      disk_size_gb                    = 30
-      nics                            = { "${local.network_interfaces[3].name}" = local.network_interfaces[3] }
+      vm_name        = "vm-${var.subscription_name}-${var.location}-004"
+      vm_size        = "STANDARD_DS1_V2"
+      admin_username = "tung"
+      os_disk_name   = "os-disk-${var.subscription_name}-${var.location}-004"
+      os_publisher   = "MicrosoftWindowsServer"
+      os_offer       = "WindowsServer"
+      os_sku         = "2019-Datacenter"
+      disk_size_gb   = 30
+      nics           = { "${local.network_interfaces[3].name}" = local.network_interfaces[3] }
     }
   ]
 }

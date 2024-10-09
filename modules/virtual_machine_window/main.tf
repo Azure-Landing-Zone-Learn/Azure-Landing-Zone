@@ -9,7 +9,7 @@ module "nics" {
   tags                = var.tags
 }
 
-resource "azurerm_window_virtual_machine" "name" {
+resource "azurerm_window_virtual_machine" "window_vm" {
   name                = var.name
   location            = var.location
   resource_group_name = var.resource_group_name
