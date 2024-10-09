@@ -91,6 +91,7 @@ locals {
       vm_name        = "vm-${var.subscription_name}-${var.location}-004"
       vm_size        = "STANDARD_DS1_V2"
       admin_username = "tung"
+      computer_name  = "Tung macbook 4"
       os_disk_name   = "os-disk-${var.subscription_name}-${var.location}-004"
       os_publisher   = "MicrosoftWindowsServer"
       os_offer       = "WindowsServer"
@@ -173,6 +174,7 @@ module "window_vms" {
   size                = each.value.vm_size
   admin_username      = each.value.admin_username
   admin_password      = random_password.window_server_password[each.key].result
+  computer_name       = each.value.computer_name
   os_disk_name        = each.value.os_disk_name
   publisher           = each.value.os_publisher
   offer               = each.value.os_offer

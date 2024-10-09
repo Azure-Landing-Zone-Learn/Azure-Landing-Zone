@@ -25,6 +25,8 @@ resource "azurerm_windows_virtual_machine" "window_vm" {
 
   size = var.size
 
+  computer_name = var.computer_name
+
   admin_username = var.admin_username
   admin_password = var.admin_password
 
