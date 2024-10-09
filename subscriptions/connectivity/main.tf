@@ -60,6 +60,25 @@ locals {
   ]
 }
 
+resource "azurerm_public_ip" "bastion_pip" {
+  name                = var.bastion_pip_name
+  location            = var.location
+  resource_group_name = module.rg.name
+  allocation_method   = var.allocation_method
+  sku                 = var.sku
+}
+
+resource "azurerm_bastion_host" "bastion" {
+  name                = "bastion-${var.subscription_name}-${var.location}-001"
+  location            = var.location
+  resource_group_name = module.rg.name
+  ip_configuration {
+    name                 = var.ip_configuration_name
+    subnet_id            = module.vnet.subnet_ids[3]
+    public_ip_address_id = azurerm_public_ip.bastion_pip.id
+  }
+}
+
 module "rg" {
   source = "../../modules/resource_group"
 

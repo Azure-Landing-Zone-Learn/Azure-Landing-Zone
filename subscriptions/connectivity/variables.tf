@@ -25,3 +25,27 @@ variable "remote_virtual_network_id" {
   description = "The ID of the remote virtual network to peer with"
   type        = string
 }
+
+variable "bastion_pip_name" {
+  description = "The name of the public IP address for the bastion host"
+  type        = string
+  nullable    = false
+}
+
+variable "allocation_method" {
+  description = "The allocation method for the public IP address"
+  type        = string
+  default     = "Static"
+}
+
+variable "sku" {
+  description = "The SKU of pip"
+  type        = string
+  default     = "Standard"
+}
+
+variable "ip_configuration_name" {
+  description = "The name of the ip configuration"
+  type        = string
+  default     = "ipconfig"
+}
