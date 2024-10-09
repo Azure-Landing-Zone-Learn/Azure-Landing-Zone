@@ -91,7 +91,7 @@ locals {
       vm_name        = "vm-${var.subscription_name}-${var.location}-004"
       vm_size        = "STANDARD_DS1_V2"
       admin_username = "tung"
-      computer_name  = "Tung macbook 4"
+      computer_name  = "TungMacbook4"
       os_disk_name   = "os-disk-${var.subscription_name}-${var.location}-004"
       os_publisher   = "MicrosoftWindowsServer"
       os_offer       = "WindowsServer"
