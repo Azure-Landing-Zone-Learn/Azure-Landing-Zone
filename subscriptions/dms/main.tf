@@ -37,10 +37,15 @@ locals {
       name      = "nic-${var.subscription_name}-${var.location}-003"
       subnet_id = module.vnet.subnet_ids[2]
       tags      = var.tags
+    },
+    {
+      name      = "nic-${var.subscription_name}-${var.location}-004"
+      subnet_id = module.vnet.subnet_ids[0]
+      tags      = var.tags
     }
   ]
 
-  virtual_machines = [
+  linux_virtual_machines = [
     {
       vm_name                         = "vm-${var.subscription_name}-${var.location}-001"
       vm_size                         = "STANDARD_DS1_V2"
@@ -81,6 +86,19 @@ locals {
       nics                            = { "${local.network_interfaces[2].name}" = local.network_interfaces[2] }
     }
   ]
+  window_virtual_machines = [
+    {
+      vm_name                         = "vm-${var.subscription_name}-${var.location}-004"
+      vm_size                         = "STANDARD_DS1_V2"
+      admin_username                  = "tung"
+      os_disk_name                    = "os-disk-${var.subscription_name}-${var.location}-004"
+      os_publisher                    = "MicrosoftWindowsServer"
+      os_offer                        = "WindowsServer"
+      os_sku                          = "2019-Datacenter"
+      disk_size_gb                    = 30
+      nics                            = { "${local.network_interfaces[3].name}" = local.network_interfaces[3] }
+    }
+  ]
 }
 
 module "rg" {
@@ -103,7 +121,17 @@ module "vnet" {
 }
 
 resource "random_password" "linux_server_password" {
-  for_each    = { for vm in local.virtual_machines : vm.vm_name => vm }
+  for_each    = { for vm in local.linux_virtual_machines : vm.vm_name => vm }
+  length      = 30
+  min_lower   = 1
+  min_upper   = 1
+  min_numeric = 1
+  min_special = 1
+  special     = false
+}
+
+resource "random_password" "window_server_password" {
+  for_each    = { for vm in local.window_virtual_machines : vm.vm_name => vm }
   length      = 30
   min_lower   = 1
   min_upper   = 1
@@ -115,22 +143,42 @@ resource "random_password" "linux_server_password" {
 module "linux_vms" {
   source = "../../modules/virtual_machine_linux"
 
-  for_each = { for vm in local.virtual_machines : vm.vm_name => vm }
+  for_each = { for vm in local.linux_virtual_machines : vm.vm_name => vm }
 
-  name                            = each.value.vm_name
-  location                        = var.location
-  resource_group_name             = module.rg.name
-  tags                            = var.tags
-  size                            = each.value.vm_size
-  computer_name                   = each.value.computer_name
-  admin_username                  = each.value.admin_username
-  admin_password                  = random_password.linux_server_password[each.key].result
-  os_disk_name                    = each.value.os_disk_name
-  publisher                       = each.value.os_publisher
-  offer                           = each.value.os_offer
-  sku                             = each.value.os_sku
-  nics                            = each.value.nics
-  disk_size_gb                    = each.value.disk_size_gb
+  name                = each.value.vm_name
+  location            = var.location
+  resource_group_name = module.rg.name
+  tags                = var.tags
+  size                = each.value.vm_size
+  computer_name       = each.value.computer_name
+  admin_username      = each.value.admin_username
+  admin_password      = random_password.linux_server_password[each.key].result
+  os_disk_name        = each.value.os_disk_name
+  publisher           = each.value.os_publisher
+  offer               = each.value.os_offer
+  sku                 = each.value.os_sku
+  nics                = each.value.nics
+  disk_size_gb        = each.value.disk_size_gb
+}
+
+module "window_vms" {
+  source = "../../modules/virtual_machine_window"
+
+  for_each = { for vm in local.window_virtual_machines : vm.vm_name => vm }
+
+  name                = each.value.vm_name
+  location            = var.location
+  resource_group_name = module.rg.name
+  tags                = var.tags
+  size                = each.value.vm_size
+  admin_username      = each.value.admin_username
+  admin_password      = random_password.window_server_password[each.key].result
+  os_disk_name        = each.value.os_disk_name
+  publisher           = each.value.os_publisher
+  offer               = each.value.os_offer
+  sku                 = each.value.os_sku
+  nics                = each.value.nics
+  disk_size_gb        = each.value.disk_size_gb
 }
 
 output "vnet_id" {

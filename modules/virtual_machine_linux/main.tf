@@ -27,8 +27,8 @@ resource "azurerm_linux_virtual_machine" "linux_vm" {
   computer_name = var.computer_name
 
   disable_password_authentication = var.disable_password_authentication
-  admin_username = var.admin_username
-  admin_password = var.disable_password_authentication ? null : var.admin_password
+  admin_username                  = var.admin_username
+  admin_password                  = var.disable_password_authentication ? null : var.admin_password
 
   dynamic "admin_ssh_key" {
     for_each = var.disable_password_authentication ? [1] : []
