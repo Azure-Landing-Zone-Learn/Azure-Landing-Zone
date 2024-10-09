@@ -96,7 +96,7 @@ locals {
       os_publisher   = "MicrosoftWindowsServer"
       os_offer       = "WindowsServer"
       os_sku         = "2019-Datacenter"
-      disk_size_gb   = 30
+      disk_size_gb   = 127
       nics           = { "${local.network_interfaces[3].name}" = local.network_interfaces[3] }
     }
   ]
