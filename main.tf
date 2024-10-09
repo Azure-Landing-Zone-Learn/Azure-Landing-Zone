@@ -51,8 +51,6 @@ module "connectivity_subscription" {
   tags                      = local.tags
   remote_virtual_network_id = module.dms_subscription.vnet_id
 
-  bastion_pip_name = var.subscription_connectivity_bastion_pip_name
-
   providers = {
     azurerm = azurerm.connectivity
   }

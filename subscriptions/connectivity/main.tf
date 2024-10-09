@@ -74,7 +74,7 @@ resource "azurerm_bastion_host" "bastion" {
   resource_group_name = module.rg.name
   ip_configuration {
     name                 = var.ip_configuration_name
-    subnet_id            = local.subnets[3].id
+    subnet_id            = azurerm_subnet.subnet["AzureBastionSubnet"].id
     public_ip_address_id = azurerm_public_ip.bastion_pip.id
   }
 }

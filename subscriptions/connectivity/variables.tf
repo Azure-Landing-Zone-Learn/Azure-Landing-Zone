@@ -29,7 +29,7 @@ variable "remote_virtual_network_id" {
 variable "bastion_pip_name" {
   description = "The name of the public IP address for the bastion host"
   type        = string
-  nullable    = false
+  default     = "bastion-pip"
 }
 
 variable "allocation_method" {
