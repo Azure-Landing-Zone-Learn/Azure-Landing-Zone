@@ -14,7 +14,7 @@ locals {
     },
     {
       name             = "subnet-${var.subscription_name}-${var.location}-004"
-      address_prefixes = ["10.1.3.0/32"]
+      address_prefixes = ["10.1.3.0/29"]
     }
   ]
   peerings = [
