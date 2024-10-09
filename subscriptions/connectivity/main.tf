@@ -28,6 +28,10 @@ locals {
       name                      = "subnet-${var.subscription_name}-${var.location}-003"
       address_prefixes          = ["10.0.2.0/24"]
       network_security_group_id = module.nsg.id
+    },
+    {
+      name             = "AzureBastionSubnet"
+      address_prefixes = ["10.0.3.0/27"]
     }
   ]
 
