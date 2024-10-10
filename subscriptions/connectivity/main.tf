@@ -95,7 +95,7 @@ module "basic_bastion" {
   location                  = var.location
   resource_group_name       = module.rg.name
   sku                       = "Basic"
-  virtual_network_subnet_id = module.vnet.subnets["AzureBastionSubnet"].id
+  virtual_network_subnet_id = module.vnet.subnets["AzureBastionSubnet"]
 }
 
 module "rt" {
