@@ -31,7 +31,7 @@ variable "virtual_network_id" {
 variable "virtual_network_subnet_id" {
   description = "subnet id of bastion host"
   type        = string
-  nullable    = false
+  default     = null
 }
 
 variable "sku_pip" {
