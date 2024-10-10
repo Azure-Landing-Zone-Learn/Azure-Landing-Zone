@@ -87,6 +87,16 @@ module "vnet" {
   peerings            = { for peering in local.peerings : peering.name => peering }
 }
 
+module "developer_bastion" {
+  source = "../../modules/bastion"
+
+  name                = "bastion-${var.subscription_name}-${var.location}-001"
+  location            = var.location
+  resource_group_name = module.rg.name
+  sku                 = "Developer"
+  virtual_network_id  = module.vnet.id
+}
+
 module "rt" {
   source = "../../modules/route_table"
 

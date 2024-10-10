@@ -23,7 +23,7 @@ resource "null_resource" "check_developer_sku_location" {
 }
 
 # Bastion Host Resource
-resource "azurerm_bastion_host" "developer_bastion" {
+resource "azurerm_bastion_host" "bastion" {
   name                = var.name
   location            = var.location
   resource_group_name = var.resource_group_name
