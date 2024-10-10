@@ -5,3 +5,7 @@ resource "azurerm_public_ip" "example" {
   allocation_method   = var.allocation_method
   sku                 = var.sku
 }
+
+output "id" {
+  value = azurerm_public_ip.pip.id
+}
