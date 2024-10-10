@@ -49,3 +49,9 @@ variable "ip_configuration_name" {
   type        = string
   default     = "ipconfig"
 }
+
+variable "bastion_sku" {
+  description = "The SKU of the bastion host"
+  type        = string
+  default     = "Developer"
+}

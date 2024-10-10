@@ -10,14 +10,14 @@ resource "azurerm_application_gateway" "agw" {
   }
 
   dynamic "backend_address_pool" {
-    for_each = each.value.backend_address_pool
+    for_each = var.backend_address_pool
     content {
       name = backend_address_pool.value.name
     }
   }
 
   dynamic "backend_http_settings" {
-    for_each = each.value.backend_http_settings
+    for_each = var.backend_http_settings
     content {
       name                  = backend_http_settings.value.name
       cookie_based_affinity = backend_http_settings.value.cookie_based_affinity
@@ -27,7 +27,7 @@ resource "azurerm_application_gateway" "agw" {
   }
 
   dynamic "frontend_ip_configuration" {
-    for_each = each.value.frontend_ip_configuration
+    for_each = var.frontend_ip_configuration
     content {
       name                          = frontend_ip_configuration.value.name
       public_ip_address_id          = frontend_ip_configuration.value.public_ip_address_id
@@ -38,7 +38,7 @@ resource "azurerm_application_gateway" "agw" {
   }
 
   dynamic "gateway_ip_configuration" {
-    for_each = each.value.gateway_ip_configuration
+    for_each = var.gateway_ip_configuration
     content {
       name      = gateway_ip_configuration.value.name
       subnet_id = gateway_ip_configuration.value.subnet_id
@@ -46,7 +46,7 @@ resource "azurerm_application_gateway" "agw" {
   }
 
   dynamic "frontend_port" {
-    for_each = each.value.frontend_port
+    for_each = var.frontend_port
     content {
       name = frontend_port.value.name
       port = frontend_port.value.port
@@ -54,7 +54,7 @@ resource "azurerm_application_gateway" "agw" {
   }
 
   dynamic "http_listener" {
-    for_each = each.value.http_listener
+    for_each = var.http_listener
     content {
       name                           = http_listener.value.name
       frontend_ip_configuration_name = http_listener.value.frontend_ip_configuration_name
@@ -64,7 +64,7 @@ resource "azurerm_application_gateway" "agw" {
   }
 
   dynamic "request_routing_rule" {
-    for_each = each.value.request_routing_rule
+    for_each = var.request_routing_rule
     content {
       name                       = request_routing_rule.value.name
       rule_type                  = request_routing_rule.value.rule_type

@@ -187,6 +187,18 @@ module "window_vms" {
   disk_size_gb        = each.value.disk_size_gb
 }
 
+module "agw" {
+  source = "../../modules/application_gateway"
+
+  name                = "agw-${var.subscription_name}-${var.location}-001"
+  resource_group_name = module.rg.name
+  location            = var.location
+  sku_name            = "WAF_v2"
+  sku_tier            = "WAF_v2"
+  sku_capacity        = 2
+  
+}
+
 output "vnet_id" {
   value = module.vnet.id
 }
