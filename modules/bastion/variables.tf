@@ -27,3 +27,21 @@ variable "virtual_network_id" {
   type        = string
   default     = null
 }
+
+variable "virtual_network_subnet_id" {
+  description = "subnet id of bastion host"
+  type        = string
+  nullable    = false
+}
+
+variable "sku_pip" {
+  description = "The SKU of pip"
+  type        = string
+  default     = "Standard"
+}
+
+variable "allocation_method" {
+  description = "The allocation method for the public IP address"
+  type        = string
+  default     = "Static"
+}

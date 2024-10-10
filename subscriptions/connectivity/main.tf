@@ -91,10 +91,11 @@ module "vnet" {
 module "basic_bastion" {
   source = "../../modules/bastion"
 
-  name                = "bastion-${var.subscription_name}-${var.location}-002"
-  location            = var.location
-  resource_group_name = module.rg.name
-  sku                 = "Basic"
+  name                      = "bastion-${var.subscription_name}-${var.location}-001"
+  location                  = var.location
+  resource_group_name       = module.rg.name
+  sku                       = "Basic"
+  virtual_network_subnet_id = module.vnet.subnets["AzureBastionSubnet"].id
 }
 
 module "rt" {
