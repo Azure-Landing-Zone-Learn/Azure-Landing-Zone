@@ -75,12 +75,6 @@ resource "azurerm_bastion_host" "developer_bastion" {
 
   sku                = var.bastion_sku
   virtual_network_id = var.bastion_virtual_network_id
-
-  ip_configuration {
-    name                 = var.ip_configuration_name
-    subnet_id            = module.vnet.subnets["AzureBastionSubnet"]
-    public_ip_address_id = azurerm_public_ip.bastion_pip.id
-  }
 }
 
 module "rg" {
