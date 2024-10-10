@@ -97,6 +97,16 @@ module "developer_bastion" {
   virtual_network_id  = module.vnet.id
 }
 
+module "basic_bastion" {
+  source = "../../modules/bastion"
+
+  name                = "bastion-${var.subscription_name}-${var.location}-002"
+  location            = var.location
+  resource_group_name = module.rg.name
+  sku                 = "Basic"
+  virtual_network_id  = module.vnet.id
+}
+
 module "rt" {
   source = "../../modules/route_table"
 
