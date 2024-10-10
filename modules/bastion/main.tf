@@ -1,9 +1,9 @@
 module "pip" {
   source = "../../modules/public_ip"
 
-  name                = "pip-${name}"
+  name                = "pip-${var.name}"
   location            = var.location
-  resource_group_name = module.rg.name
+  resource_group_name = var.resource_group_name
   sku                 = var.sku_pip
   allocation_method   = var.allocation_method
 }
