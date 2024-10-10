@@ -187,6 +187,16 @@ module "window_vms" {
   disk_size_gb        = each.value.disk_size_gb
 }
 
+module "developer_bastion" {
+  source = "../../modules/bastion"
+
+  name                = "bastion-${var.subscription_name}-${var.location}-001"
+  location            = var.location
+  resource_group_name = module.rg.name
+  sku                 = "Developer"
+  virtual_network_id  = module.vnet.id
+}
+
 output "vnet_id" {
   value = module.vnet.id
 }
