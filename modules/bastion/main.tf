@@ -17,7 +17,7 @@ resource "azurerm_bastion_host" "bastion" {
   virtual_network_id = var.virtual_network_id
 
   dynamic "ip_configuration" {
-    for_each = var.sku != "Developer" ? [1] : [] # Only create the block if SKU is not Developer
+    for_each = var.sku != "Developer" ? [1] : []
     content {
       name                 = "${var.name}-ip-config"
       public_ip_address_id = module.pip.id
