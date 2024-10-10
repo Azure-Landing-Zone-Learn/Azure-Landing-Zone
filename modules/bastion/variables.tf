@@ -25,4 +25,5 @@ variable "sku" {
 variable "virtual_network_id" {
   description = "virtual network id of bastion host"
   type        = string
+  default     = null
 }
