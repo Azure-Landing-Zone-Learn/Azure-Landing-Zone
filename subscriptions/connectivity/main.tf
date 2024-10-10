@@ -68,11 +68,14 @@ resource "azurerm_public_ip" "bastion_pip" {
   sku                 = var.sku
 }
 
-resource "azurerm_bastion_host" "bastion" {
+resource "azurerm_bastion_host" "developer_bastion" {
   name                = "bastion-${var.subscription_name}-${var.location}-001"
   location            = var.location
   resource_group_name = module.rg.name
-  sku = var.bastion_sku
+
+  sku                = var.bastion_sku
+  virtual_network_id = var.bastion_virtual_network_id
+
   ip_configuration {
     name                 = var.ip_configuration_name
     subnet_id            = module.vnet.subnets["AzureBastionSubnet"]

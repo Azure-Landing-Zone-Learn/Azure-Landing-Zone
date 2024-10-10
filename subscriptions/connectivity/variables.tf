@@ -55,3 +55,8 @@ variable "bastion_sku" {
   type        = string
   default     = "Developer"
 }
+
+variable "bastion_virtual_network_id" {
+  description = "The ID of the virtual network to which the bastion host is deployed"
+  type        = string
+}

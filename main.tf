@@ -54,6 +54,8 @@ module "connectivity_subscription" {
   providers = {
     azurerm = azurerm.connectivity
   }
+
+  bastion_virtual_network_id = module.dms_subscription.vnet_id
 }
 
 module "dms_subscription" {

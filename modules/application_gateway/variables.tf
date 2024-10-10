@@ -85,7 +85,7 @@ variable "request_routing_rule" {
 
 # Validation example
 variable "sku_name" {
-  type    = string
+  type        = string
   description = "The SKU name for the application gateway"
   validation {
     condition     = length(var.sku_name) > 0
@@ -94,7 +94,7 @@ variable "sku_name" {
 }
 
 variable "sku_capacity" {
-  type    = number
+  type        = number
   description = "The capacity of the application gateway"
   validation {
     condition     = var.sku_capacity > 0
