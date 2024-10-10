@@ -38,7 +38,7 @@ variable "allocation_method" {
   default     = "Static"
 }
 
-variable "sku" {
+variable "sku_pip" {
   description = "The SKU of pip"
   type        = string
   default     = "Standard"
@@ -48,15 +48,4 @@ variable "ip_configuration_name" {
   description = "The name of the ip configuration"
   type        = string
   default     = "ipconfig"
-}
-
-variable "bastion_sku" {
-  description = "The SKU of the bastion host"
-  type        = string
-  default     = "Developer"
-}
-
-variable "bastion_virtual_network_id" {
-  description = "The ID of the virtual network to which the bastion host is deployed"
-  type        = string
 }

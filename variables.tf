@@ -13,7 +13,7 @@ variable "subscription_connectivity_name" {
 variable "location" {
   description = "The location where the resource group will be created"
   type        = string
-  default     = "eastasia"
+  default     = "northeurope"
 }
 
 variable "subscription_dms_name" {

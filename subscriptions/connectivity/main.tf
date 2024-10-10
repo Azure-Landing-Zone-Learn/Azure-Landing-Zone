@@ -31,7 +31,7 @@ locals {
     },
     {
       name             = "AzureBastionSubnet"
-      address_prefixes = ["10.0.3.0/27"]
+      address_prefixes = ["10.0.3.0/26"]
     }
   ]
 
@@ -65,16 +65,7 @@ resource "azurerm_public_ip" "bastion_pip" {
   location            = var.location
   resource_group_name = module.rg.name
   allocation_method   = var.allocation_method
-  sku                 = var.sku
-}
-
-resource "azurerm_bastion_host" "developer_bastion" {
-  name                = "bastion-${var.subscription_name}-${var.location}-001"
-  location            = var.location
-  resource_group_name = module.rg.name
-
-  sku                = var.bastion_sku
-  virtual_network_id = var.bastion_virtual_network_id
+  sku                 = var.sku_pip
 }
 
 module "rg" {
