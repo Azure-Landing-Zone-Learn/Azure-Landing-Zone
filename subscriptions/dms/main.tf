@@ -112,8 +112,8 @@ locals {
 
   agw = {
     name               = "agw-${var.subscription_name}-${var.location}-001"
-    sku_name           = "Standard_v2"
-    sku_tier           = "Standard_v2"
+    sku_name           = "Standard"
+    sku_tier           = "Standard"
     sku_capacity       = 2
     virtual_network_id = module.vnet.id
     subnet_id          = module.vnet.subnets["subnet-agw-${var.subscription_name}-${var.location}-001"]
