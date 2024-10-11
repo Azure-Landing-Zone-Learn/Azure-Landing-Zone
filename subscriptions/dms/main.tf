@@ -17,7 +17,7 @@ locals {
       address_prefixes = ["10.1.3.0/29"]
     },
     {
-      name = "subnet-agw-${var.subscription_name}-${var.location}-001"
+      name             = "subnet-agw-${var.subscription_name}-${var.location}-001"
       address_prefixes = ["10.1.4.0/29"]
     }
   ]
@@ -33,26 +33,26 @@ locals {
   network_interfaces = [
     {
       name      = "nic-${var.subscription_name}-${var.location}-001"
-      subnet_id = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-001"] # Reference by subnet name
+      subnet_id = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-001"]
       tags      = var.tags
     },
     {
       name      = "nic-${var.subscription_name}-${var.location}-002"
-      subnet_id = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-002"] # Reference by subnet name
+      subnet_id = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-002"]
       tags      = var.tags
     },
     {
       name      = "nic-${var.subscription_name}-${var.location}-003"
-      subnet_id = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-003"] # Reference by subnet name
+      subnet_id = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-003"]
       tags      = var.tags
     },
     {
       name      = "nic-${var.subscription_name}-${var.location}-004"
-      subnet_id = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-004"] # Reference by subnet name
+      subnet_id = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-004"]
       tags      = var.tags
     }
   ]
-  
+
 
   linux_virtual_machines = [
     {
@@ -109,7 +109,90 @@ locals {
       nics           = { "${local.network_interfaces[3].name}" = local.network_interfaces[3] }
     }
   ]
+
+  agw = {
+    name               = "agw-${var.subscription_name}-${var.location}-001"
+    sku_name           = "Standard_v2"
+    sku_tier           = "Standard_v2"
+    sku_capacity       = 2
+    virtual_network_id = module.vnet.id
+    subnet_id          = module.vnet.subnets["subnet-agw-${var.subscription_name}-${var.location}-001"]
+    frontend_ip_configuration = [
+      {
+        name                            = "frontend-ip-${var.subscription_name}-${var.location}-001"
+        subnet_id                       = module.vnet.subnets["subnet-agw-${var.subscription_name}-${var.location}-001"]
+        private_ip_address              = null
+        public_ip_address_id            = null
+        private_ip_address_allocation   = null
+        private_link_configuration_name = null
+      }
+    ]
+    backend_address_pool = [
+      {
+        name = "backend-address-pool-${var.subscription_name}-${var.location}-001"
+      }
+    ]
+    backend_http_settings = [
+      {
+        name                  = "backend-http-settings-${var.subscription_name}-${var.location}-001"
+        cookie_based_affinity = null
+        port                  = 80
+        protocol              = "Http"
+      }
+    ]
+    gateway_ip_configuration = [
+      {
+        name      = "gateway-ip-configuration-${var.subscription_name}-${var.location}-001"
+        subnet_id = module.vnet.subnets["subnet-agw-${var.subscription_name}-${var.location}-001"]
+      }
+    ]
+    frontend_port = [
+      {
+        name = "frontend-port-${var.subscription_name}-${var.location}-001"
+        port = 80
+      }
+    ]
+    http_listener = [
+      {
+        name                           = "http-listener-${var.subscription_name}-${var.location}-001"
+        frontend_ip_configuration_name = "frontend-ip-${var.subscription_name}-${var.location}-001"
+        frontend_port_name             = "frontend-port-${var.subscription_name}-${var.location}-001"
+        protocol                       = "Http"
+      }
+    ]
+    request_routing_rule = [
+      {
+        name                       = "request-routing-rule-${var.subscription_name}-${var.location}-001"
+        rule_type                  = "Basic"
+        http_listener_name         = "http-listener-${var.subscription_name}-${var.location}-001"
+        backend_address_pool_name  = "backend-address-pool-${var.subscription_name}-${var.location}-001"
+        backend_http_settings_name = "backend-http-settings-${var.subscription_name}-${var.location}-001"
+      }
+    ]
+  }
 }
+
+module "agw" {
+  source = "../../modules/application_gateway"
+
+  name     = local.agw.name
+  location = var.location
+
+  resource_group_name = module.rg.name
+
+  sku_name     = local.agw.sku_name
+  sku_tier     = local.agw.sku_tier
+  sku_capacity = local.agw.sku_capacity
+
+  frontend_ip_configuration = local.agw.frontend_ip_configuration
+  backend_address_pool      = local.agw.backend_address_pool
+  backend_http_settings     = local.agw.backend_http_settings
+  gateway_ip_configuration   = local.agw.gateway_ip_configuration
+  frontend_port             = local.agw.frontend_port
+  http_listener             = local.agw.http_listener
+  request_routing_rule      = local.agw.request_routing_rule
+}
+
 
 module "rg" {
   source = "../../modules/resource_group"
@@ -201,6 +284,7 @@ module "developer_bastion" {
   sku                 = "Developer"
   virtual_network_id  = module.vnet.id
 }
+
 
 output "vnet_id" {
   value = module.vnet.id

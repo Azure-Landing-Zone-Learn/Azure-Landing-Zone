@@ -1,3 +1,13 @@
+module "pip" {
+  source = "../../modules/public_ip"
+
+  name                = "pip-${var.name}"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+  sku                 = var.sku_pip
+  allocation_method   = var.allocation_method
+}
+
 resource "azurerm_application_gateway" "agw" {
   name                = var.name
   resource_group_name = var.resource_group_name
@@ -7,6 +17,17 @@ resource "azurerm_application_gateway" "agw" {
     name     = var.sku_name
     tier     = var.sku_tier
     capacity = var.sku_capacity
+  }
+  dynamic "frontend_ip_configuration" {
+    for_each = var.frontend_ip_configuration
+    content {
+      name                            = frontend_ip_configuration.value.name
+      subnet_id                       = frontend_ip_configuration.value.subnet_id
+      private_ip_address              = frontend_ip_configuration.value.private_ip_address
+      public_ip_address_id            = frontend_ip_configuration.value.public_ip_address_id
+      private_ip_address_allocation   = frontend_ip_configuration.value.private_ip_address_allocation
+      private_link_configuration_name = frontend_ip_configuration.value.private_link_configuration_name
+    }
   }
 
   dynamic "backend_address_pool" {
@@ -23,17 +44,6 @@ resource "azurerm_application_gateway" "agw" {
       cookie_based_affinity = backend_http_settings.value.cookie_based_affinity
       port                  = backend_http_settings.value.port
       protocol              = backend_http_settings.value.protocol
-    }
-  }
-
-  dynamic "frontend_ip_configuration" {
-    for_each = var.frontend_ip_configuration
-    content {
-      name                          = frontend_ip_configuration.value.name
-      public_ip_address_id          = frontend_ip_configuration.value.public_ip_address_id
-      private_ip_address            = frontend_ip_configuration.value.private_ip_address
-      private_ip_address_allocation = frontend_ip_configuration.value.private_ip_address_allocation
-      subnet_id                     = frontend_ip_configuration.value.subnet_id
     }
   }
 

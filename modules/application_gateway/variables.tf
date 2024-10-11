@@ -19,7 +19,48 @@ variable "sku_tier" {
   type        = string
 }
 
-# Validation blocks to ensure inputs are provided
+# Validation example
+variable "sku_name" {
+  type        = string
+  description = "The SKU name for the application gateway"
+  validation {
+    condition     = length(var.sku_name) > 0
+    error_message = "The SKU name must not be empty."
+  }
+}
+
+variable "sku_capacity" {
+  type        = number
+  description = "The capacity of the application gateway"
+  validation {
+    condition     = var.sku_capacity > 0
+    error_message = "The capacity of the application gateway must be greater than zero."
+  }
+}
+
+variable "sku_pip" {
+  type        = string
+  description = "The SKU of pip"
+  default     = "Standard"
+}
+
+variable "allocation_method" {
+  type        = string
+  description = "The allocation method for the public IP address"
+  default     = "Static"
+}
+
+variable "frontend_ip_configuration" {
+  type = list(object({
+    name                          = string
+    public_ip_address_id          = string
+    private_ip_address            = string
+    private_ip_address_allocation = string
+    subnet_id                     = string
+  }))
+  description = "The frontend IP configurations"
+}
+
 variable "backend_address_pool" {
   type        = list(object({ name = string }))
   description = "The list of backend address pools"
@@ -35,16 +76,7 @@ variable "backend_http_settings" {
   description = "The list of backend HTTP settings"
 }
 
-variable "frontend_ip_configuration" {
-  type = list(object({
-    name                          = string
-    public_ip_address_id          = string
-    private_ip_address            = string
-    private_ip_address_allocation = string
-    subnet_id                     = string
-  }))
-  description = "The frontend IP configurations"
-}
+
 
 variable "gateway_ip_configuration" {
   type = list(object({
@@ -81,23 +113,4 @@ variable "request_routing_rule" {
     backend_http_settings_name = string
   }))
   description = "The request routing rules"
-}
-
-# Validation example
-variable "sku_name" {
-  type        = string
-  description = "The SKU name for the application gateway"
-  validation {
-    condition     = length(var.sku_name) > 0
-    error_message = "The SKU name must not be empty."
-  }
-}
-
-variable "sku_capacity" {
-  type        = number
-  description = "The capacity of the application gateway"
-  validation {
-    condition     = var.sku_capacity > 0
-    error_message = "The capacity of the application gateway must be greater than zero."
-  }
 }
