@@ -1,13 +1,3 @@
-module "pip" {
-  source = "../../modules/public_ip"
-
-  name                = "pip-${var.name}"
-  location            = var.location
-  resource_group_name = var.resource_group_name
-  sku                 = var.sku_pip
-  allocation_method   = var.allocation_method
-}
-
 resource "azurerm_application_gateway" "agw" {
   name                = var.name
   resource_group_name = var.resource_group_name

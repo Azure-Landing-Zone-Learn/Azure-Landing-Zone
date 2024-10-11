@@ -122,7 +122,7 @@ locals {
         name                            = "frontend-ip-${var.subscription_name}-${var.location}-001"
         subnet_id                       = module.vnet.subnets["subnet-agw-${var.subscription_name}-${var.location}-001"]
         private_ip_address              = null
-        public_ip_address_id            = null
+        public_ip_address_id            = module.agw_pip.id
         private_ip_address_allocation   = null
         private_link_configuration_name = null
       }
@@ -170,6 +170,23 @@ locals {
       }
     ]
   }
+  agw_pip = {
+    name                = "agw-pip-${var.subscription_name}-${var.location}-001"
+    location            = var.location
+    resource_group_name = module.rg.name
+    allocation_method   = "Static"
+    sku                 = "Standard"
+  }
+}
+
+module "agw_pip" {
+  source = "../../modules/public_ip"
+
+  name                = local.agw_pip.name
+  location            = local.agw_pip.location
+  resource_group_name = local.agw_pip.resource_group_name
+  allocation_method   = local.agw_pip.allocation_method
+  sku                 = local.agw_pip.sku
 }
 
 module "agw" {
