@@ -112,7 +112,7 @@ locals {
 
   agw = {
     name               = "agw-${var.subscription_name}-${var.location}-001"
-    sku_name           = "Standard_Small"
+    sku_name           = "Standard_v2"
     sku_tier           = "Standard_v2"
     sku_capacity       = 2
     virtual_network_id = module.vnet.id
