@@ -135,7 +135,7 @@ locals {
     backend_http_settings = [
       {
         name                  = "backend-http-settings-${var.subscription_name}-${var.location}-001"
-        cookie_based_affinity = null
+        cookie_based_affinity = "Disabled"
         port                  = 80
         protocol              = "Http"
       }
