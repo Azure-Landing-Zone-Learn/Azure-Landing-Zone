@@ -120,7 +120,7 @@ locals {
     frontend_ip_configuration = [
       {
         name                            = "frontend-ip-${var.subscription_name}-${var.location}-001"
-        subnet_id                       = module.vnet.subnets["subnet-agw-${var.subscription_name}-${var.location}-001"]
+        subnet_id                       = null
         private_ip_address              = null
         public_ip_address_id            = module.agw_pip.id
         private_ip_address_allocation   = null
