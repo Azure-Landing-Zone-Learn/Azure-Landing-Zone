@@ -187,7 +187,7 @@ module "agw" {
   frontend_ip_configuration = local.agw.frontend_ip_configuration
   backend_address_pool      = local.agw.backend_address_pool
   backend_http_settings     = local.agw.backend_http_settings
-  gateway_ip_configuration   = local.agw.gateway_ip_configuration
+  gateway_ip_configuration  = local.agw.gateway_ip_configuration
   frontend_port             = local.agw.frontend_port
   http_listener             = local.agw.http_listener
   request_routing_rule      = local.agw.request_routing_rule

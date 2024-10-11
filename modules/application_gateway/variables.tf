@@ -52,11 +52,12 @@ variable "allocation_method" {
 
 variable "frontend_ip_configuration" {
   type = list(object({
-    name                          = string
-    public_ip_address_id          = string
-    private_ip_address            = string
-    private_ip_address_allocation = string
-    subnet_id                     = string
+    name                            = string
+    public_ip_address_id            = string
+    private_ip_address              = string
+    private_ip_address_allocation   = string
+    subnet_id                       = string
+    private_link_configuration_name = string
   }))
   description = "The frontend IP configurations"
 }
