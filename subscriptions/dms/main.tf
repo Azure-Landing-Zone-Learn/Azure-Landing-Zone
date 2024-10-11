@@ -48,7 +48,7 @@ locals {
     },
     {
       name      = "nic-${var.subscription_name}-${var.location}-004"
-      subnet_id = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-001"] # Reference by subnet name
+      subnet_id = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-004"] # Reference by subnet name
       tags      = var.tags
     }
   ]
