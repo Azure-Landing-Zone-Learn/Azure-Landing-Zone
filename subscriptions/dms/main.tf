@@ -203,24 +203,24 @@ locals {
     url_path_map = [
       {
         name                              = "url-path-map-${var.subscription_name}-${var.location}-001"
-        default_backend_pool_id           = module.agw.backend_address_pool[0].id
-        default_http_settings_id          = module.agw.backend_http_settings[0].id
+        default_backend_pool_id           = local.agw.backend_address_pool[0].id
+        default_http_settings_id          = local.agw.backend_http_settings[0].id
         default_redirect_configuration_id = null
         default_rewrite_rule_set_id       = null
         path_rules = [
           {
             name                      = "path-rule-app1"
             paths                     = ["/api1/*", "/api2/*"]
-            backend_pool_id           = module.agw.backend_address_pool[0].id
-            http_settings_id          = module.agw.backend_http_settings[0].id
+            backend_pool_id           = local.agw.backend_address_pool[0].id
+            http_settings_id          = local.agw.backend_http_settings[0].id
             redirect_configuration_id = null
             rewrite_rule_set_id       = null
           },
           {
             name                      = "path-rule-app2"
             paths                     = ["/api3/*", "/api4/*"]
-            backend_pool_id           = module.agw.backend_address_pool[1].id
-            http_settings_id          = module.agw.backend_http_settings[1].id
+            backend_pool_id           = local.agw.backend_address_pool[1].id
+            http_settings_id          = local.agw.backend_http_settings[1].id
             redirect_configuration_id = null
             rewrite_rule_set_id       = null
           }
