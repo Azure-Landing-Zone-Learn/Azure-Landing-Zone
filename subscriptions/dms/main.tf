@@ -109,99 +109,127 @@ locals {
     }
   ]
 
-linux_vm_private_ip_addresses = { for vm_name, vm in module.linux_vms : vm_name => vm.private_ip_addresses }
-window_vm_private_ip_addresses = { for vm_name, vm in module.window_vms : vm_name => vm.private_ip_addresses }
-agw = {
-  name               = "agw-${var.subscription_name}-${var.location}-001"
-  sku_name           = "Standard_v2"
-  sku_tier           = "Standard_v2"
-  sku_capacity       = 2
-  virtual_network_id = module.vnet.id
-  subnet_id          = module.vnet.subnets["subnet-agw-${var.subscription_name}-${var.location}-001"]
-  
-  frontend_ip_configuration = [
-    {
-      name                            = "frontend-ip-${var.subscription_name}-${var.location}-001"
-      subnet_id                       = null
-      private_ip_address              = null
-      public_ip_address_id            = module.agw_pip.id
-      private_ip_address_allocation   = null
-      private_link_configuration_name = null
-    }
-  ]
-  
-  # Define two backend pools: one for Application 1 (VM1, VM2), and another for Application 2 (VM3, VM4)
-  backend_address_pool = [
-    {
-      name = "backend-address-pool-app1"
-      ip_addresses = [
-        module.linux_vms["vm-${var.subscription_name}-${var.location}-001"].private_ip_addresses[0],
-        module.linux_vms["vm-${var.subscription_name}-${var.location}-002"].private_ip_addresses[0]
-      ]
-    },
-    {
-      name = "backend-address-pool-app2"
-    }
-  ]
-  
-  # HTTP settings for each backend pool
-  backend_http_settings = [
-    {
-      name                  = "backend-http-settings-app1"
-      cookie_based_affinity = "Disabled"
-      port                  = 80
-      protocol              = "Http"
-    },
-    {
-      name                  = "backend-http-settings-app2"
-      cookie_based_affinity = "Disabled"
-      port                  = 80
-      protocol              = "Http"
-    }
-  ]
-  
-  gateway_ip_configuration = [
-    {
-      name      = "gateway-ip-configuration-${var.subscription_name}-${var.location}-001"
-      subnet_id = module.vnet.subnets["subnet-agw-${var.subscription_name}-${var.location}-001"]
-    }
-  ]
-  
-  frontend_port = [
-    {
-      name = "frontend-port-${var.subscription_name}-${var.location}-001"
-      port = 80
-    }
-  ]
-  
-  http_listener = [
-    {
-      name                           = "http-listener-${var.subscription_name}-${var.location}-001"
-      frontend_ip_configuration_name = "frontend-ip-${var.subscription_name}-${var.location}-001"
-      frontend_port_name             = "frontend-port-${var.subscription_name}-${var.location}-001"
-      protocol                       = "Http"
-    }
-  ]
-  
-  request_routing_rule = [
-    {
-      name                       = "routing-rule-app1"
-      rule_type                  = "PathBasedRouting"
-      http_listener_name         = "http-listener-${var.subscription_name}-${var.location}-001"
-      backend_address_pool_name  = "backend-address-pool-app1"
-      backend_http_settings_name = "backend-http-settings-app1"
-      paths                      = ["/api1/*", "/api2/*"]
-    },
-    {
-      name                       = "routing-rule-app2"
-      rule_type                  = "PathBasedRouting"
-      http_listener_name         = "http-listener-${var.subscription_name}-${var.location}-001"
-      backend_address_pool_name  = "backend-address-pool-app2"
-      backend_http_settings_name = "backend-http-settings-app2"
-      paths                      = ["/api3/*", "/api4/*"]
-    }
-  ]
-}
+  linux_vm_private_ip_addresses  = { for vm_name, vm in module.linux_vms : vm_name => vm.private_ip_addresses }
+  window_vm_private_ip_addresses = { for vm_name, vm in module.window_vms : vm_name => vm.private_ip_addresses }
+  agw = {
+    name               = "agw-${var.subscription_name}-${var.location}-001"
+    sku_name           = "Standard_v2"
+    sku_tier           = "Standard_v2"
+    sku_capacity       = 2
+    virtual_network_id = module.vnet.id
+    subnet_id          = module.vnet.subnets["subnet-agw-${var.subscription_name}-${var.location}-001"]
+
+    frontend_ip_configuration = [
+      {
+        name                            = "frontend-ip-${var.subscription_name}-${var.location}-001"
+        subnet_id                       = null
+        private_ip_address              = null
+        public_ip_address_id            = module.agw_pip.id
+        private_ip_address_allocation   = null
+        private_link_configuration_name = null
+      }
+    ]
+
+    # Define two backend pools: one for Application 1 (VM1, VM2), and another for Application 2 (VM3, VM4)
+    backend_address_pool = [
+      {
+        name = "backend-address-pool-app1"
+        ip_addresses = [
+          module.linux_vms["vm-${var.subscription_name}-${var.location}-001"].private_ip_addresses[0],
+          module.linux_vms["vm-${var.subscription_name}-${var.location}-002"].private_ip_addresses[0]
+        ]
+      },
+      {
+        name = "backend-address-pool-app2"
+      }
+    ]
+
+    # HTTP settings for each backend pool
+    backend_http_settings = [
+      {
+        name                  = "backend-http-settings-app1"
+        cookie_based_affinity = "Disabled"
+        port                  = 80
+        protocol              = "Http"
+      },
+      {
+        name                  = "backend-http-settings-app2"
+        cookie_based_affinity = "Disabled"
+        port                  = 80
+        protocol              = "Http"
+      }
+    ]
+
+    gateway_ip_configuration = [
+      {
+        name      = "gateway-ip-configuration-${var.subscription_name}-${var.location}-001"
+        subnet_id = module.vnet.subnets["subnet-agw-${var.subscription_name}-${var.location}-001"]
+      }
+    ]
+
+    frontend_port = [
+      {
+        name = "frontend-port-${var.subscription_name}-${var.location}-001"
+        port = 80
+      }
+    ]
+
+    http_listener = [
+      {
+        name                           = "http-listener-${var.subscription_name}-${var.location}-001"
+        frontend_ip_configuration_name = "frontend-ip-${var.subscription_name}-${var.location}-001"
+        frontend_port_name             = "frontend-port-${var.subscription_name}-${var.location}-001"
+        protocol                       = "Http"
+      }
+    ]
+
+    request_routing_rule = [
+      {
+        name                       = "routing-rule-app1"
+        rule_type                  = "PathBasedRouting"
+        http_listener_name         = "http-listener-${var.subscription_name}-${var.location}-001"
+        backend_address_pool_name  = "backend-address-pool-app1"
+        backend_http_settings_name = "backend-http-settings-app1"
+        paths                      = ["/api1/*", "/api2/*"]
+      },
+      {
+        name                       = "routing-rule-app2"
+        rule_type                  = "PathBasedRouting"
+        http_listener_name         = "http-listener-${var.subscription_name}-${var.location}-001"
+        backend_address_pool_name  = "backend-address-pool-app2"
+        backend_http_settings_name = "backend-http-settings-app2"
+        paths                      = ["/api3/*", "/api4/*"]
+      }
+    ]
+
+    url_path_map = [
+      {
+        name                              = "url-path-map-${var.subscription_name}-${var.location}-001"
+        default_backend_pool_id           = module.agw.backend_address_pool[0].id
+        default_http_settings_id          = module.agw.backend_http_settings[0].id
+        default_redirect_configuration_id = null
+        default_rewrite_rule_set_id       = null
+        path_rules = [
+          {
+            name                      = "path-rule-app1"
+            paths                     = ["/api1/*", "/api2/*"]
+            backend_pool_id           = module.agw.backend_address_pool[0].id
+            http_settings_id          = module.agw.backend_http_settings[0].id
+            redirect_configuration_id = null
+            rewrite_rule_set_id       = null
+          },
+          {
+            name                      = "path-rule-app2"
+            paths                     = ["/api3/*", "/api4/*"]
+            backend_pool_id           = module.agw.backend_address_pool[1].id
+            http_settings_id          = module.agw.backend_http_settings[1].id
+            redirect_configuration_id = null
+            rewrite_rule_set_id       = null
+          }
+        ]
+      }
+    ]
+  }
   agw_pip = {
     name                = "agw-pip-${var.subscription_name}-${var.location}-001"
     location            = var.location
@@ -240,6 +268,7 @@ module "agw" {
   frontend_port             = local.agw.frontend_port
   http_listener             = local.agw.http_listener
   request_routing_rule      = local.agw.request_routing_rule
+  url_path_map              = local.agw.url_path_map
 }
 
 
@@ -260,7 +289,7 @@ module "vnet" {
   address_space       = var.address_space
   subnets             = { for subnet in local.subnets : subnet.name => subnet }
   //peerings            = { for peering in local.peerings : peering.name => peering }
-  peerings            = null
+  peerings = null
 }
 
 resource "random_password" "linux_server_password" {

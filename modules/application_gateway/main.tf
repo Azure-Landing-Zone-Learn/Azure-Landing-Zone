@@ -74,4 +74,28 @@ resource "azurerm_application_gateway" "agw" {
       priority                   = 100
     }
   }
+
+  dynamic "url_path_map" {
+    for_each = var.url_path_map
+    content {
+      name                                = url_path_map.value.name
+      default_backend_address_pool_name   = url_path_map.value.default_backend_address_pool_name
+      default_backend_http_settings_name  = url_path_map.value.default_backend_http_settings_name
+      default_redirect_configuration_name = url_path_map.value.default_redirect_configuration_name
+      default_rewrite_rule_set_name       = url_path_map.value.default_rewrite_rule_set_name
+
+      dynamic "path_rule" {
+        for_each = url_path_map.value.path_rule
+        content {
+          name                        = path_rule.value.name
+          paths                       = path_rule.value.paths
+          backend_address_pool_name   = path_rule.value.backend_address_pool_name
+          backend_http_settings_name  = path_rule.value.backend_http_settings_name
+          redirect_configuration_name = path_rule.value.redirect_configuration_name
+          rewrite_rule_set_name       = path_rule.value.rewrite_rule_set_name
+        }
+      }
+    }
+  }
+
 }
