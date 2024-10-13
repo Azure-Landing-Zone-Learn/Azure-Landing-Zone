@@ -72,7 +72,7 @@ resource "azurerm_application_gateway" "agw" {
       backend_address_pool_name  = request_routing_rule.value.backend_address_pool_name
       backend_http_settings_name = request_routing_rule.value.backend_http_settings_name
       url_path_map_name          = request_routing_rule.value.url_path_map_name
-      priority                   = 100
+      priority                   = request_routing_rule.value.priority
     }
   }
 

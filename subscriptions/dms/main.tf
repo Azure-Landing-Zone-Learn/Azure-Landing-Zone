@@ -200,6 +200,7 @@ locals {
         backend_http_settings_name = "backend-http-settings-app1"
         url_path_map_name          = "url-path-map-${var.subscription_name}-${var.location}-001"
         paths                      = ["/api1/*", "/api2/*"]
+        priority                   = 1
       },
       {
         name                       = "routing-rule-app2"
@@ -209,6 +210,7 @@ locals {
         backend_address_pool_name  = "backend-address-pool-app2"
         backend_http_settings_name = "backend-http-settings-app2"
         paths                      = ["/api3/*", "/api4/*"]
+        priority                   = 2
       }
     ]
 

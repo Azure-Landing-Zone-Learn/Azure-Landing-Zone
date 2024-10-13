@@ -113,6 +113,7 @@ variable "request_routing_rule" {
     backend_address_pool_name  = string
     backend_http_settings_name = string
     url_path_map_name          = string
+    priority                   = number
   }))
   description = "The request routing rules"
 }
