@@ -334,9 +334,17 @@ output "vnet_id" {
   value = module.vnet.id
 }
 
+output "linux_vm_private_ip_addresses" {
+  value = { for vm_key, vm in module.linux_vms : vm_key => vm.private_ip_addresses }
+}
+
+output "window_vm_private_ip_addresses" {
+  value = { for vm_key, vm in module.window_vms : vm_key => vm.private_ip_addresses }
+}
+
 output "all_vm_private_ip_addresses" {
-  value = merge(
-    { for vm in module.linux_vms : vm.name => vm.private_ip_addresses },
-    { for vm in module.window_vms : vm.name => vm.private_ip_addresses }
-  )
+  value = flatten([
+    for vm_key, vm in module.linux_vms : vm.private_ip_addresses,
+    for vm_key, vm in module.window_vms : vm.private_ip_addresses
+  ])
 }

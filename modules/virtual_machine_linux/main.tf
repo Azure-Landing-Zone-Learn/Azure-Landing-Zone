@@ -51,5 +51,5 @@ resource "azurerm_linux_virtual_machine" "linux_vm" {
 }
 
 output "private_ip_addresses" {
-  value = [for nic in module.nics : nic.private_ip_address]
+  value = flatten([for nic in azurerm_network_interface.nic : [for ip_config in nic.ip_configuration : ip_config.private_ip_address]])
 }
