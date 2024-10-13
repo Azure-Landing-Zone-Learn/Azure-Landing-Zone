@@ -173,6 +173,10 @@ locals {
       {
         name = "frontend-port-${var.subscription_name}-${var.location}-001"
         port = 80
+      },
+      {
+        name = "frontend-port-${var.subscription_name}-${var.location}-002"
+        port = 80
       }
     ]
 
@@ -186,7 +190,7 @@ locals {
       {
         name                           = "http-listener-app2-${var.subscription_name}-${var.location}-002"
         frontend_ip_configuration_name = "frontend-ip-${var.subscription_name}-${var.location}-001"
-        frontend_port_name             = "frontend-port-${var.subscription_name}-${var.location}-001"
+        frontend_port_name             = "frontend-port-${var.subscription_name}-${var.location}-002"
         protocol                       = "Http"
       }
     ]
