@@ -229,14 +229,14 @@ locals {
         ]
       }
     ]
+  }
 
-    agw_pip = {
-      name                = "agw-pip-${var.subscription_name}-${var.location}-001"
-      location            = var.location
-      resource_group_name = module.rg.name
-      allocation_method   = "Static"
-      sku                 = "Standard"
-    }
+  agw_pip = {
+    name                = "agw-pip-${var.subscription_name}-${var.location}-001"
+    location            = var.location
+    resource_group_name = module.rg.name
+    allocation_method   = "Static"
+    sku                 = "Standard"
   }
 }
 
