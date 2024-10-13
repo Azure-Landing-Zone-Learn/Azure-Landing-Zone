@@ -125,6 +125,14 @@ locals {
         public_ip_address_id            = module.agw_pip.id
         private_ip_address_allocation   = null
         private_link_configuration_name = null
+      },
+      {
+        name                            = "frontend-ip-${var.subscription_name}-${var.location}-002"
+        subnet_id                       = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-001"]
+        private_ip_address              = null
+        public_ip_address_id            = null
+        private_ip_address_allocation   = "Dynamic"
+        private_link_configuration_name = null
       }
     ]
     backend_address_pool = [
