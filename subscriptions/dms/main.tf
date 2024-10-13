@@ -139,6 +139,10 @@ locals {
       },
       {
         name = "backend-address-pool-app2"
+        ip_addresses = [
+          module.linux_vms["vm-${var.subscription_name}-${var.location}-003"].private_ip_addresses[0],
+          module.window_vms["vm-${var.subscription_name}-${var.location}-004"].private_ip_addresses[0]
+        ]
       }
     ]
 
