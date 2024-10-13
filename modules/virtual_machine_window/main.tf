@@ -39,5 +39,5 @@ resource "azurerm_windows_virtual_machine" "window_vm" {
 }
 
 output "private_ip_address" {
-  value = module.nics.private_ip_address
+  value = module.nics[0].private_ip_address
 }
