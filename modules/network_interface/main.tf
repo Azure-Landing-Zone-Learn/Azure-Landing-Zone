@@ -19,6 +19,6 @@ output "id" {
   value = azurerm_network_interface.nic.id
 }
 
-output "private_ip_address" {
-  value = azurerm_network_interface.nic.ip_configuration[0].private_ip_address
+output "private_ip_addresseses" {
+  value = flatten([for ip_config in azurerm_network_interface.nic.ip_configuration : ip_config.private_ip_address])
 }
