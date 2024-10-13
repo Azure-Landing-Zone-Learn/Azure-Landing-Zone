@@ -344,7 +344,7 @@ output "window_vm_private_ip_addresses" {
 
 output "all_vm_private_ip_addresses" {
   value = flatten([
-    for vm_key, vm in module.linux_vms : vm.private_ip_addresses,
-    for vm_key, vm in module.window_vms : vm.private_ip_addresses
+    for vm in module.linux_vms : vm.private_ip_addresses,
+    for vm in module.window_vms : vm.private_ip_addresses
   ])
 }
