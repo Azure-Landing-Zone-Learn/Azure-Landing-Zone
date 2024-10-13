@@ -235,7 +235,8 @@ module "vnet" {
   resource_group_name = module.rg.name
   address_space       = var.address_space
   subnets             = { for subnet in local.subnets : subnet.name => subnet }
-  peerings            = { for peering in local.peerings : peering.name => peering }
+  //peerings            = { for peering in local.peerings : peering.name => peering }
+  peerings            = null
 }
 
 resource "random_password" "linux_server_password" {
