@@ -97,5 +97,4 @@ resource "azurerm_application_gateway" "agw" {
       }
     }
   }
-
 }
