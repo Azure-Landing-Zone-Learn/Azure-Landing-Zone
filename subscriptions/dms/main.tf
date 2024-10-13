@@ -109,9 +109,8 @@ locals {
     }
   ]
 
-linux_vm_private_ip_addresses = { for vm in local.linux_virtual_machines : vm.vm_name => azurerm_linux_virtual_machine.vm[vm.vm_name].private_ip_address }
-window_vm_private_ip_addresses = { for vm in local.window_virtual_machines : vm.vm_name => azurerm_windows_virtual_machine.window_vm[vm.vm_name].private_ip_address }
-
+linux_vm_private_ip_addresses = { for vm_key, vm in module.linux_vms : vm_key => vm.private_ip_addresses }
+window_vm_private_ip_addresses = { for vm_key, vm in module.window_vms : vm_key => vm.private_ip_addresses }
 agw = {
   name               = "agw-${var.subscription_name}-${var.location}-001"
   sku_name           = "Standard_v2"
