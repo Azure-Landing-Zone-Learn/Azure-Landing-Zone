@@ -69,6 +69,6 @@ module "dms_subscription" {
   }
 }
 
-output "dms_subscription_vm_private_ip_address" {
-  value = module.dms_subscription.all_vm_private_ip_addresses
+output "dms_subscription_linux_vm_private_ip_addresses" {
+  value = module.dms_subscription.linux_vm_private_ip_addresses
 }
