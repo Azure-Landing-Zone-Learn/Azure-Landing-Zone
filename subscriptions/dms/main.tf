@@ -341,3 +341,7 @@ module "developer_bastion" {
 output "vnet_id" {
   value = module.vnet.id
 }
+
+output "window_vm_private_ip_addresses" {
+  value = module.window_vms.private_ip_addresses
+}

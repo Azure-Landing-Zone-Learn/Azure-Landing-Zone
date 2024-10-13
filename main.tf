@@ -68,3 +68,7 @@ module "dms_subscription" {
     azurerm = azurerm.dms
   }
 }
+
+output "dms_subscription_linux_vm_private_ip_address" {
+  value = module.dms_subscription.linux_vm_private_ip_address
+}
