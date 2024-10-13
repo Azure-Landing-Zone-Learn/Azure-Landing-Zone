@@ -109,8 +109,6 @@ locals {
     }
   ]
 
-  linux_vm_private_ip_addresses  = { for vm_name, vm in module.linux_vms : vm_name => vm.private_ip_addresses }
-  window_vm_private_ip_addresses = { for vm_name, vm in module.window_vms : vm_name => vm.private_ip_addresses }
   agw = {
     name               = "agw-${var.subscription_name}-${var.location}-001"
     sku_name           = "Standard_v2"
@@ -368,8 +366,4 @@ module "developer_bastion" {
 
 output "vnet_id" {
   value = module.vnet.id
-}
-
-output "linux_vm_private_ip_addresses" {
-  value = local.linux_vm_private_ip_addresses
 }
