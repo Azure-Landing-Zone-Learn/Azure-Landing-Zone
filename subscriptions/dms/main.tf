@@ -109,6 +109,9 @@ locals {
     }
   ]
 
+linux_vm_private_ip_addresses = { for vm in local.linux_virtual_machines : vm.vm_name => azurerm_linux_virtual_machine.vm[vm.vm_name].private_ip_address }
+window_vm_private_ip_addresses = { for vm in local.window_virtual_machines : vm.vm_name => azurerm_windows_virtual_machine.window_vm[vm.vm_name].private_ip_address }
+
 agw = {
   name               = "agw-${var.subscription_name}-${var.location}-001"
   sku_name           = "Standard_v2"
@@ -132,9 +135,17 @@ agw = {
   backend_address_pool = [
     {
       name = "backend-address-pool-app1"
+      ip_addresses = [
+        local.linux_virtual_machines[0].nics[0].private_ip_addresses[0],
+        local.linux_virtual_machines[1].nics[0].private_ip_addresses[0]
+      ]
     },
     {
       name = "backend-address-pool-app2"
+      ip_addresses = [
+        local.linux_virtual_machines[2].nics[0].private_ip_addresses[0],
+        local.window_virtual_machines[0].nics[0].private_ip_addresses[0]
+      ]
     }
   ]
   
