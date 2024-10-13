@@ -111,8 +111,8 @@ variable "request_routing_rule" {
     name                       = string
     rule_type                  = string
     http_listener_name         = string
-    backend_address_pool_name  = string
-    backend_http_settings_name = string
+    backend_address_pool_name  = optional(string)
+    backend_http_settings_name = optional(string)
     url_path_map_name          = string
     priority                   = number
   }))
