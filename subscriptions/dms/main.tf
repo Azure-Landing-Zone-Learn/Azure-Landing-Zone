@@ -192,12 +192,14 @@ locals {
         http_listener_name         = "http-listener-${var.subscription_name}-${var.location}-001"
         backend_address_pool_name  = "backend-address-pool-app1"
         backend_http_settings_name = "backend-http-settings-app1"
+        url_path_map_name          = "url-path-map-${var.subscription_name}-${var.location}-001"
         paths                      = ["/api1/*", "/api2/*"]
       },
       {
         name                       = "routing-rule-app2"
         rule_type                  = "PathBasedRouting"
         http_listener_name         = "http-listener-${var.subscription_name}-${var.location}-001"
+        url_path_map_name          = "url-path-map-${var.subscription_name}-${var.location}-001"
         backend_address_pool_name  = "backend-address-pool-app2"
         backend_http_settings_name = "backend-http-settings-app2"
         paths                      = ["/api3/*", "/api4/*"]
@@ -206,8 +208,8 @@ locals {
 
     url_path_map = [
       {
-        name = "url-path-map-${var.subscription_name}-${var.location}-001"
-        default_backend_address_pool_name = "backend-address-pool-app1"
+        name                               = "url-path-map-${var.subscription_name}-${var.location}-001"
+        default_backend_address_pool_name  = "backend-address-pool-app1"
         default_backend_http_settings_name = "backend-http-settings-app1"
         path_rule = [
           {
