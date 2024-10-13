@@ -178,7 +178,7 @@ agw = {
 
   http_listener = [
     {
-      name                           = "http-listener-app1-${var.subscription_name}-${var.location}-001"
+      name                           = "http-listener-${var.subscription_name}-${var.location}-001"
       frontend_ip_configuration_name = "frontend-ip-${var.subscription_name}-${var.location}-001"
       frontend_port_name             = "frontend-port-${var.subscription_name}-${var.location}-001"
       protocol                       = "Http"
@@ -189,7 +189,7 @@ agw = {
     {
       name                       = "routing-rule-app1"
       rule_type                  = "PathBasedRouting"
-      http_listener_name         = "http-listener-app1-${var.subscription_name}-${var.location}-001"
+      http_listener_name         = "http-listener-${var.subscription_name}-${var.location}-001"
       backend_address_pool_name  = "backend-address-pool-app1"
       backend_http_settings_name  = "backend-http-settings-app1"
       url_path_map_name          = "url-path-map-${var.subscription_name}-${var.location}-001"
@@ -199,7 +199,7 @@ agw = {
     {
       name                       = "routing-rule-app2"
       rule_type                  = "PathBasedRouting"
-      http_listener_name         = "http-listener-app2-${var.subscription_name}-${var.location}-001"
+      http_listener_name         = "http-listener-${var.subscription_name}-${var.location}-001"
       backend_address_pool_name  = "backend-address-pool-app2"
       backend_http_settings_name  = "backend-http-settings-app2"
       url_path_map_name          = "url-path-map-${var.subscription_name}-${var.location}-001"
