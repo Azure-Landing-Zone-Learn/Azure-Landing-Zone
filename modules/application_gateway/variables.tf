@@ -119,17 +119,17 @@ variable "request_routing_rule" {
 variable "url_path_map" {
   type = list(object({
     name                                = string
-    default_backend_address_pool_name   = string
-    default_backend_http_settings_name  = string
-    default_redirect_configuration_name = string
-    default_rewrite_rule_set_name       = string
+    default_backend_address_pool_name   = optional(string) 
+    default_backend_http_settings_name  = optional(string) 
+    default_redirect_configuration_name   = optional(string) 
+    default_rewrite_rule_set_name       = optional(string)
     path_rule = list(object({
       name                        = string
       paths                       = list(string)
-      backend_address_pool_name   = string
-      backend_http_settings_name  = string
-      redirect_configuration_name = string
-      rewrite_rule_set_name       = string
+      backend_address_pool_name   = optional(string)
+      backend_http_settings_name  = optional(string) 
+      redirect_configuration_name  = optional(string)
+      rewrite_rule_set_name       = optional(string) 
     }))
   }))
 }
