@@ -226,39 +226,6 @@ locals {
   }
 }
 
-module "agw_pip" {
-  source = "../../modules/public_ip"
-
-  name                = local.agw_pip.name
-  location            = local.agw_pip.location
-  resource_group_name = local.agw_pip.resource_group_name
-  allocation_method   = local.agw_pip.allocation_method
-  sku                 = local.agw_pip.sku
-}
-
-module "agw" {
-  source = "../../modules/application_gateway"
-
-  name     = local.agw.name
-  location = var.location
-
-  resource_group_name = module.rg.name
-
-  sku_name     = local.agw.sku_name
-  sku_tier     = local.agw.sku_tier
-  sku_capacity = local.agw.sku_capacity
-
-  frontend_ip_configuration = local.agw.frontend_ip_configuration
-  backend_address_pool      = local.agw.backend_address_pool
-  backend_http_settings     = local.agw.backend_http_settings
-  gateway_ip_configuration  = local.agw.gateway_ip_configuration
-  frontend_port             = local.agw.frontend_port
-  http_listener             = local.agw.http_listener
-  request_routing_rule      = local.agw.request_routing_rule
-  url_path_map              = local.agw.url_path_map
-}
-
-
 module "rg" {
   source = "../../modules/resource_group"
 
@@ -340,6 +307,41 @@ module "window_vms" {
   nics                = each.value.nics
   disk_size_gb        = each.value.disk_size_gb
 }
+
+module "agw_pip" {
+  source = "../../modules/public_ip"
+
+  name                = local.agw_pip.name
+  location            = local.agw_pip.location
+  resource_group_name = local.agw_pip.resource_group_name
+  allocation_method   = local.agw_pip.allocation_method
+  sku                 = local.agw_pip.sku
+}
+
+module "agw" {
+  source = "../../modules/application_gateway"
+
+  name     = local.agw.name
+  location = var.location
+
+  resource_group_name = module.rg.name
+
+  sku_name     = local.agw.sku_name
+  sku_tier     = local.agw.sku_tier
+  sku_capacity = local.agw.sku_capacity
+
+  frontend_ip_configuration = local.agw.frontend_ip_configuration
+  backend_address_pool      = local.agw.backend_address_pool
+  backend_http_settings     = local.agw.backend_http_settings
+  gateway_ip_configuration  = local.agw.gateway_ip_configuration
+  frontend_port             = local.agw.frontend_port
+  http_listener             = local.agw.http_listener
+  request_routing_rule      = local.agw.request_routing_rule
+  url_path_map              = local.agw.url_path_map
+}
+
+
+
 
 module "developer_bastion" {
   source = "../../modules/bastion"
