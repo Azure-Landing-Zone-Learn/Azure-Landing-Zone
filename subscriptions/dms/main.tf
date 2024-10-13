@@ -187,25 +187,12 @@ locals {
 
     request_routing_rule = [
       {
-        name                       = "routing-rule-app1"
+        name                       = "routing-rule"
         rule_type                  = "PathBasedRouting"
         http_listener_name         = "http-listener-${var.subscription_name}-${var.location}-001"
-        backend_address_pool_name  = "backend-address-pool-app1"
-        backend_http_settings_name = "backend-http-settings-app1"
         url_path_map_name          = "url-path-map-${var.subscription_name}-${var.location}-001"
-        paths                      = ["/api1/*", "/api2/*"]
         priority                   = 1
       },
-      {
-        name                       = "routing-rule-app2"
-        rule_type                  = "PathBasedRouting"
-        http_listener_name         = "http-listener-${var.subscription_name}-${var.location}-001"
-        backend_address_pool_name  = "backend-address-pool-app2"
-        backend_http_settings_name = "backend-http-settings-app2"
-        url_path_map_name          = "url-path-map-${var.subscription_name}-${var.location}-001"
-        paths                      = ["/api3/*", "/api4/*"]
-        priority                   = 2
-      }
     ]
 
     url_path_map = [
