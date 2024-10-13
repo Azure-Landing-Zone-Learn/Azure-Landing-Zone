@@ -37,3 +37,7 @@ resource "azurerm_windows_virtual_machine" "window_vm" {
     version   = var.image_version
   }
 }
+
+output "private_ip_address" {
+  value = module.nics.private_ip_address
+}

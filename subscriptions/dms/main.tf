@@ -53,7 +53,6 @@ locals {
     }
   ]
 
-
   linux_virtual_machines = [
     {
       vm_name                         = "vm-${var.subscription_name}-${var.location}-001"
