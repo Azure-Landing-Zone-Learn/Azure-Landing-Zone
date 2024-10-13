@@ -43,7 +43,7 @@ resource "azurerm_subnet_network_security_group_association" "nsg_snet_associati
   network_security_group_id = each.value.network_security_group_id
 }
 
-resource "azurerm_virtual_network_peering" "vnet_peerings" {
+/* resource "azurerm_virtual_network_peering" "vnet_peerings" {
   for_each                               = var.peerings
   name                                   = each.value.name
   resource_group_name                    = each.value.resource_group_name
@@ -58,7 +58,7 @@ resource "azurerm_virtual_network_peering" "vnet_peerings" {
   remote_subnet_names                    = contains(keys(each.value), "remote_subnet_names") ? each.value.remote_subnet_names : []
   use_remote_gateways                    = contains(keys(each.value), "use_remote_gateways") ? each.value.use_remote_gateways : false
   // triggers
-}
+} */
 
 output "id" {
   value = azurerm_virtual_network.vnet.id
