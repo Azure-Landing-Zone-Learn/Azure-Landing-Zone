@@ -207,7 +207,7 @@ locals {
     url_path_map = [
       {
         name = "url-path-map-${var.subscription_name}-${var.location}-001"
-        path_rules = [
+        path_rule = [
           {
             name                       = "path-rule-app1"
             paths                      = ["/api1/*", "/api2/*"]
