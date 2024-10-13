@@ -110,66 +110,101 @@ locals {
     }
   ]
 
-  agw = {
-    name               = "agw-${var.subscription_name}-${var.location}-001"
-    sku_name           = "Standard_v2"
-    sku_tier           = "Standard_v2"
-    sku_capacity       = 2
-    virtual_network_id = module.vnet.id
-    subnet_id          = module.vnet.subnets["subnet-agw-${var.subscription_name}-${var.location}-001"]
-    frontend_ip_configuration = [
-      {
-        name                            = "frontend-ip-${var.subscription_name}-${var.location}-001"
-        subnet_id                       = null
-        private_ip_address              = null
-        public_ip_address_id            = module.agw_pip.id
-        private_ip_address_allocation   = null
-        private_link_configuration_name = null
-      }
-    ]
-    backend_address_pool = [
-      {
-        name = "backend-address-pool-${var.subscription_name}-${var.location}-001"
-      }
-    ]
-    backend_http_settings = [
-      {
-        name                  = "backend-http-settings-${var.subscription_name}-${var.location}-001"
-        cookie_based_affinity = "Disabled"
-        port                  = 80
-        protocol              = "Http"
-      }
-    ]
-    gateway_ip_configuration = [
-      {
-        name      = "gateway-ip-configuration-${var.subscription_name}-${var.location}-001"
-        subnet_id = module.vnet.subnets["subnet-agw-${var.subscription_name}-${var.location}-001"]
-      }
-    ]
-    frontend_port = [
-      {
-        name = "frontend-port-${var.subscription_name}-${var.location}-001"
-        port = 80
-      }
-    ]
-    http_listener = [
-      {
-        name                           = "http-listener-${var.subscription_name}-${var.location}-001"
-        frontend_ip_configuration_name = "frontend-ip-${var.subscription_name}-${var.location}-001"
-        frontend_port_name             = "frontend-port-${var.subscription_name}-${var.location}-001"
-        protocol                       = "Http"
-      }
-    ]
-    request_routing_rule = [
-      {
-        name                       = "request-routing-rule-${var.subscription_name}-${var.location}-001"
-        rule_type                  = "Basic"
-        http_listener_name         = "http-listener-${var.subscription_name}-${var.location}-001"
-        backend_address_pool_name  = "backend-address-pool-${var.subscription_name}-${var.location}-001"
-        backend_http_settings_name = "backend-http-settings-${var.subscription_name}-${var.location}-001"
-      }
-    ]
-  }
+agw = {
+  name               = "agw-${var.subscription_name}-${var.location}-001"
+  sku_name           = "Standard_v2"
+  sku_tier           = "Standard_v2"
+  sku_capacity       = 2
+  virtual_network_id = module.vnet.id
+  subnet_id          = module.vnet.subnets["subnet-agw-${var.subscription_name}-${var.location}-001"]
+  
+  frontend_ip_configuration = [
+    {
+      name                            = "frontend-ip-${var.subscription_name}-${var.location}-001"
+      subnet_id                       = null
+      private_ip_address              = null
+      public_ip_address_id            = module.agw_pip.id
+      private_ip_address_allocation   = null
+      private_link_configuration_name = null
+    }
+  ]
+  
+  # Define two backend pools: one for Application 1 (VM1, VM2), and another for Application 2 (VM3, VM4)
+  backend_address_pool = [
+    {
+      name = "backend-address-pool-app1"
+      ip_addresses = [
+        module.linux_vms["vm-${var.subscription_name}-${var.location}-001"].private_ip_address, 
+        module.linux_vms["vm-${var.subscription_name}-${var.location}-002"].private_ip_address
+      ]
+    },
+    {
+      name = "backend-address-pool-app2"
+      ip_addresses = [
+        module.linux_vms["vm-${var.subscription_name}-${var.location}-003"].private_ip_address, 
+        module.window_vms["vm-${var.subscription_name}-${var.location}-004"].private_ip_address
+      ]
+    }
+  ]
+  
+  # HTTP settings for each backend pool
+  backend_http_settings = [
+    {
+      name                  = "backend-http-settings-app1"
+      cookie_based_affinity = "Disabled"
+      port                  = 80
+      protocol              = "Http"
+    },
+    {
+      name                  = "backend-http-settings-app2"
+      cookie_based_affinity = "Disabled"
+      port                  = 80
+      protocol              = "Http"
+    }
+  ]
+  
+  gateway_ip_configuration = [
+    {
+      name      = "gateway-ip-configuration-${var.subscription_name}-${var.location}-001"
+      subnet_id = module.vnet.subnets["subnet-agw-${var.subscription_name}-${var.location}-001"]
+    }
+  ]
+  
+  frontend_port = [
+    {
+      name = "frontend-port-${var.subscription_name}-${var.location}-001"
+      port = 80
+    }
+  ]
+  
+  http_listener = [
+    {
+      name                           = "http-listener-${var.subscription_name}-${var.location}-001"
+      frontend_ip_configuration_name = "frontend-ip-${var.subscription_name}-${var.location}-001"
+      frontend_port_name             = "frontend-port-${var.subscription_name}-${var.location}-001"
+      protocol                       = "Http"
+    }
+  ]
+  
+  request_routing_rule = [
+    {
+      name                       = "routing-rule-app1"
+      rule_type                  = "PathBasedRouting"
+      http_listener_name         = "http-listener-${var.subscription_name}-${var.location}-001"
+      backend_address_pool_name  = "backend-address-pool-app1"
+      backend_http_settings_name = "backend-http-settings-app1"
+      paths                      = ["/api1/*", "/api2/*"]
+    },
+    {
+      name                       = "routing-rule-app2"
+      rule_type                  = "PathBasedRouting"
+      http_listener_name         = "http-listener-${var.subscription_name}-${var.location}-001"
+      backend_address_pool_name  = "backend-address-pool-app2"
+      backend_http_settings_name = "backend-http-settings-app2"
+      paths                      = ["/api3/*", "/api4/*"]
+    }
+  ]
+}
   agw_pip = {
     name                = "agw-pip-${var.subscription_name}-${var.location}-001"
     location            = var.location
