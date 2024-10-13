@@ -109,11 +109,8 @@ locals {
     }
   ]
 
-  linux_vm_private_ip_addresses = {
-    for vm_key, vm in local.linux_virtual_machines : 
-    vm_key => module.linux_vms[vm.vm_name].private_ip_addresses
-  }
-window_vm_private_ip_addresses = { for vm_key, vm in module.window_vms : vm_key => vm.private_ip_addresses }
+linux_vm_private_ip_addresses = { for vm_name, vm in module.linux_vms : vm_name => vm.private_ip_addresses }
+window_vm_private_ip_addresses = { for vm_name, vm in module.window_vms : vm_name => vm.private_ip_addresses }
 agw = {
   name               = "agw-${var.subscription_name}-${var.location}-001"
   sku_name           = "Standard_v2"
@@ -137,9 +134,6 @@ agw = {
   backend_address_pool = [
     {
       name = "backend-address-pool-app1"
-      ip_addresses = [
-        local.linux_virtual_machines.private_ip_addresses["vm-${var.subscription_name}-${var.location}-001"]
-      ]
     },
     {
       name = "backend-address-pool-app2"
@@ -343,9 +337,5 @@ output "vnet_id" {
 }
 
 output "linux_vm_private_ip_addresses" {
-  value = { for vm_key, vm in module.linux_vms : vm_key => vm.private_ip_addresses }
-}
-
-output "window_vm_private_ip_addresses" {
-  value = { for vm_key, vm in module.window_vms : vm_key => vm.private_ip_addresses }
+  value = local.linux_vm_private_ip_addresses
 }
