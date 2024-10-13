@@ -135,16 +135,11 @@ agw = {
     {
       name = "backend-address-pool-app1"
       ip_addresses = [
-        local.linux_virtual_machines.private_ip_addresses[0],
-        local.linux_virtual_machines.private_ip_addresses[1]
+        local.linux_virtual_machines.private_ip_addresses["vm-${var.subscription_name}-${var.location}-001"]
       ]
     },
     {
       name = "backend-address-pool-app2"
-      ip_addresses = [
-        local.linux_virtual_machines.private_ip_addresses[2],
-        local.window_virtual_machines.private_ip_addresses[0]
-      ]
     }
   ]
   
