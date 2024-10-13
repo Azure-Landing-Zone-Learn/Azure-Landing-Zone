@@ -207,6 +207,8 @@ locals {
     url_path_map = [
       {
         name = "url-path-map-${var.subscription_name}-${var.location}-001"
+        default_backend_address_pool_name = "backend-address-pool-app1"
+        default_backend_http_settings_name = "backend-http-settings-app1"
         path_rule = [
           {
             name                       = "path-rule-app1"
