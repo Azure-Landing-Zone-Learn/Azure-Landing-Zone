@@ -178,13 +178,13 @@ locals {
 
     http_listener = [
       {
-        name                           = "http-listener-${var.subscription_name}-${var.location}-001"
+        name                           = "http-listener-app1-${var.subscription_name}-${var.location}-001"
         frontend_ip_configuration_name = "frontend-ip-${var.subscription_name}-${var.location}-001"
         frontend_port_name             = "frontend-port-${var.subscription_name}-${var.location}-001"
         protocol                       = "Http"
       },
       {
-        name                           = "http-listener-${var.subscription_name}-${var.location}-002"
+        name                           = "http-listener-app2-${var.subscription_name}-${var.location}-002"
         frontend_ip_configuration_name = "frontend-ip-${var.subscription_name}-${var.location}-001"
         frontend_port_name             = "frontend-port-${var.subscription_name}-${var.location}-001"
         protocol                       = "Http"
