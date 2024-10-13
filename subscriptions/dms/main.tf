@@ -207,14 +207,14 @@ locals {
           {
             name                      = "path-rule-app1"
             paths                     = ["/api1/*", "/api2/*"]
-            backend_pool_id           = module.agw.backend_address_pool[0].id
-            http_settings_id          = module.agw.backend_http_settings[0].id
+            backend_pool_id           = module.agw.backend_address_pool_ids[0]
+            http_settings_id          = module.agw.backend_http_settings_ids[0]
           },
           {
             name                      = "path-rule-app2"
             paths                     = ["/api3/*", "/api4/*"]
-            backend_pool_id           = module.agw.backend_address_pool[1].id
-            http_settings_id          = module.agw.backend_http_settings[1].id
+            backend_pool_id           = module.agw.backend_address_pool_ids[1]
+            http_settings_id          = module.agw.backend_http_settings_ids[1]
           }
         ]
       }

@@ -98,3 +98,11 @@ resource "azurerm_application_gateway" "agw" {
     }
   }
 }
+
+output "backend_address_pool_ids" {
+  value = [for pool in azurerm_application_gateway.agw.backend_address_pool : pool.id]
+}
+
+output "backend_http_settings_ids" {
+  value = [for setting in azurerm_application_gateway.agw.backend_http_settings : setting.id]
+}
