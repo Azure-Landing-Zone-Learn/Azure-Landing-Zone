@@ -206,19 +206,19 @@ locals {
 
     url_path_map = [
       {
-        name                              = "url-path-map-${var.subscription_name}-${var.location}-001"
+        name = "url-path-map-${var.subscription_name}-${var.location}-001"
         path_rules = [
           {
-            name                      = "path-rule-app1"
-            paths                     = ["/api1/*", "/api2/*"]
-            backend_pool_id           = module.agw.backend_address_pool_ids[0]
-            http_settings_id          = module.agw.backend_http_settings_ids[0]
+            name                       = "path-rule-app1"
+            paths                      = ["/api1/*", "/api2/*"]
+            backend_address_pool_name  = "backend-address-pool-app1"
+            backend_http_settings_name = "backend-http-settings-app1"
           },
           {
-            name                      = "path-rule-app2"
-            paths                     = ["/api3/*", "/api4/*"]
-            backend_pool_id           = module.agw.backend_address_pool_ids[1]
-            http_settings_id          = module.agw.backend_http_settings_ids[1]
+            name                       = "path-rule-app2"
+            paths                      = ["/api3/*", "/api4/*"]
+            backend_address_pool_name  = "backend-address-pool-app2"
+            backend_http_settings_name = "backend-http-settings-app2"
           }
         ]
       }
