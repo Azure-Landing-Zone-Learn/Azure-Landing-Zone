@@ -357,5 +357,5 @@ output "vnet_id" {
 }
 
 output "linux_vm_private_ip_addresses" {
-  value = module.linux_vms["vm-${var.subscription_name}-${var.location}-001"].private_ip_addresses
+  value = module.linux_vms["vm-${var.subscription_name}-${var.location}-001"].private_ip_addresses[0]
 }
