@@ -146,7 +146,6 @@ locals {
       }
     ]
 
-    # HTTP settings for each backend pool
     backend_http_settings = [
       {
         name                  = "backend-http-settings-app1"
@@ -190,8 +189,6 @@ locals {
         name                       = "routing-rule"
         rule_type                  = "PathBasedRouting"
         http_listener_name         = "http-listener-${var.subscription_name}-${var.location}-001"
-        backend_address_pool_name  = "backend-address-pool-app1"
-        backend_http_settings_name = "backend-http-settings-app1"
         url_path_map_name          = "url-path-map-${var.subscription_name}-${var.location}-001"
         priority                   = 1
       },
@@ -357,4 +354,8 @@ module "developer_bastion" {
 
 output "vnet_id" {
   value = module.vnet.id
+}
+
+output "linux_vm_private_ip_addresses" {
+  value = module.linux_vms.private_ip_addresses
 }
