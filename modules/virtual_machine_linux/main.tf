@@ -50,6 +50,6 @@ resource "azurerm_linux_virtual_machine" "linux_vm" {
   }, var.tags)
 }
 
-output "private_ip_address" {
-  value = module.nics[0].private_ip_address
+output "private_ip_addresses" {
+  value = [for nic in module.nics : nic.private_ip_address]
 }
