@@ -109,7 +109,10 @@ locals {
     }
   ]
 
-linux_vm_private_ip_addresses = { for vm_key, vm in module.linux_vms : vm_key => vm.private_ip_addresses }
+  linux_vm_private_ip_addresses = {
+    for vm_key, vm in local.linux_virtual_machines : 
+    vm_key => module.linux_vms[vm.vm_name].private_ip_addresses
+  }
 window_vm_private_ip_addresses = { for vm_key, vm in module.window_vms : vm_key => vm.private_ip_addresses }
 agw = {
   name               = "agw-${var.subscription_name}-${var.location}-001"
