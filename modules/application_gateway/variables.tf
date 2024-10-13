@@ -101,6 +101,7 @@ variable "http_listener" {
     frontend_ip_configuration_name = string
     frontend_port_name             = string
     protocol                       = string
+    host_name                      = string
   }))
   description = "The HTTP listener configurations"
 }

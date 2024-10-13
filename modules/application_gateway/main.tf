@@ -60,6 +60,7 @@ resource "azurerm_application_gateway" "agw" {
       frontend_ip_configuration_name = http_listener.value.frontend_ip_configuration_name
       frontend_port_name             = http_listener.value.frontend_port_name
       protocol                       = http_listener.value.protocol
+      host_name                      = http_listener.value.host_name
     }
   }
 
