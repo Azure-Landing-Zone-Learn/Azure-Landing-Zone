@@ -132,17 +132,9 @@ agw = {
   backend_address_pool = [
     {
       name = "backend-address-pool-app1"
-      ip_addresses = [
-        local.network_interfaces[0].private_ip_address, 
-        module.linux_vms["vm-${var.subscription_name}-${var.location}-002"].private_ip_address
-      ]
     },
     {
       name = "backend-address-pool-app2"
-      ip_addresses = [
-        module.linux_vms["vm-${var.subscription_name}-${var.location}-003"].private_ip_address, 
-        module.window_vms["vm-${var.subscription_name}-${var.location}-004"].private_ip_address
-      ]
     }
   ]
   
