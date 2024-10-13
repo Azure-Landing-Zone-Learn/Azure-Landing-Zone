@@ -179,7 +179,6 @@ locals {
     http_listener = [
       {
         name                           = "http-listener-${var.subscription_name}-${var.location}-001"
-        host_name                      = "Multi site"
         frontend_ip_configuration_name = "frontend-ip-${var.subscription_name}-${var.location}-001"
         frontend_port_name             = "frontend-port-${var.subscription_name}-${var.location}-001"
         protocol                       = "Http"
