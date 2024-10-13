@@ -182,6 +182,12 @@ locals {
         frontend_ip_configuration_name = "frontend-ip-${var.subscription_name}-${var.location}-001"
         frontend_port_name             = "frontend-port-${var.subscription_name}-${var.location}-001"
         protocol                       = "Http"
+      },
+      {
+        name                           = "http-listener-${var.subscription_name}-${var.location}-002"
+        frontend_ip_configuration_name = "frontend-ip-${var.subscription_name}-${var.location}-001"
+        frontend_port_name             = "frontend-port-${var.subscription_name}-${var.location}-001"
+        protocol                       = "Http"
       }
     ]
 
@@ -198,7 +204,7 @@ locals {
       {
         name                       = "routing-rule-app2"
         rule_type                  = "PathBasedRouting"
-        http_listener_name         = "http-listener-${var.subscription_name}-${var.location}-001"
+        http_listener_name         = "http-listener-${var.subscription_name}-${var.location}-002"
         url_path_map_name          = "url-path-map-${var.subscription_name}-${var.location}-001"
         backend_address_pool_name  = "backend-address-pool-app2"
         backend_http_settings_name = "backend-http-settings-app2"
