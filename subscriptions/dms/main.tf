@@ -186,11 +186,11 @@ locals {
 
     request_routing_rule = [
       {
-        name                       = "routing-rule"
-        rule_type                  = "PathBasedRouting"
-        http_listener_name         = "http-listener-${var.subscription_name}-${var.location}-001"
-        url_path_map_name          = "url-path-map-${var.subscription_name}-${var.location}-001"
-        priority                   = 1
+        name               = "routing-rule"
+        rule_type          = "PathBasedRouting"
+        http_listener_name = "http-listener-${var.subscription_name}-${var.location}-001"
+        url_path_map_name  = "url-path-map-${var.subscription_name}-${var.location}-001"
+        priority           = 1
       },
     ]
 
@@ -340,8 +340,30 @@ module "agw" {
   url_path_map              = local.agw.url_path_map
 }
 
+resource "azurerm_network_interface_application_gateway_backend_address_pool_association" "agw_backend_address_pool_association" {
+  for_each = {
+    vm1 = {
+      network_interface_id = module.linux_vms["vm-${var.subscription_name}-${var.location}-001"].nics["nic-${var.subscription_name}-${var.location}-001"]
+      backend_pool_id      = module.agw.backend_address_pools["backend-address-pool-app1"].id
+    }
+    vm2 = {
+      network_interface_id = module.linux_vms["vm-${var.subscription_name}-${var.location}-002"].nics["nic-${var.subscription_name}-${var.location}-002"]
+      backend_pool_id      = module.agw.backend_address_pools["backend-address-pool-app1"].id
+    }
+    vm3 = {
+      network_interface_id = module.linux_vms["vm-${var.subscription_name}-${var.location}-003"].nics["nic-${var.subscription_name}-${var.location}-003"]
+      backend_pool_id      = module.agw.backend_address_pools["backend-address-pool-app2"].id
+    }
+    win_vm = {
+      network_interface_id = module.window_vms["vm-${var.subscription_name}-${var.location}-004"].nics["nic-${var.subscription_name}-${var.location}-004"]
+      backend_pool_id      = module.agw.backend_address_pools["backend-address-pool-app2"].id
+    }
+  }
 
-
+  network_interface_id    = each.value.network_interface_id
+  ip_configuration_name   = "ipconfig1" # Assuming this is the default IP configuration name
+  backend_address_pool_id = each.value.backend_pool_id
+}
 
 module "developer_bastion" {
   source = "../../modules/bastion"
@@ -356,8 +378,4 @@ module "developer_bastion" {
 
 output "vnet_id" {
   value = module.vnet.id
-}
-
-output "linux_vm_private_ip_addresses" {
-  value = module.linux_vms["vm-${var.subscription_name}-${var.location}-001"].private_ip_addresses[0]
 }
