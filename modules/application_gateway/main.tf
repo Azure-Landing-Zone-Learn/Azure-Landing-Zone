@@ -100,7 +100,3 @@ resource "azurerm_application_gateway" "agw" {
     }
   }
 }
-
-output "backend_address_pool" {
-  value = azurerm_application_gateway.agw.backend_address_pool.id
-}
