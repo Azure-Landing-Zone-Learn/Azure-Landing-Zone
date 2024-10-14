@@ -344,19 +344,19 @@ resource "azurerm_network_interface_application_gateway_backend_address_pool_ass
   for_each = {
     vm1 = {
       network_interface_id = module.linux_vms["vm-${var.subscription_name}-${var.location}-001"].private_ip_addresses[0]
-      backend_pool_id      = module.agw.backend_address_pools["backend-address-pool-app1"].id
+      backend_pool_id      = module.agw.backend_address_pool["backend-address-pool-app1"].id
     }
     vm2 = {
       network_interface_id = module.linux_vms["vm-${var.subscription_name}-${var.location}-002"].private_ip_addresses[0]
-      backend_pool_id      = module.agw.backend_address_pools["backend-address-pool-app1"].id
+      backend_pool_id      = module.agw.backend_address_pool["backend-address-pool-app1"].id
     }
     vm3 = {
       network_interface_id = module.linux_vms["vm-${var.subscription_name}-${var.location}-003"].private_ip_addresses[0]
-      backend_pool_id      = module.agw.backend_address_pools["backend-address-pool-app2"].id
+      backend_pool_id      = module.agw.backend_address_pool["backend-address-pool-app2"].id
     }
     win_vm = {
       network_interface_id = module.window_vms["vm-${var.subscription_name}-${var.location}-004"].private_ip_addresses[0]
-      backend_pool_id      = module.agw.backend_address_pools["backend-address-pool-app2"].id
+      backend_pool_id      = module.agw.backend_address_pool["backend-address-pool-app2"].id
     }
   }
 
