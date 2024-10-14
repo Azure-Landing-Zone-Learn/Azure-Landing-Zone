@@ -53,3 +53,7 @@ resource "azurerm_linux_virtual_machine" "linux_vm" {
 output "private_ip_addresses" {
   value = flatten([for nic in module.nics : nic.private_ip_addresses])
 }
+
+output "nic_ids" {
+  value = [for nic in module.nics : nic.id]
+}
