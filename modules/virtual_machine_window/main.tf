@@ -41,3 +41,7 @@ resource "azurerm_windows_virtual_machine" "window_vm" {
 output "private_ip_addresses" {
   value = flatten([for nic in module.nics : nic.private_ip_addresses])
 }
+
+output "nic_ids" {
+  value = [for nic in module.nics : nic.id]
+}
