@@ -381,5 +381,5 @@ output "vnet_id" {
 }
 
 output "test" {
-  value = module.agw.backend_address_pool
+  value = module.agw.network.backend_address_pool
 }
