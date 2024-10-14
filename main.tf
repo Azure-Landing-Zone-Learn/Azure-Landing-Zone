@@ -68,3 +68,7 @@ module "dms_subscription" {
     azurerm = azurerm.dms
   }
 }
+
+output "test" {
+  value = module.dms_subscription.test
+}

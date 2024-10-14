@@ -340,7 +340,7 @@ module "agw" {
   url_path_map              = local.agw.url_path_map
 }
 
-resource "azurerm_network_interface_application_gateway_backend_address_pool_association" "agw_backend_address_pool_association" {
+/* resource "azurerm_network_interface_application_gateway_backend_address_pool_association" "agw_backend_address_pool_association" {
   for_each = {
     vm1 = {
       network_interface_id = module.linux_vms["vm-${var.subscription_name}-${var.location}-001"].private_ip_addresses[0]
@@ -363,7 +363,7 @@ resource "azurerm_network_interface_application_gateway_backend_address_pool_ass
   network_interface_id    = each.value.network_interface_id
   ip_configuration_name   = "ipconfig1" # Assuming this is the default IP configuration name
   backend_address_pool_id = each.value.backend_pool_id
-}
+} */
 
 module "developer_bastion" {
   source = "../../modules/bastion"
@@ -378,4 +378,8 @@ module "developer_bastion" {
 
 output "vnet_id" {
   value = module.vnet.id
+}
+
+output "test" {
+  value = module.agw.backend_address_pool
 }
