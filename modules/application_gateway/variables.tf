@@ -70,7 +70,7 @@ variable "backend_address_pool" {
 variable "backend_http_settings" {
   type = list(object({
     cookie_based_affinity = string
-    affinity_cookie_name  = string
+    affinity_cookie_name  = optional(string)
     name                  = string
     path                  = optional(string)
     port                  = number
