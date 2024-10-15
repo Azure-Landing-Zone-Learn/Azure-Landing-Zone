@@ -9,7 +9,7 @@ locals {
       address_prefixes = ["10.1.1.0/24"]
     },
     {
-      name             = "subnet-${var.subscription_name}-${var.location}-003"
+      name             = "subnet-agw-${var.subscription_name}-${var.location}"
       address_prefixes = ["10.1.2.0/24"]
     }
   ]
@@ -108,7 +108,7 @@ locals {
     sku_tier           = "Standard_v2"
     sku_capacity       = 2
     virtual_network_id = module.vnet.id
-    subnet_id          = module.vnet.subnets["subnet-agw-${var.subscription_name}-${var.location}-001"]
+    subnet_id          = module.vnet.subnets["subnet-agw-${var.subscription_name}-${var.location}"]
 
     frontend_ip_configuration = [
       {
