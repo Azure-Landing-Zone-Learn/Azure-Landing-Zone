@@ -43,7 +43,7 @@ locals {
   ]
 }
 
-/* module "connectivity_subscription" {
+module "connectivity_subscription" {
   source = "./subscriptions/connectivity"
 
   location                  = var.location
@@ -54,9 +54,9 @@ locals {
   providers = {
     azurerm = azurerm.connectivity
   }
-} */
+} 
 
-module "dms_subscription" {
+/* module "dms_subscription" {
   source = "./subscriptions/dms"
 
   location          = var.location
@@ -67,4 +67,4 @@ module "dms_subscription" {
   providers = {
     azurerm = azurerm.dms
   }
-}
+} */
