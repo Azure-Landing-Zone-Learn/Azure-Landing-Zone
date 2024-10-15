@@ -157,7 +157,7 @@ locals {
     gateway_ip_configuration = [
       {
         name      = "gateway-ip-configuration-${var.subscription_name}-${var.location}-001"
-        subnet_id = module.vnet.subnets["subnet-agw-${var.subscription_name}-${var.location}-001"]
+        subnet_id = module.vnet.subnets["subnet-agw-${var.subscription_name}-${var.location}"]
       }
     ]
 
