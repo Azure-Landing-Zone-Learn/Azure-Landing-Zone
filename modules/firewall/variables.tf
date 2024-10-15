@@ -25,10 +25,10 @@ variable "sku_tier" {
 
 variable "ip_configuration" {
   type = object({
-    name = string
-    subnet_id = optional(string)
+    name                 = string
+    subnet_id            = optional(string)
     public_ip_address_id = optional(string)
   })
   description = "The IP configuration for the firewall"
-  default = {}
+  default     = null
 }

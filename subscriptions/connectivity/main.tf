@@ -64,14 +64,14 @@ locals {
   ]
 
   firewall = {
-    name                 = "fw-${var.subscription_name}-${var.location}-001"
-    location             = var.location
-    resource_group_name  = module.rg.name
-    sku_name             = "AZFW_VNet"
-    sku_tier             = "Standard"
+    name                  = "fw-${var.subscription_name}-${var.location}-001"
+    location              = var.location
+    resource_group_name   = module.rg.name
+    sku_name              = "AZFW_VNet"
+    sku_tier              = "Standard"
     ip_configuration_name = "ipconfig"
-    subnet_id            = module.vnet.subnets["AzureFirewallSubnet"]
-    public_ip_address_id = azurerm_public_ip.fw_pip.id
+    subnet_id             = module.vnet.subnets["AzureFirewallSubnet"]
+    public_ip_address_id  = azurerm_public_ip.fw_pip.id
   }
 }
 
@@ -118,7 +118,7 @@ module "firewall" {
   resource_group_name = module.rg.name
   sku_name            = "AZFW_VNet"
   sku_tier            = "Standard"
-  ip_configuration     = {
+  ip_configuration = {
     name                 = var.ip_configuration_name
     subnet_id            = module.vnet.subnets["AzureFirewallSubnet"]
     public_ip_address_id = azurerm_public_ip.bastion_pip.id
