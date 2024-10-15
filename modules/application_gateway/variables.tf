@@ -56,7 +56,7 @@ variable "frontend_ip_configuration" {
     public_ip_address_id            = optional(string)
     private_ip_address              = optional(string)
     private_ip_address_allocation   = optional(string)
-    subnet_id                       = opptional(string)
+    subnet_id                       = optional(string)
     private_link_configuration_name = optional(string)
   }))
   description = "The frontend IP configurations"
