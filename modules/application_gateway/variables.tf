@@ -53,11 +53,11 @@ variable "allocation_method" {
 variable "frontend_ip_configuration" {
   type = list(object({
     name                            = string
-    public_ip_address_id            = string
-    private_ip_address              = string
-    private_ip_address_allocation   = string
-    subnet_id                       = string
-    private_link_configuration_name = string
+    public_ip_address_id            = optional(string)
+    private_ip_address              = optional(string)
+    private_ip_address_allocation   = optional(string)
+    subnet_id                       = opptional(string)
+    private_link_configuration_name = optional(string)
   }))
   description = "The frontend IP configurations"
 }
@@ -69,10 +69,16 @@ variable "backend_address_pool" {
 
 variable "backend_http_settings" {
   type = list(object({
-    name                  = string
     cookie_based_affinity = string
+    affinity_cookie_name  = string
+    name                  = string
+    path                  = optional(string)
     port                  = number
+    probe_name            = optional(string)
     protocol              = string
+    request_timeout       = optional(number)
+    host_name             = optional(string)
+    pick_host_name_from_backend_http_settings = optional(bool)
   }))
   description = "The list of backend HTTP settings"
 }
