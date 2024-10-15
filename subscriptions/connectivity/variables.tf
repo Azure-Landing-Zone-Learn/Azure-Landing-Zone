@@ -32,6 +32,12 @@ variable "bastion_pip_name" {
   default     = "bastion-pip"
 }
 
+variable "fw_pip_name" {
+  description = "The name of the public IP address for the firewall"
+  type        = string
+  default     = "fw-pip"
+}
+
 variable "allocation_method" {
   description = "The allocation method for the public IP address"
   type        = string

@@ -54,7 +54,7 @@ module "connectivity_subscription" {
   providers = {
     azurerm = azurerm.connectivity
   }
-} 
+}
 
 /* module "dms_subscription" {
   source = "./subscriptions/dms"

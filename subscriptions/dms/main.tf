@@ -35,7 +35,7 @@ locals {
     },
     {
       name      = "nic-${var.subscription_name}-${var.location}-003"
-      subnet_id = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-002"] 
+      subnet_id = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-002"]
       tags      = var.tags
     },
     {
@@ -344,7 +344,7 @@ resource "azurerm_network_interface_application_gateway_backend_address_pool_ass
       backend_pool_name    = "backend-address-pool-app1"
     }
     vm3 = {
-      network_interface_id = module.linux_vms["vm-${var.subscription_name}-${var.location}-003"].nic_ids[0] 
+      network_interface_id = module.linux_vms["vm-${var.subscription_name}-${var.location}-003"].nic_ids[0]
       backend_pool_name    = "backend-address-pool-app2"
     }
     win_vm = {
@@ -353,8 +353,8 @@ resource "azurerm_network_interface_application_gateway_backend_address_pool_ass
     }
   }
 
-  network_interface_id    = each.value.network_interface_id
-  ip_configuration_name   = "ipconfig1" # Assuming this is the default IP configuration name
+  network_interface_id  = each.value.network_interface_id
+  ip_configuration_name = "ipconfig1" # Assuming this is the default IP configuration name
 
   # Find the correct backend pool ID based on the name
   backend_address_pool_id = lookup({ for pool in module.agw.backend_address_pool : pool.name => pool.id }, each.value.backend_pool_name)
