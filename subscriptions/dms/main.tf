@@ -11,14 +11,6 @@ locals {
     {
       name             = "subnet-${var.subscription_name}-${var.location}-003"
       address_prefixes = ["10.1.2.0/24"]
-    },
-    {
-      name             = "subnet-${var.subscription_name}-${var.location}-004"
-      address_prefixes = ["10.1.3.0/29"]
-    },
-    {
-      name             = "subnet-agw-${var.subscription_name}-${var.location}-001"
-      address_prefixes = ["10.1.4.0/29"]
     }
   ]
   peerings = [
@@ -33,22 +25,22 @@ locals {
   network_interfaces = [
     {
       name      = "nic-${var.subscription_name}-${var.location}-001"
-      subnet_id = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-001"]
+      subnet_id = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-001"] #
       tags      = var.tags
     },
     {
       name      = "nic-${var.subscription_name}-${var.location}-002"
-      subnet_id = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-002"]
+      subnet_id = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-001"]
       tags      = var.tags
     },
     {
       name      = "nic-${var.subscription_name}-${var.location}-003"
-      subnet_id = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-003"]
+      subnet_id = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-002"] 
       tags      = var.tags
     },
     {
       name      = "nic-${var.subscription_name}-${var.location}-004"
-      subnet_id = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-004"]
+      subnet_id = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-002"]
       tags      = var.tags
     }
   ]
@@ -94,6 +86,7 @@ locals {
       nics                            = { "${local.network_interfaces[2].name}" = local.network_interfaces[2] }
     }
   ]
+
   window_virtual_machines = [
     {
       vm_name        = "vm-${var.subscription_name}-${var.location}-004"
