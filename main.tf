@@ -49,22 +49,23 @@ module "connectivity_subscription" {
   location                  = var.location
   subscription_name         = var.subscription_connectivity_name
   tags                      = local.tags
-  remote_virtual_network_id = null
+  remote_virtual_network_id = module.dms_subscription.vnet_id
+  //remote_virtual_network_id = null
 
   providers = {
     azurerm = azurerm.connectivity
   }
 }
 
-/* module "dms_subscription" {
+module "dms_subscription" {
   source = "./subscriptions/dms"
 
-  location          = var.location
-  subscription_name = var.subscription_dms_name
-  tags              = local.tags
-  //remote_virtual_network_id = module.connectivity_subscription.vnet_id
-  remote_virtual_network_id = null
+  location                  = var.location
+  subscription_name         = var.subscription_dms_name
+  tags                      = local.tags
+  remote_virtual_network_id = module.connectivity_subscription.vnet_id
+  //remote_virtual_network_id = null
   providers = {
     azurerm = azurerm.dms
   }
-} */
+}

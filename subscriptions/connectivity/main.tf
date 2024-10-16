@@ -126,7 +126,7 @@ module "firewall" {
 }
 
 
-/* module "basic_bastion" {
+module "basic_bastion" {
   source = "../../modules/bastion"
 
   name                      = "bastion-${var.subscription_name}-${var.location}-001"
@@ -134,7 +134,7 @@ module "firewall" {
   resource_group_name       = module.rg.name
   sku                       = "Basic"
   virtual_network_subnet_id = module.vnet.subnets["AzureBastionSubnet"]
-} */
+}
 
 module "rt" {
   source = "../../modules/route_table"
