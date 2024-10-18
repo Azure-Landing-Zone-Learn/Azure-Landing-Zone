@@ -40,3 +40,9 @@ variable "vnet_id" {
   type        = string
   nullable    = false
 }
+
+variable "subnet_id" {
+  description = "The id of the subnet"
+  type        = string
+  nullable    = false
+}
