@@ -223,7 +223,7 @@ locals {
   }
 
   acr = {
-    name                = "acr${var.subscription_name}-${var.location}001"
+    name                = "acr${var.subscription_name}${var.location}"
     location            = var.location
     resource_group_name = module.rg.name
     sku                 = "Basic"
