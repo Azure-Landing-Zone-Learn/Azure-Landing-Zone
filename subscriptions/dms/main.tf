@@ -115,7 +115,7 @@ locals {
     },
     {
       vm_name        = "vm-${var.subscription_name}-${var.location}-005"
-      vm_size        = "STANDARD_DS1_V2"
+      vm_size        = "STANDARD_DS2_V2"
       admin_username = "tung"
       computer_name  = "TungMacbook5"
       os_disk_name   = "os-disk-${var.subscription_name}-${var.location}-005"
