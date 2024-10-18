@@ -382,10 +382,16 @@ module "acr" {
   resource_group_name = module.rg.name
   sku                 = "Basic"
   admin_enabled       = true
-  pe_name             = "pe-${var.subscription_name}-${var.location}-001"
-  subnet_id           = module.vnet.subnets["subnet-acr-${var.subscription_name}-${var.location}"]
+}
+
+module "pe" {
+  source = "../../modules/private_endpoint"
+  name               = "pe-${var.subscription_name}-${var.location}-001"
+  location           = var.location
+  resource_group_name = module.rg.name
+  subnet_id          = module.vnet.subnets["subnet-acr-${var.subscription_name}-${var.location}"]
   private_service_connection = {
-    name                           = "acr-${var.subscription_name}-${var.location}-001"
+    name                           = "acr-connection"
     private_connection_resource_id = module.acr.id
     is_manual_connection           = false
   }
