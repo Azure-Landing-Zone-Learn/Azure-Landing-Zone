@@ -25,7 +25,7 @@ module "pe" {
 module "private_dns_zone" {
   source = "../../modules/private_dns_zone"
   # privateLink.acrxxx.io
-  name = "${var.private_dns_zone_name}.${var.name}.io"
+  name = "privateLink.azurecr.io"
 
   resource_group_name = var.resource_group_name
   # acr.acrxxx
@@ -36,7 +36,7 @@ module "private_dns_zone" {
 resource "azurerm_private_dns_zone_virtual_network_link" "vnet_link" {
   name                  = "acr-dns-link-${var.name}"
   resource_group_name   = var.resource_group_name
-  private_dns_zone_name = "${var.private_dns_zone_name}.${var.name}.io"
+  private_dns_zone_name = "privateLink.azurecr.io"
   virtual_network_id    = var.vnet_id
 
   depends_on = [ module.private_dns_zone ]
