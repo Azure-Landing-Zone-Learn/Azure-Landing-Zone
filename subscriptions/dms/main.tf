@@ -15,6 +15,10 @@ locals {
     {
       name             = "subnet-acr-${var.subscription_name}-${var.location}"
       address_prefixes = ["10.1.3.0/24"]
+    },
+    {
+      name             = "subnet-cicd-${var.subscription_name}-${var.location}"
+      address_prefixes = ["10.1.4.0/24"]
     }
   ]
   peerings = [
@@ -29,7 +33,7 @@ locals {
   network_interfaces = [
     {
       name      = "nic-${var.subscription_name}-${var.location}-001"
-      subnet_id = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-001"] #
+      subnet_id = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-001"] 
       tags      = var.tags
     },
     {
@@ -45,6 +49,11 @@ locals {
     {
       name      = "nic-${var.subscription_name}-${var.location}-004"
       subnet_id = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-002"]
+      tags      = var.tags
+    },
+    {
+      name      = "nic-${var.subscription_name}-${var.location}-005"
+      subnet_id = module.vnet.subnets["subnet-cicd-${var.subscription_name}-${var.location}"]
       tags      = var.tags
     }
   ]
@@ -88,6 +97,19 @@ locals {
       disk_size_gb                    = 30
       disable_password_authentication = false
       nics                            = { "${local.network_interfaces[2].name}" = local.network_interfaces[2] }
+    },
+    {
+      vm_name                         = "vm-${var.subscription_name}-${var.location}-005"
+      vm_size                         = "STANDARD_DS1_V2"
+      admin_username                  = "tung"
+      os_disk_name                    = "os-disk-${var.subscription_name}-${var.location}-005"
+      os_publisher                    = "Canonical"
+      os_offer                        = "UbuntuServer"
+      os_sku                          = "16.04-LTS"
+      computer_name                   = "Tung macbook 4"
+      disk_size_gb                    = 30
+      disable_password_authentication = false
+      nics                            = { "${local.network_interfaces[3].name}" = local.network_interfaces[4] }
     }
   ]
 
@@ -384,7 +406,7 @@ module "developer_bastion" {
   virtual_network_id  = module.vnet.id
 }
 
-module "acr" {
+module "private_acr" {
   source = "../../modules/container_registry"
 
   name                          = local.acr.name
@@ -397,7 +419,6 @@ module "acr" {
   vnet_id                       = module.vnet.id
   subnet_id                     = module.vnet.subnets["subnet-acr-${var.subscription_name}-${var.location}"]
 }
-
 
 output "vnet_id" {
   value = module.vnet.id
