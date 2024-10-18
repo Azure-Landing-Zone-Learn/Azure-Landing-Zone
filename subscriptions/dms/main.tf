@@ -229,20 +229,9 @@ locals {
     sku                           = "Premium"
     admin_enabled                 = true
     public_network_access_enabled = false
+    private_dns_zone_name         = "privateLink"
   }
 
-  pe = {
-    name                = "pe-${var.subscription_name}-${var.location}-001"
-    location            = var.location
-    resource_group_name = module.rg.name
-    subnet_id           = module.vnet.subnets["subnet-acr-${var.subscription_name}-${var.location}"]
-    private_service_connection = {
-      name                           = "acr-connection"
-      private_connection_resource_id = module.acr.id
-      is_manual_connection           = false
-      subresource_names              = ["registry"]
-    }
-  }
 }
 
 module "rg" {
@@ -404,17 +393,10 @@ module "acr" {
   sku                           = local.acr.sku
   admin_enabled                 = local.acr.admin_enabled
   public_network_access_enabled = local.acr.public_network_access_enabled
+  private_dns_zone_name         = local.acr.private_dns_zone_name
+  vnet_id                       = module.vnet.id
 }
 
-module "pe" {
-  source = "../../modules/private_endpoint"
-
-  name                       = local.pe.name
-  location                   = local.pe.location
-  resource_group_name        = local.pe.resource_group_name
-  subnet_id                  = local.pe.subnet_id
-  private_service_connection = local.pe.private_service_connection
-}
 
 output "vnet_id" {
   value = module.vnet.id
