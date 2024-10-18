@@ -70,7 +70,7 @@ module "firewall" {
   ip_configuration = {
     name                 = var.ip_configuration_name
     subnet_id            = module.vnet.subnets["AzureFirewallSubnet"]
-    public_ip_address_id = null
+    public_ip_address_id = module.fw_pip.id
   }
 }
 
