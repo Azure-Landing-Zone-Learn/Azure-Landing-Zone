@@ -4,7 +4,7 @@ resource "azurerm_container_registry" "acr" {
   resource_group_name           = var.resource_group_name
   sku                           = var.sku
   admin_enabled                 = var.admin_enabled
-  public_network_access_enabled = contains(keys(each.value), "public_network_access_enabled") ? var.public_network_access_enabled : true
+  public_network_access_enabled = var.public_network_access_enabled != null ? var.public_network_access_enabled : true
 }
 
 output "id" {
