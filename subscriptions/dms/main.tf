@@ -223,11 +223,12 @@ locals {
   }
 
   acr = {
-    name                = "acr${var.subscription_name}${var.location}"
-    location            = var.location
-    resource_group_name = module.rg.name
-    sku                 = "Premium"
-    admin_enabled       = true
+    name                          = "acr${var.subscription_name}${var.location}"
+    location                      = var.location
+    resource_group_name           = module.rg.name
+    sku                           = "Premium"
+    admin_enabled                 = true
+    public_network_access_enabled = false
   }
 
   pe = {
@@ -397,11 +398,12 @@ module "developer_bastion" {
 module "acr" {
   source = "../../modules/container_registry"
 
-  name                = local.acr.name
-  location            = local.acr.location
-  resource_group_name = local.acr.resource_group_name
-  sku                 = local.acr.sku
-  admin_enabled       = local.acr.admin_enabled
+  name                          = local.acr.name
+  location                      = local.acr.location
+  resource_group_name           = local.acr.resource_group_name
+  sku                           = local.acr.sku
+  admin_enabled                 = local.acr.admin_enabled
+  public_network_access_enabled = local.acr.public_network_access_enabled
 }
 
 module "pe" {

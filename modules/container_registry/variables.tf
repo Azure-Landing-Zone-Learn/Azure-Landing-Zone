@@ -22,3 +22,9 @@ variable "admin_enabled" {
   description = "Is admin enabled for the acr"
   type        = bool
 }
+
+variable "public_network_access_enabled" {
+  description = "Is public network access enabled for the acr"
+  type        = bool
+  default     = true
+}
