@@ -11,6 +11,10 @@ locals {
     {
       name             = "subnet-agw-${var.subscription_name}-${var.location}"
       address_prefixes = ["10.1.2.0/24"]
+    },
+    {
+      name             = "subnet-acr-${var.subscription_name}-${var.location}"
+      address_prefixes = ["10.1.3.0/24"]
     }
   ]
   peerings = [
@@ -370,6 +374,22 @@ module "developer_bastion" {
   virtual_network_id  = module.vnet.id
 }
 
+module "acr" {
+  source = "../../modules/container_registry"
+
+  name                = "acr-${var.subscription_name}-${var.location}-001"
+  location            = var.location
+  resource_group_name = module.rg.name
+  sku                 = "Basic"
+  admin_enabled       = true
+  pe_name             = "pe-${var.subscription_name}-${var.location}-001"
+  subnet_id           = module.vnet.subnets["subnet-acr-${var.subscription_name}-${var.location}"]
+  private_service_connection = {
+    name                           = "acr-${var.subscription_name}-${var.location}-001"
+    private_connection_resource_id = module.acr.id
+    is_manual_connection           = false
+  }
+}
 
 output "vnet_id" {
   value = module.vnet.id
