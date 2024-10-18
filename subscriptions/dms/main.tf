@@ -97,19 +97,6 @@ locals {
       disk_size_gb                    = 30
       disable_password_authentication = false
       nics                            = { "${local.network_interfaces[2].name}" = local.network_interfaces[2] }
-    },
-    {
-      vm_name                         = "vm-${var.subscription_name}-${var.location}-005"
-      vm_size                         = "STANDARD_DS1_V2"
-      admin_username                  = "tung"
-      os_disk_name                    = "os-disk-${var.subscription_name}-${var.location}-005"
-      os_publisher                    = "Canonical"
-      os_offer                        = "UbuntuServer"
-      os_sku                          = "16.04-LTS"
-      computer_name                   = "Tung macbook 4"
-      disk_size_gb                    = 30
-      disable_password_authentication = false
-      nics                            = { "${local.network_interfaces[3].name}" = local.network_interfaces[4] }
     }
   ]
 
@@ -125,6 +112,18 @@ locals {
       os_sku         = "2019-Datacenter"
       disk_size_gb   = 127
       nics           = { "${local.network_interfaces[3].name}" = local.network_interfaces[3] }
+    },
+    {
+      vm_name        = "vm-${var.subscription_name}-${var.location}-005"
+      vm_size        = "STANDARD_DS1_V2"
+      admin_username = "tung"
+      computer_name  = "TungMacbook5"
+      os_disk_name   = "os-disk-${var.subscription_name}-${var.location}-005"
+      os_publisher   = "MicrosoftWindowsServer"
+      os_offer       = "WindowsServer"
+      os_sku         = "2019-Datacenter"
+      disk_size_gb   = 127
+      nics           = { "${local.network_interfaces[4].name}" = local.network_interfaces[4] }
     }
   ]
 
@@ -406,7 +405,7 @@ module "developer_bastion" {
   virtual_network_id  = module.vnet.id
 }
 
-module "private_acr" {
+module "acr" {
   source = "../../modules/container_registry"
 
   name                          = local.acr.name
