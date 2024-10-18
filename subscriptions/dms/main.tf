@@ -231,14 +231,15 @@ locals {
   }
 
   pe = {
-    name               = "pe-${var.subscription_name}-${var.location}-001"
-    location           = var.location
+    name                = "pe-${var.subscription_name}-${var.location}-001"
+    location            = var.location
     resource_group_name = module.rg.name
-    subnet_id          = module.vnet.subnets["subnet-acr-${var.subscription_name}-${var.location}"]
+    subnet_id           = module.vnet.subnets["subnet-acr-${var.subscription_name}-${var.location}"]
     private_service_connection = {
       name                           = "acr-connection"
       private_connection_resource_id = module.acr.id
       is_manual_connection           = false
+      subresource_names              = ["registry"]
     }
   }
 }
@@ -259,8 +260,7 @@ module "vnet" {
   resource_group_name = module.rg.name
   address_space       = var.address_space
   subnets             = { for subnet in local.subnets : subnet.name => subnet }
-  //peerings            = { for peering in local.peerings : peering.name => peering }
-  peerings = null
+  peerings            = { for peering in local.peerings : peering.name => peering }
 }
 
 resource "random_password" "linux_server_password" {
@@ -407,10 +407,10 @@ module "acr" {
 module "pe" {
   source = "../../modules/private_endpoint"
 
-  name                = local.pe.name
-  location            = local.pe.location
-  resource_group_name = local.pe.resource_group_name
-  subnet_id           = local.pe.subnet_id
+  name                       = local.pe.name
+  location                   = local.pe.location
+  resource_group_name        = local.pe.resource_group_name
+  subnet_id                  = local.pe.subnet_id
   private_service_connection = local.pe.private_service_connection
 }
 
