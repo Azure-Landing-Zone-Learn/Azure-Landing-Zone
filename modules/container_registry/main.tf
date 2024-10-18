@@ -38,6 +38,8 @@ resource "azurerm_private_dns_zone_virtual_network_link" "vnet_link" {
   resource_group_name   = var.resource_group_name
   private_dns_zone_name = "${var.private_dns_zone_name}.${var.name}.io"
   virtual_network_id    = var.vnet_id
+
+  depends_on = [ module.private_dns_zone ]
 }
 
 output "id" {
