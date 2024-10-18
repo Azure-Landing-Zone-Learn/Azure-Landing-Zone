@@ -221,6 +221,26 @@ locals {
     allocation_method   = "Static"
     sku                 = "Standard"
   }
+
+  acr = {
+    name                = "acr${var.subscription_name}-${var.location}001"
+    location            = var.location
+    resource_group_name = module.rg.name
+    sku                 = "Basic"
+    admin_enabled       = true
+  }
+
+  pe = {
+    name               = "pe-${var.subscription_name}-${var.location}-001"
+    location           = var.location
+    resource_group_name = module.rg.name
+    subnet_id          = module.vnet.subnets["subnet-acr-${var.subscription_name}-${var.location}"]
+    private_service_connection = {
+      name                           = "acr-connection"
+      private_connection_resource_id = module.acr.id
+      is_manual_connection           = false
+    }
+  }
 }
 
 module "rg" {
@@ -377,24 +397,21 @@ module "developer_bastion" {
 module "acr" {
   source = "../../modules/container_registry"
 
-  name                = "acr-${var.subscription_name}-${var.location}-001"
-  location            = var.location
-  resource_group_name = module.rg.name
-  sku                 = "Basic"
-  admin_enabled       = true
+  name                = local.acr.name
+  location            = local.acr.location
+  resource_group_name = local.acr.resource_group_name
+  sku                 = local.acr.sku
+  admin_enabled       = local.acr.admin_enabled
 }
 
 module "pe" {
   source = "../../modules/private_endpoint"
-  name               = "pe-${var.subscription_name}-${var.location}-001"
-  location           = var.location
-  resource_group_name = module.rg.name
-  subnet_id          = module.vnet.subnets["subnet-acr-${var.subscription_name}-${var.location}"]
-  private_service_connection = {
-    name                           = "acr-connection"
-    private_connection_resource_id = module.acr.id
-    is_manual_connection           = false
-  }
+
+  name                = local.pe.name
+  location            = local.pe.location
+  resource_group_name = local.pe.resource_group_name
+  subnet_id           = local.pe.subnet_id
+  private_service_connection = local.pe.private_service_connection
 }
 
 output "vnet_id" {
