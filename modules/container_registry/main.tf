@@ -5,3 +5,7 @@ resource "azurerm_container_registry" "acr" {
   sku                 = var.sku
   admin_enabled       = var.admin_enabled
 }
+
+output "id" {
+  value = azurerm_container_registry.acr.id
+}
