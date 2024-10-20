@@ -26,7 +26,7 @@ variable "priority" {
 variable "rule" {
   description = "The rule to apply to the rule collection"
   type = list(object({
-    name                  = optional(string)
+    name                  = string
     description           = optional(string)
     source_addresses      = optional(list(string))
     source_ip_groups      = optional(list(string))
