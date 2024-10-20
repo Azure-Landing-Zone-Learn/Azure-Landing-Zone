@@ -422,3 +422,7 @@ module "acr" {
 output "vnet_id" {
   value = module.vnet.id
 }
+
+output "allowed_to_internet_vms_dms" {
+  value = [module.window_vms["vm-${var.subscription_name}-${var.location}-005"].private_ip_addresses[0]]
+}

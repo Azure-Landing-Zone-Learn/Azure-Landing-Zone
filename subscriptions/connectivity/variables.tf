@@ -55,3 +55,8 @@ variable "ip_configuration_name" {
   type        = string
   default     = "ipconfig"
 }
+
+variable "allowed_to_internet_vms_dms" {
+  description = "vms from dms that are allowed to access the internet"
+  type        = list(string)
+}

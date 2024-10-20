@@ -30,6 +30,24 @@ locals {
     subnet_id             = module.vnet.subnets["AzureFirewallSubnet"]
     public_ip_address_id  = azurerm_public_ip.fw_pip.id
   }
+
+  azurerm_firewall_network_rule_collection = {
+    name                = "fw-nrc-${var.subscription_name}-${var.location}-001"
+    resource_group_name = module.rg.name
+    location            = var.location
+    priority            = 100
+    action              = "Allow"
+
+    rules = [
+      {
+        name                  = "from-cicd-subnet-to-internet"
+        description           = "Allow traffic from CICD subnet to the internet"
+        source_addresses      = var.allowed_to_internet_vms_dms
+        destination_addresses = ["*"]
+        destination_ports     = ["*"]
+      }
+    ]
+  }
 }
 
 resource "azurerm_public_ip" "fw_pip" {
@@ -72,6 +90,17 @@ module "firewall" {
     subnet_id            = module.vnet.subnets["AzureFirewallSubnet"]
     public_ip_address_id = azurerm_public_ip.fw_pip.id
   }
+}
+
+module "firewall_network_rule_collection" {
+  source = "../../modules/firewall_network_rule_collection"
+
+  name                = local.azurerm_firewall_network_rule_collection.name
+  resource_group_name = local.azurerm_firewall_network_rule_collection.resource_group_name
+  firewall_name       = module.firewall.name
+  action              = local.azurerm_firewall_network_rule_collection.action
+  priority            = local.azurerm_firewall_network_rule_collection.priority
+  rule                = { rules = local.azurerm_firewall_network_rule_collection.rules }
 }
 
 

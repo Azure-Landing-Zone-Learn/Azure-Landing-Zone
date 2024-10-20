@@ -50,7 +50,7 @@ module "connectivity_subscription" {
   subscription_name         = var.subscription_connectivity_name
   tags                      = local.tags
   remote_virtual_network_id = module.dms_subscription.vnet_id
-  //remote_virtual_network_id = null
+  allowed_to_internet_vms_dms = module.dms_subscription.allowed_to_internet_vms_dms
 
   providers = {
     azurerm = azurerm.connectivity
