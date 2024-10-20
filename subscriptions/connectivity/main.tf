@@ -97,10 +97,10 @@ module "firewall_network_rule_collection" {
 
   name                = local.azurerm_firewall_network_rule_collection.name
   resource_group_name = local.azurerm_firewall_network_rule_collection.resource_group_name
-  firewall_name       = module.firewall.name
+  firewall_name       = "fw-${var.subscription_name}-${var.location}-001"
   action              = local.azurerm_firewall_network_rule_collection.action
   priority            = local.azurerm_firewall_network_rule_collection.priority
-  rule                = { rules = local.azurerm_firewall_network_rule_collection.rules }
+  rule                = { for rule in local.azurerm_firewall_network_rule_collection.rules : rule.name => rule }
 }
 
 
