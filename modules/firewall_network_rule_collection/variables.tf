@@ -23,6 +23,6 @@ variable "priority" {
   type        = number
 }
 
-variable "rule" {
+variable "rules" {
   description = "The rule to apply to the rule collection"
 }

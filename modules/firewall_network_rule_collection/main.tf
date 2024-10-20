@@ -6,7 +6,7 @@ resource "azurerm_firewall_network_rule_collection" "name" {
   priority            = var.priority
 
   dynamic "rule" {
-    for_each = contains(keys(var.rule), "rules") ? each.value.rules : {}
+    for_each = contains(keys(each.value), "rules") ? each.value.rules : {}
 
     content {
       name                  = rule.value.name

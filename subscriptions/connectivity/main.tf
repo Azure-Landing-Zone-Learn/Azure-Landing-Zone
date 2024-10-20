@@ -92,7 +92,7 @@ module "firewall_network_rule_collection" {
   firewall_name       = "fw-${var.subscription_name}-${var.location}-001"
   action              = "Allow"
   priority            = 100
-  rule                = { for rule in local.fw_rules : rule.name => rule }
+  rules                = { for rule in local.fw_rules : rule.name => rule }
 }
 
 
