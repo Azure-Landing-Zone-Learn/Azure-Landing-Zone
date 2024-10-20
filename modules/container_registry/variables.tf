@@ -29,12 +29,6 @@ variable "public_network_access_enabled" {
   default     = true
 }
 
-variable "private_dns_zone_name" {
-  description = "The name of the private dns zone"
-  type        = string
-  nullable    = false
-}
-
 variable "vnet_id" {
   description = "The id of the virtual network"
   type        = string
