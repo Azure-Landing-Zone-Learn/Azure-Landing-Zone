@@ -25,15 +25,4 @@ variable "priority" {
 
 variable "rule" {
   description = "The rule to apply to the rule collection"
-  type = object({
-    name                  = string
-    description           = optional(string)
-    source_addresses      = optional(list(string))
-    source_ip_groups      = optional(list(string))
-    destination_addresses = optional(list(string))
-    destination_ip_groups = optional(list(string))
-    destination_fqdns     = optional(list(string))
-    destination_ports     = optional(list(string))
-    protocols             = optional(list(string))
-  })
 }
