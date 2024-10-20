@@ -38,6 +38,7 @@ locals {
       source_addresses      = var.allowed_to_internet_vms_dms
       destination_addresses = ["*"]
       destination_ports     = ["*"]
+      protocols             = ["Any"]
     }
   ]
 }
@@ -92,7 +93,7 @@ module "firewall_network_rule_collection" {
   firewall_name       = "fw-${var.subscription_name}-${var.location}-001"
   action              = "Allow"
   priority            = 100
-  rules                = { for rule in local.fw_rules : rule.name => rule }
+  rule                = local.fw_rules
 }
 
 
