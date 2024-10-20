@@ -46,3 +46,15 @@ variable "subnet_id" {
   type        = string
   nullable    = false
 }
+
+variable "private_dns_zone_name" {
+  description = "The name of the private dns zone"
+  type        = string
+  default     = "privateLink.azurecr.io"
+}
+
+variable "acr_subresource_name" {
+  description = "The subresource name of the acr"
+  type        = string
+  default     = "registry"
+}

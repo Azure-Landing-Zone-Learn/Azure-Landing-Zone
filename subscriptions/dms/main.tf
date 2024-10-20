@@ -33,7 +33,7 @@ locals {
   network_interfaces = [
     {
       name      = "nic-${var.subscription_name}-${var.location}-001"
-      subnet_id = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-001"] 
+      subnet_id = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-001"]
       tags      = var.tags
     },
     {

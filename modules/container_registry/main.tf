@@ -18,14 +18,14 @@ module "pe" {
     name                           = "psc-${var.name}"
     private_connection_resource_id = azurerm_container_registry.acr.id
     is_manual_connection           = false
-    subresource_names              = ["registry"]
+    subresource_names              = [var.acr_subresource_name]
   }
 }
 
 module "private_dns_zone" {
   source = "../../modules/private_dns_zone"
   # privateLink.acrxxx.io
-  name = "privateLink.azurecr.io"
+  name = var.private_dns_zone_name
 
   resource_group_name = var.resource_group_name
   # acr.acrxxx
@@ -36,10 +36,10 @@ module "private_dns_zone" {
 resource "azurerm_private_dns_zone_virtual_network_link" "vnet_link" {
   name                  = "acr-dns-link-${var.name}"
   resource_group_name   = var.resource_group_name
-  private_dns_zone_name = "privateLink.azurecr.io"
+  private_dns_zone_name = var.private_dns_zone_name
   virtual_network_id    = var.vnet_id
 
-  depends_on = [ module.private_dns_zone ]
+  depends_on = [module.private_dns_zone]
 }
 
 output "id" {
