@@ -46,10 +46,10 @@ locals {
 module "connectivity_subscription" {
   source = "./subscriptions/connectivity"
 
-  location                  = var.location
-  subscription_name         = var.subscription_connectivity_name
-  tags                      = local.tags
-  remote_virtual_network_id = module.dms_subscription.vnet_id
+  location                    = var.location
+  subscription_name           = var.subscription_connectivity_name
+  tags                        = local.tags
+  remote_virtual_network_id   = module.dms_subscription.vnet_id
   allowed_to_internet_vms_dms = module.dms_subscription.allowed_to_internet_vms_dms
 
   providers = {
