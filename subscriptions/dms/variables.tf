@@ -25,3 +25,8 @@ variable "remote_virtual_network_id" {
   description = "The ID of the remote virtual network to peer with"
   type        = string
 }
+
+variable "fw_private_ip_address" {
+  description = "The private IP address of the firewall"
+  type        = string
+}

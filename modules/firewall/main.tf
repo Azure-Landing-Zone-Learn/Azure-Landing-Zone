@@ -11,3 +11,7 @@ resource "azurerm_firewall" "fw" {
     public_ip_address_id = var.ip_configuration.public_ip_address_id
   }
 }
+
+output "private_ip_address" {
+  value = azurerm_firewall.fw.ip_configuration.0.private_ip_address
+}

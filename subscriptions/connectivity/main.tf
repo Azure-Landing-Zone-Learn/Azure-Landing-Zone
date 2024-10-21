@@ -110,3 +110,7 @@ module "basic_bastion" {
 output "vnet_id" {
   value = module.vnet.id
 }
+
+output "fw_private_ip_address" {
+  value = module.firewall.private_ip_address
+}

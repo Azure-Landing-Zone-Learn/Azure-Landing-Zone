@@ -64,7 +64,7 @@ module "dms_subscription" {
   subscription_name         = var.subscription_dms_name
   tags                      = local.tags
   remote_virtual_network_id = module.connectivity_subscription.vnet_id
-  //remote_virtual_network_id = null
+  fw_private_ip_address     = module.connectivity_subscription.fw_private_ip_address
   providers = {
     azurerm = azurerm.dms
   }

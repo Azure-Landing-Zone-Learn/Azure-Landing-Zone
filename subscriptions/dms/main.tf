@@ -261,7 +261,7 @@ locals {
         name                   = "route-to-internet"
         address_prefix         = "0.0.0.0/0"
         next_hop_type          = "VirtualAppliance"
-        next_hop_in_ip_address = module.agw.fw_private_ip_address
+        next_hop_in_ip_address = var.fw_private_ip_address
       }
     ]
   }
