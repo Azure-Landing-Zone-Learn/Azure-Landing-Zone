@@ -63,7 +63,6 @@ locals {
     {
       name                 = "nic-jumpbox-${var.subscription_name}-${var.location}"
       subnet_id            = module.vnet.subnets["subnet-jump-${var.subscription_name}-${var.location}"]
-      public_ip_address_id = module.jumpbox_pip.id
       tags                 = var.tags
     }
   ]
