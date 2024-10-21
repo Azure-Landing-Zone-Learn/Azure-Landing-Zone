@@ -36,29 +36,34 @@ locals {
 
   network_interfaces = [
     {
-      name      = "nic-${var.subscription_name}-${var.location}-001"
-      subnet_id = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-001"]
-      tags      = var.tags
+      name                 = "nic-${var.subscription_name}-${var.location}-001"
+      subnet_id            = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-001"]
+      public_ip_address_id = null
+      tags                 = var.tags
     },
     {
-      name      = "nic-${var.subscription_name}-${var.location}-002"
-      subnet_id = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-001"]
-      tags      = var.tags
+      name                 = "nic-${var.subscription_name}-${var.location}-002"
+      subnet_id            = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-001"]
+      public_ip_address_id = null
+      tags                 = var.tags
     },
     {
-      name      = "nic-${var.subscription_name}-${var.location}-003"
-      subnet_id = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-002"]
-      tags      = var.tags
+      name                 = "nic-${var.subscription_name}-${var.location}-003"
+      subnet_id            = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-002"]
+      public_ip_address_id = null
+      tags = var.tags
     },
     {
-      name      = "nic-${var.subscription_name}-${var.location}-004"
-      subnet_id = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-002"]
-      tags      = var.tags
+      name                 = "nic-${var.subscription_name}-${var.location}-004"
+      subnet_id            = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-002"]
+      public_ip_address_id = null
+      tags = var.tags
     },
     {
-      name      = "nic-${var.subscription_name}-${var.location}-005"
-      subnet_id = module.vnet.subnets["subnet-cicd-${var.subscription_name}-${var.location}"]
-      tags      = var.tags
+      name                 = "nic-${var.subscription_name}-${var.location}-005"
+      subnet_id            = module.vnet.subnets["subnet-cicd-${var.subscription_name}-${var.location}"]
+      public_ip_address_id = null
+      tags = var.tags
     },
     {
       name                 = "nic-jumpbox-${var.subscription_name}-${var.location}"
