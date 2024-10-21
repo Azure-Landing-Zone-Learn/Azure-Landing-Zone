@@ -19,6 +19,10 @@ locals {
     {
       name             = "subnet-cicd-${var.subscription_name}-${var.location}"
       address_prefixes = ["10.1.4.0/24"]
+    },
+    {
+      name             = "subnet-jump-${var.subscription_name}-${var.location}"
+      address_prefixes = ["10.1.5.0/24"]
     }
   ]
   peerings = [
@@ -54,6 +58,11 @@ locals {
     {
       name      = "nic-${var.subscription_name}-${var.location}-005"
       subnet_id = module.vnet.subnets["subnet-cicd-${var.subscription_name}-${var.location}"]
+      tags      = var.tags
+    },
+    {
+      name      = "nic-${var.subscription_name}-${var.location}-006"
+      subnet_id = module.vnet.subnets["subnet-jump-${var.subscription_name}-${var.location}"]
       tags      = var.tags
     }
   ]
@@ -97,6 +106,19 @@ locals {
       disk_size_gb                    = 30
       disable_password_authentication = false
       nics                            = { "${local.network_interfaces[2].name}" = local.network_interfaces[2] }
+    },
+    {
+      vm_name                         = "vm-jumpbox-${var.subscription_name}-${var.location}"
+      vm_size                         = "STANDARD_DS1_V2"
+      admin_username                  = "tung"
+      os_disk_name                    = "os-disk-jumphost-${var.subscription_name}-${var.location}"
+      os_publisher                    = "Canonical"
+      os_offer                        = "UbuntuServer"
+      os_sku                          = "16.04-LTS"
+      computer_name                   = "Tung macbook 4"
+      disk_size_gb                    = 30
+      disable_password_authentication = false
+      nics                            = { "${local.network_interfaces[3].name}" = local.network_interfaces[5] }
     }
   ]
 
