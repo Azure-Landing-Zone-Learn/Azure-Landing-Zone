@@ -61,9 +61,10 @@ locals {
       tags      = var.tags
     },
     {
-      name      = "nic-${var.subscription_name}-${var.location}-006"
-      subnet_id = module.vnet.subnets["subnet-jump-${var.subscription_name}-${var.location}"]
-      tags      = var.tags
+      name                 = "nic-jumpbox-${var.subscription_name}-${var.location}"
+      subnet_id            = module.vnet.subnets["subnet-jump-${var.subscription_name}-${var.location}"]
+      public_ip_address_id = module.jumpbox_pip.id
+      tags                 = var.tags
     }
   ]
 
@@ -118,7 +119,7 @@ locals {
       computer_name                   = "Tung macbook 4"
       disk_size_gb                    = 30
       disable_password_authentication = false
-      nics                            = { "${local.network_interfaces[3].name}" = local.network_interfaces[5] }
+      nics                            = { "${local.network_interfaces[5].name}" = local.network_interfaces[5] }
     }
   ]
 
@@ -257,6 +258,14 @@ locals {
     ]
   }
 
+  jumpbox_pip = {
+    name                = "jumpbox-pip-${var.subscription_name}-${var.location}-001"
+    location            = var.location
+    resource_group_name = module.rg.name
+    allocation_method   = "Static"
+    sku                 = "Standard"
+  }
+
   agw_pip = {
     name                = "agw-pip-${var.subscription_name}-${var.location}-001"
     location            = var.location
@@ -306,6 +315,16 @@ module "vnet" {
   address_space       = var.address_space
   subnets             = { for subnet in local.subnets : subnet.name => subnet }
   peerings            = { for peering in local.peerings : peering.name => peering }
+}
+
+module "jumpbox_pip" {
+  source = "../../modules/public_ip"
+
+  name                = local.jumpbox_pip.name
+  location            = local.jumpbox_pip.location
+  resource_group_name = local.jumpbox_pip.resource_group_name
+  allocation_method   = local.jumpbox_pip.allocation_method
+  sku                 = local.jumpbox_pip.sku
 }
 
 resource "random_password" "linux_server_password" {
