@@ -1,4 +1,4 @@
-resource "azurerm_firewall_network_rule_collection" "name" {
+resource "azurerm_firewall_network_rule_collection" "fwrc" {
   name                = var.name
   resource_group_name = var.resource_group_name
   azure_firewall_name = var.firewall_name

@@ -38,7 +38,7 @@ locals {
       source_addresses      = var.allowed_to_internet_vms_dms
       destination_addresses = ["*"]
       destination_ports     = ["*"]
-      protocols             = ["Tcp"]
+      protocols             = ["TCP"]
     }
   ]
 }
