@@ -34,11 +34,11 @@ locals {
   fw_rules = [
     {
       name                  = "from-dms-to-internet"
-      description           = "Allow traffic from CICD subnet to the internet"
+      description           = "Allow traffic from CICD subnet wihtin dms vnet to the internet"
       source_addresses      = var.allowed_to_internet_vms_dms
       destination_addresses = ["*"]
       destination_ports     = ["*"]
-      protocols             = ["Any"]
+      protocols             = ["Tcp"]
     }
   ]
 }

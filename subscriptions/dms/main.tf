@@ -250,7 +250,6 @@ locals {
     sku                           = "Premium"
     admin_enabled                 = true
     public_network_access_enabled = false
-    private_dns_zone_name         = "privateLink"
   }
 
 }
@@ -414,7 +413,6 @@ module "acr" {
   sku                           = local.acr.sku
   admin_enabled                 = local.acr.admin_enabled
   public_network_access_enabled = local.acr.public_network_access_enabled
-  private_dns_zone_name         = local.acr.private_dns_zone_name
   vnet_id                       = module.vnet.id
   subnet_id                     = module.vnet.subnets["subnet-acr-${var.subscription_name}-${var.location}"]
 }
