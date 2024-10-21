@@ -100,7 +100,7 @@ locals {
       ip_configuration = [
         {
           name                          = "ipconfig1"
-          subnet_id                     = module.vnet.subnets["subnet-jump-${var.subscription_name}-${var.location}-001"]
+          subnet_id                     = module.vnet.subnets["subnet-jump-${var.subscription_name}-${var.location}"]
           private_ip_address_allocation = "Dynamic"
           public_ip_address_id          = module.jumpbox_pip.id
         }
