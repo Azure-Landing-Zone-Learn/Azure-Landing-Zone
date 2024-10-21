@@ -38,31 +38,26 @@ locals {
     {
       name                 = "nic-${var.subscription_name}-${var.location}-001"
       subnet_id            = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-001"]
-      public_ip_address_id = null
       tags                 = var.tags
     },
     {
       name                 = "nic-${var.subscription_name}-${var.location}-002"
       subnet_id            = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-001"]
-      public_ip_address_id = null
       tags                 = var.tags
     },
     {
       name                 = "nic-${var.subscription_name}-${var.location}-003"
       subnet_id            = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-002"]
-      public_ip_address_id = null
       tags = var.tags
     },
     {
       name                 = "nic-${var.subscription_name}-${var.location}-004"
       subnet_id            = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-002"]
-      public_ip_address_id = null
       tags = var.tags
     },
     {
       name                 = "nic-${var.subscription_name}-${var.location}-005"
       subnet_id            = module.vnet.subnets["subnet-cicd-${var.subscription_name}-${var.location}"]
-      public_ip_address_id = null
       tags = var.tags
     },
     {
@@ -311,16 +306,6 @@ module "rg" {
   tags     = var.tags
 }
 
-module "vnet" {
-  source = "../../modules/virtual_network"
-
-  name                = "vnet-${var.subscription_name}-${var.location}-001"
-  location            = var.location
-  resource_group_name = module.rg.name
-  address_space       = var.address_space
-  subnets             = { for subnet in local.subnets : subnet.name => subnet }
-  peerings            = { for peering in local.peerings : peering.name => peering }
-}
 
 module "jumpbox_pip" {
   source = "../../modules/public_ip"
@@ -330,6 +315,17 @@ module "jumpbox_pip" {
   resource_group_name = local.jumpbox_pip.resource_group_name
   allocation_method   = local.jumpbox_pip.allocation_method
   sku                 = local.jumpbox_pip.sku
+}
+
+module "vnet" {
+  source = "../../modules/virtual_network"
+
+  name                = "vnet-${var.subscription_name}-${var.location}-001"
+  location            = var.location
+  resource_group_name = module.rg.name
+  address_space       = var.address_space
+  subnets             = { for subnet in local.subnets : subnet.name => subnet }
+  peerings            = { for peering in local.peerings : peering.name => peering }
 }
 
 resource "random_password" "linux_server_password" {
