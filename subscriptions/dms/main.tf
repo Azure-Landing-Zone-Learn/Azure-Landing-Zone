@@ -37,32 +37,50 @@ locals {
   network_interfaces = [
     {
       name      = "nic-${var.subscription_name}-${var.location}-001"
-      ip_configuration = {
-        name                          = "ipconfig1"
-        subnet_id                     = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-001"]
-        private_ip_address_allocation = "Dynamic"
-        public_ip_address_id          = null
-      }
+      ip_configuration = [
+        {
+          name                          = "ipconfig1"
+          subnet_id                     = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-001"]
+          private_ip_address_allocation = "Dynamic"
+          public_ip_address_id          = null
+        }
+      ]
       tags      = var.tags
     },
     {
       name      = "nic-${var.subscription_name}-${var.location}-002"
-      ip_configuration = {
-        name                          = "ipconfig1"
-        subnet_id                     = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-002"]
-        private_ip_address_allocation = "Dynamic"
-        public_ip_address_id          = null
-      }
+      ip_configuration = [
+        {
+          name                          = "ipconfig1"
+          subnet_id                     = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-001"]
+          private_ip_address_allocation = "Dynamic"
+          public_ip_address_id          = null
+        }
+      ]
       tags      = var.tags
     },
     {
       name      = "nic-${var.subscription_name}-${var.location}-003"
-      subnet_id = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-002"]
+      ip_configuration = [
+        {
+          name                          = "ipconfig1"
+          subnet_id                     = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-002"]
+          private_ip_address_allocation = "Dynamic"
+          public_ip_address_id          = null
+        }
+      ]      
       tags      = var.tags
     },
     {
       name      = "nic-${var.subscription_name}-${var.location}-004"
-      subnet_id = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-002"]
+      ip_configuration = [
+        {
+          name                          = "ipconfig1"
+          subnet_id                     = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-002"]
+          private_ip_address_allocation = "Dynamic"
+          public_ip_address_id          = null
+        }
+      ]      
       tags      = var.tags
     },
     {
