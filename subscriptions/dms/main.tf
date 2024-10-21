@@ -36,7 +36,7 @@ locals {
 
   network_interfaces = [
     {
-      name      = "nic-${var.subscription_name}-${var.location}-001"
+      name = "nic-${var.subscription_name}-${var.location}-001"
       ip_configuration = [
         {
           name                          = "ipconfig1"
@@ -45,10 +45,10 @@ locals {
           public_ip_address_id          = null
         }
       ]
-      tags      = var.tags
+      tags = var.tags
     },
     {
-      name      = "nic-${var.subscription_name}-${var.location}-002"
+      name = "nic-${var.subscription_name}-${var.location}-002"
       ip_configuration = [
         {
           name                          = "ipconfig1"
@@ -57,10 +57,10 @@ locals {
           public_ip_address_id          = null
         }
       ]
-      tags      = var.tags
+      tags = var.tags
     },
     {
-      name      = "nic-${var.subscription_name}-${var.location}-003"
+      name = "nic-${var.subscription_name}-${var.location}-003"
       ip_configuration = [
         {
           name                          = "ipconfig1"
@@ -68,11 +68,11 @@ locals {
           private_ip_address_allocation = "Dynamic"
           public_ip_address_id          = null
         }
-      ]      
-      tags      = var.tags
+      ]
+      tags = var.tags
     },
     {
-      name      = "nic-${var.subscription_name}-${var.location}-004"
+      name = "nic-${var.subscription_name}-${var.location}-004"
       ip_configuration = [
         {
           name                          = "ipconfig1"
@@ -80,19 +80,32 @@ locals {
           private_ip_address_allocation = "Dynamic"
           public_ip_address_id          = null
         }
-      ]      
-      tags      = var.tags
+      ]
+      tags = var.tags
     },
     {
-      name      = "nic-${var.subscription_name}-${var.location}-005"
-      subnet_id = module.vnet.subnets["subnet-cicd-${var.subscription_name}-${var.location}"]
-      tags      = var.tags
+      name = "nic-${var.subscription_name}-${var.location}-005"
+      ip_configuration = [
+        {
+          name                          = "ipconfig1"
+          subnet_id                     = module.vnet.subnets["subnet-cicd-${var.subscription_name}-${var.location}"]
+          private_ip_address_allocation = "Dynamic"
+          public_ip_address_id          = null
+        }
+      ]
+      tags = var.tags
     },
     {
-      name                 = "nic-jumpbox-${var.subscription_name}-${var.location}"
-      subnet_id            = module.vnet.subnets["subnet-jump-${var.subscription_name}-${var.location}"]
-      public_ip_address_id = module.jumpbox_pip.id
-      tags                 = var.tags
+      name = "nic-jumpbox-${var.subscription_name}-${var.location}"
+      ip_configuration = [
+        {
+          name                          = "ipconfig1"
+          subnet_id                     = module.vnet.subnets["subnet-jump-${var.subscription_name}-${var.location}-001"]
+          private_ip_address_allocation = "Dynamic"
+          public_ip_address_id          = module.jumpbox_pip.id
+        }
+      ]
+      tags = var.tags
     }
   ]
 
