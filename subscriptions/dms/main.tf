@@ -252,6 +252,19 @@ locals {
     public_network_access_enabled = false
   }
 
+  route_table = {
+    name                = "rt-${var.subscription_name}-${var.location}-001"
+    location            = var.location
+    resource_group_name = module.rg.name
+    routes = [
+      {
+        name                   = "route-to-internet"
+        address_prefix         = "0.0.0.0/0"
+        next_hop_type          = "VirtualAppliance"
+        next_hop_in_ip_address = module.agw.fw_private_ip_address
+      }
+    ]
+  }
 }
 
 module "rg" {
@@ -415,6 +428,21 @@ module "acr" {
   public_network_access_enabled = local.acr.public_network_access_enabled
   vnet_id                       = module.vnet.id
   subnet_id                     = module.vnet.subnets["subnet-acr-${var.subscription_name}-${var.location}"]
+}
+
+module "route_table" {
+  source = "../../modules/route_table"
+
+  name                = local.route_table.name
+  location            = local.route_table.location
+  resource_group_name = local.route_table.resource_group_name
+  routes              = local.route_table.routes
+  tags                = var.tags
+}
+
+resource "azurerm_subnet_route_table_association" "subnet_route_table_association" {
+  subnet_id      = module.vnet.subnets["subnet-cicd-${var.subscription_name}-${var.location}"]
+  route_table_id = module.route_table.id
 }
 
 output "vnet_id" {
