@@ -4,7 +4,7 @@ resource "azurerm_container_registry" "acr" {
   resource_group_name           = var.resource_group_name
   sku                           = var.sku
   admin_enabled                 = var.admin_enabled
-  public_network_access_enabled = var.public_network_access_enabled != null ? var.public_network_access_enabled : true
+  public_network_access_enabled = var.is_private ? false : true
 }
 
 module "pe" {
@@ -20,6 +20,8 @@ module "pe" {
     is_manual_connection           = false
     subresource_names              = [var.acr_subresource_name]
   }
+
+  count = var.is_private ? 1 : 0
 }
 
 module "private_dns_zone" {
@@ -31,6 +33,9 @@ module "private_dns_zone" {
   # acr.acrxxx
   record_name = "acr.${var.name}"
   records     = [module.pe.private_ip_address]
+
+  count = var.is_private ? 1 : 0
+
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "vnet_link" {
@@ -40,6 +45,9 @@ resource "azurerm_private_dns_zone_virtual_network_link" "vnet_link" {
   virtual_network_id    = var.vnet_id
 
   depends_on = [module.private_dns_zone]
+
+  count = var.is_private ? 1 : 0
+
 }
 
 output "id" {

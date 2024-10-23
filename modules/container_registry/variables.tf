@@ -1,3 +1,9 @@
+variable "is_private" {
+  description = "Is the acr private"
+  type        = bool
+  default     = false
+}
+
 variable "name" {
   description = "The name of the acr"
   type        = string

@@ -324,6 +324,15 @@ locals {
     public_network_access_enabled = false
   }
 
+  public_acr = {
+    name                          = "publicacr${var.subscription_name}${var.location}"
+    location                      = var.location
+    resource_group_name           = module.rg.name
+    sku                           = "Basic"
+    admin_enabled                 = true
+    public_network_access_enabled = true
+  }
+
   route_table = {
     name                = "rt-${var.subscription_name}-${var.location}-001"
     location            = var.location
@@ -504,14 +513,30 @@ module "acr" {
   source = "../../modules/container_registry"
 
   name                          = local.acr.name
-  location                      = local.acr.location
-  resource_group_name           = local.acr.resource_group_name
+  location                      = var.location
+  resource_group_name           = module.rg.name
   sku                           = local.acr.sku
   admin_enabled                 = local.acr.admin_enabled
   public_network_access_enabled = local.acr.public_network_access_enabled
   vnet_id                       = module.vnet.id
   subnet_id                     = module.vnet.subnets["subnet-acr-${var.subscription_name}-${var.location}"]
+  is_private                    = true
 }
+
+module "public_acr" {
+  source = "../../modules/container_registry"
+
+  name                          = local.public_acr.name
+  location                      = var.location
+  resource_group_name           = module.rg.name
+  sku                           = local.public_acr.sku
+  admin_enabled                 = local.public_acr.admin_enabled
+  public_network_access_enabled = local.public_acr.public_network_access_enabled
+  subnet_id                     = module.vnet.subnets["subnet-acr-${var.subscription_name}-${var.location}"]
+  vnet_id                       = module.vnet.id
+  is_private                    = false
+}
+
 
 module "route_table" {
   source = "../../modules/route_table"
