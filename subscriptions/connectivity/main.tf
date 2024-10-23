@@ -46,11 +46,11 @@ locals {
     {
       name               = "ssh-to-dms-vms"
       description        = "Allow SSH traffic to DMS VMs"
-      source_addresses   = ["*"]
-      destination_ports  = ["22"]
-      translated_address = "10.1.0.4"
-      translated_port    = "22"
-      protocols          = ["TCP"]
+      destination_addresses = ["10.1.0.4"]
+      destination_ports     = ["22"]
+      protocols             = ["TCP"]
+      translated_address    = module.firewall.private_ip_address
+      translated_port       = 22
     }
   ]
 }

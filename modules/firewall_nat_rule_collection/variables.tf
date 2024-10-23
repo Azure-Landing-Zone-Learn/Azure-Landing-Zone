@@ -28,13 +28,13 @@ variable "rule" {
   description = "value of dnat rule"
   type = list(object({
     name                  = string
-    description           = string
-    source_addresses      = list(string)
-    source_ip_groups      = list(string)
+    description           = optional(string)
     destination_addresses = list(string)
-    destination_ip_groups = list(string)
-    destination_fqdns     = list(string)
     destination_ports     = list(string)
     protocols             = list(string)
+    source_addresses      = optional(list(string))
+    source_ip_groups      = optional(list(string))
+    translated_address    = string
+    translated_port       = string
   }))
 }
