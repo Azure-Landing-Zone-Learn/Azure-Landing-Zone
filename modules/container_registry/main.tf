@@ -32,7 +32,7 @@ module "private_dns_zone" {
   resource_group_name = var.resource_group_name
   # acr.acrxxx
   record_name = "acr.${var.name}"
-  records     = [module.pe.private_ip_address]
+  records     = var.is_private ? [module.pe[0].private_ip_address] : []
 
   count = var.is_private ? 1 : 0
 
@@ -47,7 +47,6 @@ resource "azurerm_private_dns_zone_virtual_network_link" "vnet_link" {
   depends_on = [module.private_dns_zone]
 
   count = var.is_private ? 1 : 0
-
 }
 
 output "id" {
