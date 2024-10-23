@@ -50,7 +50,7 @@ locals {
       destination_ports     = ["22"]
       protocols             = ["TCP"]
       source_addresses      = ["*"]
-      translated_address    = ["10.1.0.4"]
+      translated_address    = "10.1.0.4"
       translated_port       = 22
     }
   ]
