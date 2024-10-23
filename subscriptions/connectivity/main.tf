@@ -31,7 +31,7 @@ locals {
     public_ip_address_id  = azurerm_public_ip.fw_pip.id
   }
 
-  fw_rules = [
+  fw_network_rules = [
     {
       name                  = "from-dms-to-internet"
       description           = "Allow traffic from CICD subnet wihtin dms vnet to the internet"
@@ -39,6 +39,18 @@ locals {
       destination_addresses = ["*"]
       destination_ports     = ["*"]
       protocols             = ["TCP"]
+    }
+  ]
+
+  fw_dnat_rules = [
+    {
+      name               = "ssh-to-dms-vms"
+      description        = "Allow SSH traffic to DMS VMs"
+      source_addresses   = ["*"]
+      destination_ports  = ["22"]
+      translated_address = "10.1.0.4"
+      translated_port    = "22"
+      protocols          = ["TCP"]
     }
   ]
 }
@@ -93,7 +105,17 @@ module "firewall_network_rule_collection" {
   firewall_name       = "fw-${var.subscription_name}-${var.location}-001"
   action              = "Allow"
   priority            = 100
-  rule                = local.fw_rules
+  rule                = local.fw_network_rules
+}
+
+module "azurerm_firewall_nat_rule_collection" {
+  source = "../../modules/firewall_nat_rule_collection"
+
+  name                = "fwnatrc-${var.subscription_name}-${var.location}-001"
+  resource_group_name = module.rg.name
+  firewall_name       = "fw-${var.subscription_name}-${var.location}-001"
+  priority            = 100
+  rule                = local.fw_dnat_rules
 }
 
 
