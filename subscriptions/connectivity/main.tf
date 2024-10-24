@@ -28,7 +28,7 @@ locals {
     sku_tier              = "Standard"
     ip_configuration_name = "ipconfig"
     subnet_id             = module.vnet.subnets["AzureFirewallSubnet"]
-    public_ip_address_id  = module.fw_pip.id
+    public_ip_address_id  = azurerm_public_ip.fw_pip.id
   }
 
   fw_network_rules = [

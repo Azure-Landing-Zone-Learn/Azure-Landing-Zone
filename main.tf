@@ -51,7 +51,7 @@ module "connectivity_subscription" {
   tags                        = local.tags
   remote_virtual_network_id   = module.dms_subscription.vnet_id
   allowed_to_internet_vms_dms = module.dms_subscription.allowed_to_internet_vms_dms
-  allow_ssh_to_dms_vms        = module.dms_subscription.allow_ssh_to_dms_vms
+  allow_ssh_to_dms_vms        = module.dms_subscription.allowed_ssh_to_dms_vms
 
   providers = {
     azurerm = azurerm.connectivity
