@@ -333,7 +333,7 @@ locals {
     public_network_access_enabled = true
   }
 
-  route_table = {
+  route_table_subnet_cicd = {
     name                = "rt-${var.subscription_name}-${var.location}-001"
     location            = var.location
     resource_group_name = module.rg.name
@@ -343,6 +343,20 @@ locals {
         address_prefix         = "0.0.0.0/0"
         next_hop_type          = "VirtualAppliance"
         next_hop_in_ip_address = var.fw_private_ip_address
+      }
+    ]
+  }
+
+  route_table_subnet_001 = {
+    name                = "rt-${var.subscription_name}-${var.location}-002"
+    location            = var.location
+    resource_group_name = module.rg.name
+    routes = [
+      {
+        name                   = "from-ssh-to-vm"
+        address_prefix         = "0.0.0.0/0"               # Allow traffic from any source
+        next_hop_type          = "VirtualAppliance"        # Traffic will be routed to the firewall or other appliance
+        next_hop_in_ip_address = var.fw_private_ip_address # Private IP of the Azure Firewall (or appliance handling SSH traffic)
       }
     ]
   }
@@ -538,19 +552,34 @@ module "public_acr" {
 }
 
 
-module "route_table" {
+module "route_table_subnet_cicd" {
   source = "../../modules/route_table"
 
-  name                = local.route_table.name
-  location            = local.route_table.location
-  resource_group_name = local.route_table.resource_group_name
-  routes              = local.route_table.routes
+  name                = local.route_table_subnet_cicd.name
+  location            = local.route_table_subnet_cicd.location
+  resource_group_name = local.route_table_subnet_cicd.resource_group_name
+  routes              = local.route_table_subnet_cicd.routes
+  tags                = var.tags
+}
+
+module "route_table_subnet_001" {
+  source = "../../modules/route_table"
+
+  name                = "rt-${var.subscription_name}-${var.location}-002"
+  location            = var.location
+  resource_group_name = module.rg.name
+  routes              = var.route_table.routes
   tags                = var.tags
 }
 
 resource "azurerm_subnet_route_table_association" "subnet_route_table_association" {
   subnet_id      = module.vnet.subnets["subnet-cicd-${var.subscription_name}-${var.location}"]
-  route_table_id = module.route_table.id
+  route_table_id = module.route_table_subnet_cicd.id
+}
+
+resource "azurerm_subnet_route_table_association" "subnet_route_table_association" {
+  subnet_id      = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-001"]
+  route_table_id = module.route_table_subnet_001.id
 }
 
 output "vnet_id" {
