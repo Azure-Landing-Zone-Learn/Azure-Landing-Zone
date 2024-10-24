@@ -572,12 +572,12 @@ module "route_table_subnet_001" {
   tags                = var.tags
 }
 
-resource "azurerm_subnet_route_table_association" "subnet_route_table_association" {
+resource "azurerm_subnet_route_table_association" "subnet_route_table_association_subnetcicd" {
   subnet_id      = module.vnet.subnets["subnet-cicd-${var.subscription_name}-${var.location}"]
   route_table_id = module.route_table_subnet_cicd.id
 }
 
-resource "azurerm_subnet_route_table_association" "subnet_route_table_association" {
+resource "azurerm_subnet_route_table_association" "subnet_route_table_association_subnet001" {
   subnet_id      = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-001"]
   route_table_id = module.route_table_subnet_001.id
 }
