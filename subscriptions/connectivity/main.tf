@@ -28,7 +28,7 @@ locals {
     sku_tier              = "Standard"
     ip_configuration_name = "ipconfig"
     subnet_id             = module.vnet.subnets["AzureFirewallSubnet"]
-    public_ip_address_id  = azurerm_public_ip.fw_pip.id
+    public_ip_address_id  = module.fw_pip.id
   }
 
   fw_network_rules = [
@@ -46,11 +46,11 @@ locals {
     {
       name                  = "ssh-to-dms-vms"
       description           = "Allow SSH traffic to DMS VMs"
-      destination_addresses = [module.firewall.private_ip_address]
+      destination_addresses = [module.fw_pip.id]
       destination_ports     = ["22"]
       protocols             = ["TCP"]
       source_addresses      = ["*"]
-      translated_address    = "10.1.0.4"
+      translated_address    = var.allow_ssh_to_dms_vms[0]
       translated_port       = 22
     }
   ]

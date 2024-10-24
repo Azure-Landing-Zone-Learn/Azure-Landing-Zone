@@ -60,3 +60,8 @@ variable "allowed_to_internet_vms_dms" {
   description = "vms from dms that are allowed to access the internet"
   type        = list(string)
 }
+
+variable "allow_ssh_to_dms_vms" {
+  description = "Allow SSH traffic to DMS VM"
+  type        = list(string)
+}
