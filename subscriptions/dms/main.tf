@@ -562,5 +562,5 @@ output "allowed_to_internet_vms_dms" {
 }
 
 output "allowed_ssh_to_dms_vms" {
-  value = [module.window_vms["vm-${var.subscription_name}-${var.location}-001"].private_ip_addresses[0]]
+  value = [module.linux_vms["vm-${var.subscription_name}-${var.location}-001"].private_ip_addresses[0]]
 }
