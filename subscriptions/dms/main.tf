@@ -565,10 +565,10 @@ module "route_table_subnet_cicd" {
 module "route_table_subnet_001" {
   source = "../../modules/route_table"
 
-  name                = "rt-${var.subscription_name}-${var.location}-002"
+  name                = local.route_table_subnet_001.name
   location            = var.location
   resource_group_name = module.rg.name
-  routes              = var.route_table.routes
+  routes              = local.route_table_subnet_001.routes
   tags                = var.tags
 }
 
