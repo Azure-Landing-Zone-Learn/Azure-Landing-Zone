@@ -335,29 +335,24 @@ locals {
     public_network_access_enabled = true
   }
 
-  route_table_subnet_cicd = {
-    name = "rt-${var.subscription_name}-${var.location}-001"
-    routes = [
-      {
-        name                   = "route-to-internet"
-        address_prefix         = "0.0.0.0/0"
-        next_hop_type          = "VirtualAppliance"
-        next_hop_in_ip_address = var.fw_private_ip_address
-      }
-    ]
-  }
 
-  route_table_subnet_001 = {
-    name = "rt-${var.subscription_name}-${var.location}-002"
-    routes = [
-      {
-        name                   = "from-ssh-to-vm"
-        address_prefix         = "0.0.0.0/0"               # Allow traffic from any source
-        next_hop_type          = "VirtualAppliance"        # Traffic will be routed to the firewall or other appliance
-        next_hop_in_ip_address = var.fw_private_ip_address # Private IP of the Azure Firewall (or appliance handling SSH traffic)
-      }
-    ]
-  }
+  cicd_rt_routes = [
+    {
+      name                   = "route-to-internet"
+      address_prefix         = "0.0.0.0/0"
+      next_hop_type          = "VirtualAppliance"
+      next_hop_in_ip_address = var.fw_private_ip_address
+    }
+  ]
+
+  snet1_rt_routes = [
+    {
+      name                   = "from-ssh-to-vm"
+      address_prefix         = "0.0.0.0/0"               # Allow traffic from any source
+      next_hop_type          = "VirtualAppliance"        # Traffic will be routed to the firewall or other appliance
+      next_hop_in_ip_address = var.fw_private_ip_address # Private IP of the Azure Firewall (or appliance handling SSH traffic)
+    }
+  ]
 }
 
 module "rg" {
@@ -552,20 +547,20 @@ module "public_acr" {
 module "route_table_subnet_cicd" {
   source = "../../modules/route_table"
 
-  name                = local.route_table_subnet_cicd.name
+  name                = "rt-${var.subscription_name}-${var.location}-001"
   location            = var.location
   resource_group_name = module.rg.name
-  routes              = local.route_table_subnet_cicd.routes
+  routes              = local.cicd_rt_routes
   tags                = var.tags
 }
 
 module "route_table_subnet_001" {
   source = "../../modules/route_table"
 
-  name                = local.route_table_subnet_001.name
+  name                = "rt-${var.subscription_name}-${var.location}-002"
   location            = var.location
   resource_group_name = module.rg.name
-  routes              = local.route_table_subnet_001.routes
+  routes              = local.snet1_rt_routes
   tags                = var.tags
 }
 
