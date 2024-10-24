@@ -46,7 +46,7 @@ locals {
     {
       name                  = "ssh-to-dms-vms"
       description           = "Allow SSH traffic to DMS VMs"
-      destination_addresses = [module.fw_pip.id]
+      destination_addresses = [azurerm_public_ip.fw_pip.id]
       destination_ports     = ["22"]
       protocols             = ["TCP"]
       source_addresses      = ["*"]
