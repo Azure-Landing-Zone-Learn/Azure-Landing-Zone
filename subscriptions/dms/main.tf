@@ -553,8 +553,8 @@ module "route_table_subnet_cicd" {
   source = "../../modules/route_table"
 
   name                = local.route_table_subnet_cicd.name
-  location            = local.route_table_subnet_cicd.location
-  resource_group_name = local.route_table_subnet_cicd.resource_group_name
+  location            = var.location
+  resource_group_name = module.rg.name
   routes              = local.route_table_subnet_cicd.routes
   tags                = var.tags
 }
