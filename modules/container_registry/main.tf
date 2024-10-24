@@ -8,7 +8,8 @@ resource "azurerm_container_registry" "acr" {
 }
 
 module "pe" {
-  source              = "../../modules/private_endpoint"
+  source = "../../modules/private_endpoint"
+  // TODO: pe_name not hardcode
   name                = "pe-${var.name}"
   location            = var.location
   resource_group_name = var.resource_group_name
@@ -31,6 +32,7 @@ module "private_dns_zone" {
 
   resource_group_name = var.resource_group_name
   # acr.acrxxx
+  // TODO: record_name not hardcode
   record_name = "acr.${var.name}"
   records     = var.is_private ? [module.pe[0].private_ip_address] : []
 
@@ -39,6 +41,7 @@ module "private_dns_zone" {
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "vnet_link" {
+  // TODO: name not hardcode
   name                  = "acr-dns-link-${var.name}"
   resource_group_name   = var.resource_group_name
   private_dns_zone_name = var.private_dns_zone_name

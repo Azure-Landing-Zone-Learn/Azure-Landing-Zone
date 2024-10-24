@@ -3,6 +3,7 @@ locals {
     {
       name             = "subnet-${var.subscription_name}-${var.location}-001"
       address_prefixes = ["10.1.0.0/24"]
+      route_table_id   = module.route_table_subnet_001.id
     },
     {
       name             = "subnet-${var.subscription_name}-${var.location}-002"
@@ -19,6 +20,7 @@ locals {
     {
       name             = "subnet-cicd-${var.subscription_name}-${var.location}"
       address_prefixes = ["10.1.4.0/24"]
+      route_table_id   = module.route_table_subnet_cicd.id
     },
     {
       name             = "subnet-jump-${var.subscription_name}-${var.location}"
@@ -334,9 +336,7 @@ locals {
   }
 
   route_table_subnet_cicd = {
-    name                = "rt-${var.subscription_name}-${var.location}-001"
-    location            = var.location
-    resource_group_name = module.rg.name
+    name = "rt-${var.subscription_name}-${var.location}-001"
     routes = [
       {
         name                   = "route-to-internet"
@@ -348,9 +348,7 @@ locals {
   }
 
   route_table_subnet_001 = {
-    name                = "rt-${var.subscription_name}-${var.location}-002"
-    location            = var.location
-    resource_group_name = module.rg.name
+    name = "rt-${var.subscription_name}-${var.location}-002"
     routes = [
       {
         name                   = "from-ssh-to-vm"
@@ -369,7 +367,6 @@ module "rg" {
   location = var.location
   tags     = var.tags
 }
-
 
 module "jumpbox_pip" {
   source = "../../modules/public_ip"
@@ -570,16 +567,6 @@ module "route_table_subnet_001" {
   resource_group_name = module.rg.name
   routes              = local.route_table_subnet_001.routes
   tags                = var.tags
-}
-
-resource "azurerm_subnet_route_table_association" "subnet_route_table_association_subnetcicd" {
-  subnet_id      = module.vnet.subnets["subnet-cicd-${var.subscription_name}-${var.location}"]
-  route_table_id = module.route_table_subnet_cicd.id
-}
-
-resource "azurerm_subnet_route_table_association" "subnet_route_table_association_subnet001" {
-  subnet_id      = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-001"]
-  route_table_id = module.route_table_subnet_001.id
 }
 
 output "vnet_id" {
