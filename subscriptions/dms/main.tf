@@ -445,7 +445,7 @@ module "agw" {
     }
   ]
 
-  backend_address_pools_associations = { for association in local.agw_backend_pool_associations : association.network_interface_id => association }
+  backend_address_pool_associations = { for association in local.agw_backend_pool_associations : association.network_interface_id => association }
 }
 
 module "developer_bastion" {
