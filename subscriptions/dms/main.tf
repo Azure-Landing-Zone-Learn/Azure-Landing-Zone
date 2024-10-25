@@ -210,6 +210,29 @@ locals {
       next_hop_in_ip_address = var.fw_private_ip_address # Private IP of the Azure Firewall (or appliance handling SSH traffic)
     }
   ]
+
+  agw_backend_pool_associations = [
+    {
+      network_interface_id  = module.linux_vms["vm-${var.subscription_name}-${var.location}-001"].nic_ids[0]
+      ip_configuration_name  = "ipconfig1"
+      backend_pool_name      = "backend-address-pool-app1"
+    },
+    {
+      network_interface_id  = module.linux_vms["vm-${var.subscription_name}-${var.location}-002"].nic_ids[0]
+      ip_configuration_name  = "ipconfig1"
+      backend_pool_name      = "backend-address-pool-app1"
+    },
+    {
+      network_interface_id  = module.linux_vms["vm-${var.subscription_name}-${var.location}-003"].nic_ids[0]
+      ip_configuration_name  = "ipconfig1"
+      backend_pool_name      = "backend-address-pool-app2"
+    },
+    {
+      network_interface_id  = module.window_vms["vm-${var.subscription_name}-${var.location}-004"].nic_ids[0]
+      ip_configuration_name  = "ipconfig1"
+      backend_pool_name      = "backend-address-pool-app2"
+    }
+  ]
 }
 
 module "rg" {
@@ -422,28 +445,7 @@ module "agw" {
     }
   ]
 
-  backend_address_pools_associations = [
-    {
-      network_interface_id  = module.linux_vms["vm-${var.subscription_name}-${var.location}-001"].nic_ids[0]
-      ip_configuration_name  = "ipconfig1"
-      backend_pool_name      = "backend-address-pool-app1"
-    },
-    {
-      network_interface_id  = module.linux_vms["vm-${var.subscription_name}-${var.location}-002"].nic_ids[0]
-      ip_configuration_name  = "ipconfig1"
-      backend_pool_name      = "backend-address-pool-app1"
-    },
-    {
-      network_interface_id  = module.linux_vms["vm-${var.subscription_name}-${var.location}-003"].nic_ids[0]
-      ip_configuration_name  = "ipconfig1"
-      backend_pool_name      = "backend-address-pool-app2"
-    },
-    {
-      network_interface_id  = module.window_vms["vm-${var.subscription_name}-${var.location}-004"].nic_ids[0]
-      ip_configuration_name  = "ipconfig1"
-      backend_pool_name      = "backend-address-pool-app2"
-    }
-  ]
+  backend_address_pools_associations = { for association in local.agw_backend_pool_associations : association.network_interface_id => association }
 }
 
 module "developer_bastion" {
