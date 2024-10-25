@@ -49,4 +49,5 @@ variable "ip_configuration_name" {
 variable "public_ip_address_name" {
   description = "The name of the public IP address"
   type        = string
+  nullable    = true
 }

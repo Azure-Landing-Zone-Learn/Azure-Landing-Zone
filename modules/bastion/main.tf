@@ -1,5 +1,5 @@
 module "pip" {
-  source              = "../../modules/public_ip"
+  source = "../../modules/public_ip"
 
   name                = var.public_ip_address_name
   location            = var.location
@@ -7,7 +7,7 @@ module "pip" {
   sku                 = var.sku_pip
   allocation_method   = "Static"
 
-  count               = var.sku != "Developer" ? 1 : 0
+  count = var.sku != "Developer" ? 1 : 0
 }
 
 resource "azurerm_bastion_host" "bastion" {
