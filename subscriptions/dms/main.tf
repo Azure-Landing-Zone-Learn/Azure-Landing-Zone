@@ -421,33 +421,29 @@ module "agw" {
       ]
     }
   ]
-}
 
-resource "azurerm_network_interface_application_gateway_backend_address_pool_association" "agw_backend_address_pool_association" {
-  for_each = {
-    vm1 = {
-      network_interface_id = module.linux_vms["vm-${var.subscription_name}-${var.location}-001"].nic_ids[0]
-      backend_pool_name    = "backend-address-pool-app1"
+  backend_address_pools_associations = [
+    {
+      network_interface_id  = module.linux_vms["vm-${var.subscription_name}-${var.location}-001"].nic_ids[0]
+      ip_configuration_name  = "ipconfig1"
+      backend_pool_name      = "backend-address-pool-app1"
+    },
+    {
+      network_interface_id  = module.linux_vms["vm-${var.subscription_name}-${var.location}-002"].nic_ids[0]
+      ip_configuration_name  = "ipconfig1"
+      backend_pool_name      = "backend-address-pool-app1"
+    },
+    {
+      network_interface_id  = module.linux_vms["vm-${var.subscription_name}-${var.location}-003"].nic_ids[0]
+      ip_configuration_name  = "ipconfig1"
+      backend_pool_name      = "backend-address-pool-app2"
+    },
+    {
+      network_interface_id  = module.window_vms["vm-${var.subscription_name}-${var.location}-004"].nic_ids[0]
+      ip_configuration_name  = "ipconfig1"
+      backend_pool_name      = "backend-address-pool-app2"
     }
-    vm2 = {
-      network_interface_id = module.linux_vms["vm-${var.subscription_name}-${var.location}-002"].nic_ids[0]
-      backend_pool_name    = "backend-address-pool-app1"
-    }
-    vm3 = {
-      network_interface_id = module.linux_vms["vm-${var.subscription_name}-${var.location}-003"].nic_ids[0]
-      backend_pool_name    = "backend-address-pool-app2"
-    }
-    win_vm = {
-      network_interface_id = module.window_vms["vm-${var.subscription_name}-${var.location}-004"].nic_ids[0]
-      backend_pool_name    = "backend-address-pool-app2"
-    }
-  }
-
-  network_interface_id  = each.value.network_interface_id
-  ip_configuration_name = "ipconfig1" # Assuming this is the default IP configuration name
-
-  # Find the correct backend pool ID based on the name
-  backend_address_pool_id = lookup({ for pool in module.agw.backend_address_pool : pool.name => pool.id }, each.value.backend_pool_name)
+  ]
 }
 
 module "developer_bastion" {
