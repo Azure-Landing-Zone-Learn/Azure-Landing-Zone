@@ -127,6 +127,7 @@ module "basic_bastion" {
   location                  = var.location
   resource_group_name       = module.rg.name
   sku                       = "Basic"
+  public_ip_address_name    = var.bastion_pip_name
   virtual_network_subnet_id = module.vnet.subnets["AzureBastionSubnet"]
 }
 
