@@ -19,7 +19,7 @@ resource "azurerm_bastion_host" "bastion" {
 
   ip_configuration {
     name                 = var.ip_configuration_name
-    public_ip_address_id = module.pip.id
+    public_ip_address_id = length(module.pip) > 0 ? module.pip[0].id : null
     subnet_id            = var.virtual_network_subnet_id
   }
 }
