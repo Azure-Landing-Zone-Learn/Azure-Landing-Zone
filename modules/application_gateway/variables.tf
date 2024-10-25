@@ -142,7 +142,3 @@ variable "url_path_map" {
     }))
   }))
 }
-
-variable "backend_address_pool_associations" {
-  description = "The list of backend backend_address_pool_associations"
-}

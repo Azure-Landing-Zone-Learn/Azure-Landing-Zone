@@ -101,13 +101,6 @@ resource "azurerm_application_gateway" "agw" {
   }
 }
 
-resource "azurerm_network_interface_application_gateway_backend_address_pool_association" "nic_agw_bap_association" {
-  for_each = var.backend_address_pool_associations
-  network_interface_id    = each.value.network_interface_id
-  ip_configuration_name   = each.value.ip_configuration_name
-  backend_address_pool_id = each.value.backend_address_pool_id
-}
-
 output "backend_address_pool" {
   value = azurerm_application_gateway.agw.backend_address_pool
 }
