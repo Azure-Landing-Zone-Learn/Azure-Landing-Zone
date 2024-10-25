@@ -11,6 +11,8 @@ resource "azurerm_private_endpoint" "pe" {
     is_manual_connection           = var.private_service_connection.is_manual_connection
     subresource_names              = var.private_service_connection.subresource_names
   }
+
+  // TODO: private dns zone group
 }
 
 output "private_ip_address" {

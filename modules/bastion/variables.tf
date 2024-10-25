@@ -40,8 +40,13 @@ variable "sku_pip" {
   default     = "Standard"
 }
 
-variable "allocation_method" {
-  description = "The allocation method for the public IP address"
+variable "ip_configuration_name" {
+  description = "The name of the ip configuration"
   type        = string
-  default     = "Static"
+  default     = "ipconfig"
+}
+
+variable "public_ip_address_name" {
+  description = "The name of the public IP address"
+  type        = string
 }

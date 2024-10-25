@@ -21,3 +21,5 @@ resource "azurerm_firewall_network_rule_collection" "fwrc" {
     }
   }
 }
+
+// TODO: add to fw module
