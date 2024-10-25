@@ -193,149 +193,6 @@ locals {
     }
   ]
 
-  agw = {
-    name               = "agw-${var.subscription_name}-${var.location}-001"
-    sku_name           = "Standard_v2"
-    sku_tier           = "Standard_v2"
-    sku_capacity       = 2
-    virtual_network_id = module.vnet.id
-    subnet_id          = module.vnet.subnets["subnet-agw-${var.subscription_name}-${var.location}"]
-
-    frontend_ip_configuration = [
-      {
-        name                            = "frontend-ip-${var.subscription_name}-${var.location}-001"
-        subnet_id                       = null
-        private_ip_address              = null
-        public_ip_address_id            = module.agw_pip.id
-        private_ip_address_allocation   = null
-        private_link_configuration_name = null
-      }
-    ]
-
-    # Define two backend pools: one for Application 1 (VM1, VM2), and another for Application 2 (VM3, VM4)
-    backend_address_pool = [
-      {
-        name = "backend-address-pool-app1"
-        ip_addresses = [
-          module.linux_vms["vm-${var.subscription_name}-${var.location}-001"].private_ip_addresses[0],
-          module.linux_vms["vm-${var.subscription_name}-${var.location}-002"].private_ip_addresses[0]
-        ]
-      },
-      {
-        name = "backend-address-pool-app2"
-        ip_addresses = [
-          module.linux_vms["vm-${var.subscription_name}-${var.location}-003"].private_ip_addresses[0],
-          module.window_vms["vm-${var.subscription_name}-${var.location}-004"].private_ip_addresses[0]
-        ]
-      }
-    ]
-
-    backend_http_settings = [
-      {
-        name                  = "backend-http-settings-app1"
-        cookie_based_affinity = "Disabled"
-        port                  = 80
-        protocol              = "Http"
-      },
-      {
-        name                  = "backend-http-settings-app2"
-        cookie_based_affinity = "Disabled"
-        port                  = 80
-        protocol              = "Http"
-      }
-    ]
-
-    gateway_ip_configuration = [
-      {
-        name      = "gateway-ip-configuration-${var.subscription_name}-${var.location}-001"
-        subnet_id = module.vnet.subnets["subnet-agw-${var.subscription_name}-${var.location}"]
-      }
-    ]
-
-    frontend_port = [
-      {
-        name = "frontend-port-${var.subscription_name}-${var.location}-001"
-        port = 80
-      }
-    ]
-
-    http_listener = [
-      {
-        name                           = "http-listener-${var.subscription_name}-${var.location}-001"
-        frontend_ip_configuration_name = "frontend-ip-${var.subscription_name}-${var.location}-001"
-        frontend_port_name             = "frontend-port-${var.subscription_name}-${var.location}-001"
-        protocol                       = "Http"
-      }
-    ]
-
-    request_routing_rule = [
-      {
-        name               = "routing-rule"
-        rule_type          = "PathBasedRouting"
-        http_listener_name = "http-listener-${var.subscription_name}-${var.location}-001"
-        url_path_map_name  = "url-path-map-${var.subscription_name}-${var.location}-001"
-        priority           = 1
-      },
-    ]
-
-    url_path_map = [
-      {
-        name                               = "url-path-map-${var.subscription_name}-${var.location}-001"
-        default_backend_address_pool_name  = "backend-address-pool-app1"
-        default_backend_http_settings_name = "backend-http-settings-app1"
-        path_rule = [
-          {
-            name                       = "path-rule-app1"
-            paths                      = ["/api1/*", "/api2/*"]
-            backend_address_pool_name  = "backend-address-pool-app1"
-            backend_http_settings_name = "backend-http-settings-app1"
-          },
-          {
-            name                       = "path-rule-app2"
-            paths                      = ["/api3/*", "/api4/*"]
-            backend_address_pool_name  = "backend-address-pool-app2"
-            backend_http_settings_name = "backend-http-settings-app2"
-          }
-        ]
-      }
-    ]
-  }
-
-  jumpbox_pip = {
-    name                = "jumpbox-pip-${var.subscription_name}-${var.location}-001"
-    location            = var.location
-    resource_group_name = module.rg.name
-    allocation_method   = "Static"
-    sku                 = "Standard"
-  }
-
-  agw_pip = {
-    name                = "agw-pip-${var.subscription_name}-${var.location}-001"
-    location            = var.location
-    resource_group_name = module.rg.name
-    allocation_method   = "Static"
-    sku                 = "Standard"
-  }
-
-  acr = {
-    name                          = "acr${var.subscription_name}${var.location}"
-    location                      = var.location
-    resource_group_name           = module.rg.name
-    sku                           = "Premium"
-    admin_enabled                 = true
-    public_network_access_enabled = false
-  }
-
-  public_acr = {
-    name                          = "publicacr${var.subscription_name}${var.location}"
-    location                      = var.location
-    resource_group_name           = module.rg.name
-    sku                           = "Basic"
-    admin_enabled                 = true
-    public_network_access_enabled = true
-  }
-
-
   cicd_rt_routes = [
     {
       name                   = "route-to-internet"
@@ -366,11 +223,11 @@ module "rg" {
 module "jumpbox_pip" {
   source = "../../modules/public_ip"
 
-  name                = local.jumpbox_pip.name
-  location            = local.jumpbox_pip.location
-  resource_group_name = local.jumpbox_pip.resource_group_name
-  allocation_method   = local.jumpbox_pip.allocation_method
-  sku                 = local.jumpbox_pip.sku
+  name                = "jumpbox-pip-${var.subscription_name}-${var.location}-001"
+  location            = var.location
+  resource_group_name = module.rg.name
+  allocation_method   = "Static"
+  sku                 = "Standard"
 }
 
 module "vnet" {
@@ -449,33 +306,121 @@ module "window_vms" {
 module "agw_pip" {
   source = "../../modules/public_ip"
 
-  name                = local.agw_pip.name
-  location            = local.agw_pip.location
-  resource_group_name = local.agw_pip.resource_group_name
-  allocation_method   = local.agw_pip.allocation_method
-  sku                 = local.agw_pip.sku
+  name                = "agw-pip-${var.subscription_name}-${var.location}-001"
+  location            = var.location
+  resource_group_name = module.rg.name
+  allocation_method   = "Static"
+  sku                 = "Standard"
 }
 
 module "agw" {
   source = "../../modules/application_gateway"
 
-  name     = local.agw.name
-  location = var.location
-
+  name                = "agw-${var.subscription_name}-${var.location}-001"
+  location            = var.location
   resource_group_name = module.rg.name
 
-  sku_name     = local.agw.sku_name
-  sku_tier     = local.agw.sku_tier
-  sku_capacity = local.agw.sku_capacity
+  sku_name     = "Standard_v2"
+  sku_tier     = "Standard_v2"
+  sku_capacity = 2
 
-  frontend_ip_configuration = local.agw.frontend_ip_configuration
-  backend_address_pool      = local.agw.backend_address_pool
-  backend_http_settings     = local.agw.backend_http_settings
-  gateway_ip_configuration  = local.agw.gateway_ip_configuration
-  frontend_port             = local.agw.frontend_port
-  http_listener             = local.agw.http_listener
-  request_routing_rule      = local.agw.request_routing_rule
-  url_path_map              = local.agw.url_path_map
+  frontend_ip_configuration = [
+    {
+      name                            = "frontend-ip-${var.subscription_name}-${var.location}-001"
+      subnet_id                       = null
+      private_ip_address              = null
+      public_ip_address_id            = module.agw_pip.id
+      private_ip_address_allocation   = null
+      private_link_configuration_name = null
+    }
+  ]
+
+  backend_address_pool = [
+    {
+      name = "backend-address-pool-app1"
+      ip_addresses = [
+        module.linux_vms["vm-${var.subscription_name}-${var.location}-001"].private_ip_addresses[0],
+        module.linux_vms["vm-${var.subscription_name}-${var.location}-002"].private_ip_addresses[0]
+      ]
+    },
+    {
+      name = "backend-address-pool-app2"
+      ip_addresses = [
+        module.linux_vms["vm-${var.subscription_name}-${var.location}-003"].private_ip_addresses[0],
+        module.window_vms["vm-${var.subscription_name}-${var.location}-004"].private_ip_addresses[0]
+      ]
+    }
+  ]
+
+  backend_http_settings = [
+    {
+      name                  = "backend-http-settings-app1"
+      cookie_based_affinity = "Disabled"
+      port                  = 80
+      protocol              = "Http"
+    },
+    {
+      name                  = "backend-http-settings-app2"
+      cookie_based_affinity = "Disabled"
+      port                  = 80
+      protocol              = "Http"
+    }
+  ]
+
+  gateway_ip_configuration = [
+    {
+      name      = "gateway-ip-configuration-${var.subscription_name}-${var.location}-001"
+      subnet_id = module.vnet.subnets["subnet-agw-${var.subscription_name}-${var.location}"]
+    }
+  ]
+
+  frontend_port = [
+    {
+      name = "frontend-port-${var.subscription_name}-${var.location}-001"
+      port = 80
+    }
+  ]
+
+  http_listener = [
+    {
+      name                           = "http-listener-${var.subscription_name}-${var.location}-001"
+      frontend_ip_configuration_name = "frontend-ip-${var.subscription_name}-${var.location}-001"
+      frontend_port_name             = "frontend-port-${var.subscription_name}-${var.location}-001"
+      protocol                       = "Http"
+    }
+  ]
+
+  request_routing_rule = [
+    {
+      name               = "routing-rule"
+      rule_type          = "PathBasedRouting"
+      http_listener_name = "http-listener-${var.subscription_name}-${var.location}-001"
+      url_path_map_name  = "url-path-map-${var.subscription_name}-${var.location}-001"
+      priority           = 1
+    }
+  ]
+
+  url_path_map = [
+    {
+      name                               = "url-path-map-${var.subscription_name}-${var.location}-001"
+      default_backend_address_pool_name  = "backend-address-pool-app1"
+      default_backend_http_settings_name = "backend-http-settings-app1"
+      path_rule = [
+        {
+          name                       = "path-rule-app1"
+          paths                      = ["/api1/*", "/api2/*"]
+          backend_address_pool_name  = "backend-address-pool-app1"
+          backend_http_settings_name = "backend-http-settings-app1"
+        },
+        {
+          name                       = "path-rule-app2"
+          paths                      = ["/api3/*", "/api4/*"]
+          backend_address_pool_name  = "backend-address-pool-app2"
+          backend_http_settings_name = "backend-http-settings-app2"
+        }
+      ]
+    }
+  ]
 }
 
 resource "azurerm_network_interface_application_gateway_backend_address_pool_association" "agw_backend_address_pool_association" {
@@ -516,29 +461,15 @@ module "developer_bastion" {
   virtual_network_id     = module.vnet.id
 }
 
-module "acr" {
-  source = "../../modules/container_registry"
-
-  name                          = local.acr.name
-  location                      = var.location
-  resource_group_name           = module.rg.name
-  sku                           = local.acr.sku
-  admin_enabled                 = local.acr.admin_enabled
-  public_network_access_enabled = local.acr.public_network_access_enabled
-  vnet_id                       = module.vnet.id
-  subnet_id                     = module.vnet.subnets["subnet-acr-${var.subscription_name}-${var.location}"]
-  is_private                    = true
-}
-
 module "public_acr" {
   source = "../../modules/container_registry"
 
-  name                          = local.public_acr.name
+  name                          = "publicacr${var.subscription_name}${var.location}"
   location                      = var.location
   resource_group_name           = module.rg.name
-  sku                           = local.public_acr.sku
-  admin_enabled                 = local.public_acr.admin_enabled
-  public_network_access_enabled = local.public_acr.public_network_access_enabled
+  sku                           = "Basic"
+  admin_enabled                 = true
+  public_network_access_enabled = true
   subnet_id                     = module.vnet.subnets["subnet-acr-${var.subscription_name}-${var.location}"]
   vnet_id                       = module.vnet.id
   is_private                    = false
