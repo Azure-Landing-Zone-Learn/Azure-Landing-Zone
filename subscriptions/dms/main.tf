@@ -508,11 +508,12 @@ resource "azurerm_network_interface_application_gateway_backend_address_pool_ass
 module "developer_bastion" {
   source = "../../modules/bastion"
 
-  name                = "bastion-${var.subscription_name}-${var.location}-001"
-  location            = var.location
-  resource_group_name = module.rg.name
-  sku                 = "Developer"
-  virtual_network_id  = module.vnet.id
+  name                   = "bastion-${var.subscription_name}-${var.location}-001"
+  location               = var.location
+  resource_group_name    = module.rg.name
+  sku                    = "Developer"
+  public_ip_address_name = null
+  virtual_network_id     = module.vnet.id
 }
 
 module "acr" {
