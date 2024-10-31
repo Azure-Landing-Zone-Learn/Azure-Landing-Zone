@@ -38,7 +38,7 @@ locals {
 
   network_interfaces = [
     {
-      name = "nic-${var.subscription_name}-${var.location}-001"
+      name = "nic-fe-${var.subscription_name}-${var.location}"
       ip_configuration = [
         {
           name                          = "ipconfig1"
@@ -50,7 +50,7 @@ locals {
       tags = var.tags
     },
     {
-      name = "nic-${var.subscription_name}-${var.location}-002"
+      name = "nic-be-get-${var.subscription_name}-${var.location}"
       ip_configuration = [
         {
           name                          = "ipconfig1"
@@ -62,7 +62,7 @@ locals {
       tags = var.tags
     },
     {
-      name = "nic-${var.subscription_name}-${var.location}-003"
+      name = "nic-be-post-${var.subscription_name}-${var.location}"
       ip_configuration = [
         {
           name                          = "ipconfig1"
@@ -74,7 +74,7 @@ locals {
       tags = var.tags
     },
     {
-      name = "nic-${var.subscription_name}-${var.location}-004"
+      name = "nic-be-update-${var.subscription_name}-${var.location}"
       ip_configuration = [
         {
           name                          = "ipconfig1"
@@ -86,49 +86,13 @@ locals {
       tags = var.tags
     },
     {
-      name = "nic-${var.subscription_name}-${var.location}-005"
+      name = "nic-be-delete-${var.subscription_name}-${var.location}"
       ip_configuration = [
         {
           name                          = "ipconfig1"
           subnet_id                     = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-001"]
           private_ip_address_allocation = "Dynamic"
           public_ip_address_id          = null
-        }
-      ]
-      tags = var.tags
-    },
-    {
-      name = "nic-${var.subscription_name}-${var.location}-004"
-      ip_configuration = [
-        {
-          name                          = "ipconfig1"
-          subnet_id                     = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-001"]
-          private_ip_address_allocation = "Dynamic"
-          public_ip_address_id          = null
-        }
-      ]
-      tags = var.tags
-    },
-    {
-      name = "nic-${var.subscription_name}-${var.location}-005"
-      ip_configuration = [
-        {
-          name                          = "ipconfig1"
-          subnet_id                     = module.vnet.subnets["subnet-cicd-${var.subscription_name}-${var.location}"]
-          private_ip_address_allocation = "Dynamic"
-          public_ip_address_id          = null
-        }
-      ]
-      tags = var.tags
-    },
-    {
-      name = "nic-jumpbox-${var.subscription_name}-${var.location}"
-      ip_configuration = [
-        {
-          name                          = "ipconfig1"
-          subnet_id                     = module.vnet.subnets["subnet-jump-${var.subscription_name}-${var.location}"]
-          private_ip_address_allocation = "Dynamic"
-          public_ip_address_id          = module.jumpbox_pip.id
         }
       ]
       tags = var.tags
@@ -137,7 +101,7 @@ locals {
 
   linux_virtual_machines = [
     {
-      vm_name                         = "vm-fe-${var.subscription_name}-${var.location}-001"
+      vm_name                         = "vm-fe-${var.subscription_name}-${var.location}"
       vm_size                         = "STANDARD_DS1_V2"
       admin_username                  = "tung"
       os_disk_name                    = "os-disk-${var.subscription_name}-${var.location}-001"
@@ -150,7 +114,7 @@ locals {
       nics                            = { "${local.network_interfaces[0].name}" = local.network_interfaces[0] }
     },
     {
-      vm_name                         = "vm-be-get-${var.subscription_name}-${var.location}-002"
+      vm_name                         = "vm-be-get-${var.subscription_name}-${var.location}"
       vm_size                         = "STANDARD_DS1_V2"
       admin_username                  = "tung"
       os_disk_name                    = "os-disk-${var.subscription_name}-${var.location}-002"
@@ -163,7 +127,7 @@ locals {
       nics                            = { "${local.network_interfaces[1].name}" = local.network_interfaces[1] }
     },
     {
-      vm_name                         = "vm-be-post-${var.subscription_name}-${var.location}-003"
+      vm_name                         = "vm-be-post-${var.subscription_name}-${var.location}"
       vm_size                         = "STANDARD_DS1_V2"
       admin_username                  = "tung"
       os_disk_name                    = "os-disk-${var.subscription_name}-${var.location}-003"
@@ -176,7 +140,7 @@ locals {
       nics                            = { "${local.network_interfaces[2].name}" = local.network_interfaces[2] }
     },
     {
-      vm_name                         = "vm-be-update-${var.subscription_name}-${var.location}-004"
+      vm_name                         = "vm-be-update-${var.subscription_name}-${var.location}"
       vm_size                         = "STANDARD_DS1_V2"
       admin_username                  = "tung"
       os_disk_name                    = "os-disk-jumphost-${var.subscription_name}-${var.location}"
@@ -189,7 +153,7 @@ locals {
       nics                            = { "${local.network_interfaces[5].name}" = local.network_interfaces[3] }
     },
     {
-      vm_name                         = "vm-be-delete-${var.subscription_name}-${var.location}-005"
+      vm_name                         = "vm-be-delete-${var.subscription_name}-${var.location}"
       vm_size                         = "STANDARD_DS1_V2"
       admin_username                  = "tung"
       os_disk_name                    = "os-disk-jumphost-${var.subscription_name}-${var.location}"
@@ -200,33 +164,6 @@ locals {
       disk_size_gb                    = 30
       disable_password_authentication = false
       nics                            = { "${local.network_interfaces[5].name}" = local.network_interfaces[4] }
-    }
-  ]
-
-  window_virtual_machines = [
-    {
-      vm_name        = "vm-${var.subscription_name}-${var.location}-004"
-      vm_size        = "STANDARD_DS1_V2"
-      admin_username = "tung"
-      computer_name  = "TungMacbook4"
-      os_disk_name   = "os-disk-${var.subscription_name}-${var.location}-004"
-      os_publisher   = "MicrosoftWindowsServer"
-      os_offer       = "WindowsServer"
-      os_sku         = "2019-Datacenter"
-      disk_size_gb   = 127
-      nics           = { "${local.network_interfaces[3].name}" = local.network_interfaces[5] }
-    },
-    {
-      vm_name        = "vm-${var.subscription_name}-${var.location}-005"
-      vm_size        = "STANDARD_DS2_V2"
-      admin_username = "tung"
-      computer_name  = "TungMacbook5"
-      os_disk_name   = "os-disk-${var.subscription_name}-${var.location}-005"
-      os_publisher   = "MicrosoftWindowsServer"
-      os_offer       = "WindowsServer"
-      os_sku         = "2019-Datacenter"
-      disk_size_gb   = 127
-      nics           = { "${local.network_interfaces[4].name}" = local.network_interfaces[6] }
     }
   ]
 
@@ -288,16 +225,6 @@ resource "random_password" "linux_server_password" {
   special     = false
 }
 
-resource "random_password" "window_server_password" {
-  for_each    = { for vm in local.window_virtual_machines : vm.vm_name => vm }
-  length      = 30
-  min_lower   = 1
-  min_upper   = 1
-  min_numeric = 1
-  min_special = 1
-  special     = false
-}
-
 module "linux_vms" {
   source = "../../modules/virtual_machine_linux"
 
@@ -311,27 +238,6 @@ module "linux_vms" {
   computer_name       = each.value.computer_name
   admin_username      = each.value.admin_username
   admin_password      = random_password.linux_server_password[each.key].result
-  os_disk_name        = each.value.os_disk_name
-  publisher           = each.value.os_publisher
-  offer               = each.value.os_offer
-  sku                 = each.value.os_sku
-  nics                = each.value.nics
-  disk_size_gb        = each.value.disk_size_gb
-}
-
-module "window_vms" {
-  source = "../../modules/virtual_machine_window"
-
-  for_each = { for vm in local.window_virtual_machines : vm.vm_name => vm }
-
-  name                = each.value.vm_name
-  location            = var.location
-  resource_group_name = module.rg.name
-  tags                = var.tags
-  size                = each.value.vm_size
-  admin_username      = each.value.admin_username
-  admin_password      = random_password.window_server_password[each.key].result
-  computer_name       = each.value.computer_name
   os_disk_name        = each.value.os_disk_name
   publisher           = each.value.os_publisher
   offer               = each.value.os_offer
@@ -374,30 +280,20 @@ module "agw" {
 
   backend_address_pool = [
     {
-      name = "backend-address-pool-app1"
+      name = "backend-address-pool-todo-app"
       ip_addresses = [
-        module.linux_vms["vm-${var.subscription_name}-${var.location}-001"].private_ip_addresses[0],
-        module.linux_vms["vm-${var.subscription_name}-${var.location}-002"].private_ip_addresses[0]
-      ]
-    },
-    {
-      name = "backend-address-pool-app2"
-      ip_addresses = [
-        module.linux_vms["vm-${var.subscription_name}-${var.location}-003"].private_ip_addresses[0],
-        module.window_vms["vm-${var.subscription_name}-${var.location}-004"].private_ip_addresses[0]
+        module.linux_vms["vm-fe-${var.subscription_name}-${var.location}"].private_ip_addresses[0],
+        module.linux_vms["vm-be-get${var.subscription_name}-${var.location}"].private_ip_addresses[0],
+        module.linux_vms["vm-be-post-${var.subscription_name}-${var.location}"].private_ip_addresses[0],
+        module.linux_vms["vm-be-update-${var.subscription_name}-${var.location}"].private_ip_addresses[0],
+        module.linux_vms["vm-be-delete-${var.subscription_name}-${var.location}"].private_ip_addresses[0]
       ]
     }
   ]
 
   backend_http_settings = [
     {
-      name                  = "backend-http-settings-app1"
-      cookie_based_affinity = "Disabled"
-      port                  = 80
-      protocol              = "Http"
-    },
-    {
-      name                  = "backend-http-settings-app2"
+      name                  = "backend-http-settings-todo-app"
       cookie_based_affinity = "Disabled"
       port                  = 80
       protocol              = "Http"
@@ -440,20 +336,14 @@ module "agw" {
   url_path_map = [
     {
       name                               = "url-path-map-${var.subscription_name}-${var.location}-001"
-      default_backend_address_pool_name  = "backend-address-pool-app1"
-      default_backend_http_settings_name = "backend-http-settings-app1"
+      default_backend_address_pool_name  = "backend-address-pool-todo-app"
+      default_backend_http_settings_name = "backend-http-settings-todo-app"
       path_rule = [
         {
-          name                       = "path-rule-app1"
-          paths                      = ["/api1/*", "/api2/*"]
-          backend_address_pool_name  = "backend-address-pool-app1"
-          backend_http_settings_name = "backend-http-settings-app1"
-        },
-        {
-          name                       = "path-rule-app2"
-          paths                      = ["/api3/*", "/api4/*"]
-          backend_address_pool_name  = "backend-address-pool-app2"
-          backend_http_settings_name = "backend-http-settings-app2"
+          name                       = "path-rule-todo-app"
+          paths                      = ["todoapi/*"]
+          backend_address_pool_name  = "backend-address-pool-todo-app"
+          backend_http_settings_name = "backend-http-settings-todo-app"
         }
       ]
     }
@@ -462,22 +352,12 @@ module "agw" {
 
 resource "azurerm_network_interface_application_gateway_backend_address_pool_association" "agw_backend_address_pool_association" {
   for_each = {
-    vm1 = {
-      network_interface_id = module.linux_vms["vm-${var.subscription_name}-${var.location}-001"].nic_ids[0]
-      backend_pool_name    = "backend-address-pool-app1"
+
+    for vm in local.linux_virtual_machines : vm.vm_name => {
+      network_interface_id = module.linux_vms[vm.vm_name].network_interface_ids[0]
+      backend_pool_name     = "backend-address-pool-todo-app"
     }
-    vm2 = {
-      network_interface_id = module.linux_vms["vm-${var.subscription_name}-${var.location}-002"].nic_ids[0]
-      backend_pool_name    = "backend-address-pool-app1"
-    }
-    vm3 = {
-      network_interface_id = module.linux_vms["vm-${var.subscription_name}-${var.location}-003"].nic_ids[0]
-      backend_pool_name    = "backend-address-pool-app2"
-    }
-    win_vm = {
-      network_interface_id = module.window_vms["vm-${var.subscription_name}-${var.location}-004"].nic_ids[0]
-      backend_pool_name    = "backend-address-pool-app2"
-    }
+
   }
 
   network_interface_id  = each.value.network_interface_id
