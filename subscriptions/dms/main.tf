@@ -66,7 +66,7 @@ locals {
       ip_configuration = [
         {
           name                          = "ipconfig1"
-          subnet_id                     = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-002"]
+          subnet_id                     = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-001"]
           private_ip_address_allocation = "Dynamic"
           public_ip_address_id          = null
         }
@@ -78,7 +78,7 @@ locals {
       ip_configuration = [
         {
           name                          = "ipconfig1"
-          subnet_id                     = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-002"]
+          subnet_id                     = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-001"]
           private_ip_address_allocation = "Dynamic"
           public_ip_address_id          = null
         }
@@ -113,7 +113,7 @@ locals {
 
   linux_virtual_machines = [
     {
-      vm_name                         = "vm-${var.subscription_name}-${var.location}-001"
+      vm_name                         = "vm-fe-${var.subscription_name}-${var.location}-001"
       vm_size                         = "STANDARD_DS1_V2"
       admin_username                  = "tung"
       os_disk_name                    = "os-disk-${var.subscription_name}-${var.location}-001"
@@ -126,7 +126,7 @@ locals {
       nics                            = { "${local.network_interfaces[0].name}" = local.network_interfaces[0] }
     },
     {
-      vm_name                         = "vm-${var.subscription_name}-${var.location}-002"
+      vm_name                         = "vm-be-get-${var.subscription_name}-${var.location}-002"
       vm_size                         = "STANDARD_DS1_V2"
       admin_username                  = "tung"
       os_disk_name                    = "os-disk-${var.subscription_name}-${var.location}-002"
@@ -139,7 +139,7 @@ locals {
       nics                            = { "${local.network_interfaces[1].name}" = local.network_interfaces[1] }
     },
     {
-      vm_name                         = "vm-${var.subscription_name}-${var.location}-003"
+      vm_name                         = "vm-be-post-${var.subscription_name}-${var.location}-003"
       vm_size                         = "STANDARD_DS1_V2"
       admin_username                  = "tung"
       os_disk_name                    = "os-disk-${var.subscription_name}-${var.location}-003"
@@ -152,7 +152,7 @@ locals {
       nics                            = { "${local.network_interfaces[2].name}" = local.network_interfaces[2] }
     },
     {
-      vm_name                         = "vm-jumpbox-${var.subscription_name}-${var.location}"
+      vm_name                         = "vm-be-update-${var.subscription_name}-${var.location}-004"
       vm_size                         = "STANDARD_DS1_V2"
       admin_username                  = "tung"
       os_disk_name                    = "os-disk-jumphost-${var.subscription_name}-${var.location}"
@@ -160,6 +160,19 @@ locals {
       os_offer                        = "UbuntuServer"
       os_sku                          = "16.04-LTS"
       computer_name                   = "Tung macbook 4"
+      disk_size_gb                    = 30
+      disable_password_authentication = false
+      nics                            = { "${local.network_interfaces[5].name}" = local.network_interfaces[5] }
+    },
+    {
+      vm_name                         = "vm-be-delete-${var.subscription_name}-${var.location}-005"
+      vm_size                         = "STANDARD_DS1_V2"
+      admin_username                  = "tung"
+      os_disk_name                    = "os-disk-jumphost-${var.subscription_name}-${var.location}"
+      os_publisher                    = "Canonical"
+      os_offer                        = "UbuntuServer"
+      os_sku                          = "16.04-LTS"
+      computer_name                   = "Tung macbook 5"
       disk_size_gb                    = 30
       disable_password_authentication = false
       nics                            = { "${local.network_interfaces[5].name}" = local.network_interfaces[5] }
