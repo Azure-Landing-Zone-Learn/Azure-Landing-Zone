@@ -90,6 +90,30 @@ locals {
       ip_configuration = [
         {
           name                          = "ipconfig1"
+          subnet_id                     = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-001"]
+          private_ip_address_allocation = "Dynamic"
+          public_ip_address_id          = null
+        }
+      ]
+      tags = var.tags
+    },
+    {
+      name = "nic-${var.subscription_name}-${var.location}-004"
+      ip_configuration = [
+        {
+          name                          = "ipconfig1"
+          subnet_id                     = module.vnet.subnets["subnet-${var.subscription_name}-${var.location}-001"]
+          private_ip_address_allocation = "Dynamic"
+          public_ip_address_id          = null
+        }
+      ]
+      tags = var.tags
+    },
+    {
+      name = "nic-${var.subscription_name}-${var.location}-005"
+      ip_configuration = [
+        {
+          name                          = "ipconfig1"
           subnet_id                     = module.vnet.subnets["subnet-cicd-${var.subscription_name}-${var.location}"]
           private_ip_address_allocation = "Dynamic"
           public_ip_address_id          = null
@@ -162,7 +186,7 @@ locals {
       computer_name                   = "Tung macbook 4"
       disk_size_gb                    = 30
       disable_password_authentication = false
-      nics                            = { "${local.network_interfaces[5].name}" = local.network_interfaces[5] }
+      nics                            = { "${local.network_interfaces[5].name}" = local.network_interfaces[3] }
     },
     {
       vm_name                         = "vm-be-delete-${var.subscription_name}-${var.location}-005"
@@ -175,7 +199,7 @@ locals {
       computer_name                   = "Tung macbook 5"
       disk_size_gb                    = 30
       disable_password_authentication = false
-      nics                            = { "${local.network_interfaces[5].name}" = local.network_interfaces[5] }
+      nics                            = { "${local.network_interfaces[5].name}" = local.network_interfaces[4] }
     }
   ]
 
@@ -190,7 +214,7 @@ locals {
       os_offer       = "WindowsServer"
       os_sku         = "2019-Datacenter"
       disk_size_gb   = 127
-      nics           = { "${local.network_interfaces[3].name}" = local.network_interfaces[3] }
+      nics           = { "${local.network_interfaces[3].name}" = local.network_interfaces[5] }
     },
     {
       vm_name        = "vm-${var.subscription_name}-${var.location}-005"
@@ -202,7 +226,7 @@ locals {
       os_offer       = "WindowsServer"
       os_sku         = "2019-Datacenter"
       disk_size_gb   = 127
-      nics           = { "${local.network_interfaces[4].name}" = local.network_interfaces[4] }
+      nics           = { "${local.network_interfaces[4].name}" = local.network_interfaces[6] }
     }
   ]
 
