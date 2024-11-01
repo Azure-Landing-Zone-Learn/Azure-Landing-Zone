@@ -54,6 +54,6 @@ output "private_ip_addresses" {
   value = flatten([for nic in module.nics : nic.private_ip_addresses])
 }
 
-output "nic_ids" {
+output "network_interface_ids" {
   value = [for nic in module.nics : nic.id]
 }
