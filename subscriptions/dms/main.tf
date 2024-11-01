@@ -150,7 +150,7 @@ locals {
       computer_name                   = "Tung macbook 4"
       disk_size_gb                    = 30
       disable_password_authentication = false
-      nics                            = { "${local.network_interfaces[5].name}" = local.network_interfaces[3] }
+      nics                            = { "${local.network_interfaces[3].name}" = local.network_interfaces[3] }
     },
     {
       vm_name                         = "vm-be-delete-${var.subscription_name}-${var.location}"
@@ -163,7 +163,7 @@ locals {
       computer_name                   = "Tung macbook 5"
       disk_size_gb                    = 30
       disable_password_authentication = false
-      nics                            = { "${local.network_interfaces[5].name}" = local.network_interfaces[4] }
+      nics                            = { "${local.network_interfaces[4].name}" = local.network_interfaces[4] }
     }
   ]
 
@@ -179,9 +179,9 @@ locals {
   snet1_rt_routes = [
     {
       name                   = "from-ssh-to-vm"
-      address_prefix         = "0.0.0.0/0"               # Allow traffic from any source
-      next_hop_type          = "VirtualAppliance"        # Traffic will be routed to the firewall or other appliance
-      next_hop_in_ip_address = var.fw_private_ip_address # Private IP of the Azure Firewall (or appliance handling SSH traffic)
+      address_prefix         = "0.0.0.0/0"              
+      next_hop_type          = "VirtualAppliance"   
+      next_hop_in_ip_address = var.fw_private_ip_address
     }
   ]
 }
