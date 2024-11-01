@@ -341,7 +341,7 @@ module "agw" {
       path_rule = [
         {
           name                       = "path-rule-todo-app"
-          paths                      = ["todoapi/*"]
+          paths                      = ["/todoapi/*"]
           backend_address_pool_name  = "backend-address-pool-todo-app"
           backend_http_settings_name = "backend-http-settings-todo-app"
         }
