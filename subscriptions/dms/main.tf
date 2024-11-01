@@ -352,9 +352,24 @@ module "agw" {
 
 resource "azurerm_network_interface_application_gateway_backend_address_pool_association" "agw_backend_address_pool_association" {
   for_each = {
-
-    for vm in local.linux_virtual_machines : vm.vm_name => {
-      network_interface_id = module.linux_vms[vm.vm_name].network_interface_ids[0]
+    fe_vm_nic = {
+      network_interface_id = module.linux_vms["vm-fe-${var.subscription_name}-${var.location}"].network_interface_ids[0]
+      backend_pool_name     = "backend-address-pool-todo-app"
+    },
+    be_get_vm_nic = {
+      network_interface_id = module.linux_vms["vm-be-get-${var.subscription_name}-${var.location}"].network_interface_ids[0]
+      backend_pool_name     = "backend-address-pool-todo-app"
+    },
+    be_post_vm_nic = {
+      network_interface_id = module.linux_vms["vm-be-post-${var.subscription_name}-${var.location}"].network_interface_ids[0]
+      backend_pool_name     = "backend-address-pool-todo-app"
+    },
+    be_update_vm_nic = {
+      network_interface_id = module.linux_vms["vm-be-update-${var.subscription_name}-${var.location}"].network_interface_ids[0]
+      backend_pool_name     = "backend-address-pool-todo-app"
+    },
+    be_delete_vm_nic = {
+      network_interface_id = module.linux_vms["vm-be-delete-${var.subscription_name}-${var.location}"].network_interface_ids[0]
       backend_pool_name     = "backend-address-pool-todo-app"
     }
 
