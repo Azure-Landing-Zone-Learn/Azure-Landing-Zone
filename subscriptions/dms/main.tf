@@ -283,7 +283,7 @@ module "agw" {
       name = "backend-address-pool-todo-app"
       ip_addresses = [
         module.linux_vms["vm-fe-${var.subscription_name}-${var.location}"].private_ip_addresses[0],
-        module.linux_vms["vm-be-get${var.subscription_name}-${var.location}"].private_ip_addresses[0],
+        module.linux_vms["vm-be-get-${var.subscription_name}-${var.location}"].private_ip_addresses[0],
         module.linux_vms["vm-be-post-${var.subscription_name}-${var.location}"].private_ip_addresses[0],
         module.linux_vms["vm-be-update-${var.subscription_name}-${var.location}"].private_ip_addresses[0],
         module.linux_vms["vm-be-delete-${var.subscription_name}-${var.location}"].private_ip_addresses[0]
