@@ -442,7 +442,7 @@ module "mssql_server" {
 
   name                         = "mssqlserver-${var.subscription_name}-${var.location}-001"
   location                     = var.location
-  resource_group_name          = module.rg.Name
+  resource_group_name          = module.rg.name
   administrator_login          = "tung"
   administrator_login_password = random_password.mssql_server_password.result
 }
