@@ -179,8 +179,8 @@ locals {
   snet1_rt_routes = [
     {
       name                   = "from-ssh-to-vm"
-      address_prefix         = "0.0.0.0/0"              
-      next_hop_type          = "VirtualAppliance"   
+      address_prefix         = "0.0.0.0/0"
+      next_hop_type          = "VirtualAppliance"
       next_hop_in_ip_address = var.fw_private_ip_address
     }
   ]
@@ -354,23 +354,23 @@ resource "azurerm_network_interface_application_gateway_backend_address_pool_ass
   for_each = {
     fe_vm_nic = {
       network_interface_id = module.linux_vms["vm-fe-${var.subscription_name}-${var.location}"].network_interface_ids[0]
-      backend_pool_name     = "backend-address-pool-todo-app"
+      backend_pool_name    = "backend-address-pool-todo-app"
     },
     be_get_vm_nic = {
       network_interface_id = module.linux_vms["vm-be-get-${var.subscription_name}-${var.location}"].network_interface_ids[0]
-      backend_pool_name     = "backend-address-pool-todo-app"
+      backend_pool_name    = "backend-address-pool-todo-app"
     },
     be_post_vm_nic = {
       network_interface_id = module.linux_vms["vm-be-post-${var.subscription_name}-${var.location}"].network_interface_ids[0]
-      backend_pool_name     = "backend-address-pool-todo-app"
+      backend_pool_name    = "backend-address-pool-todo-app"
     },
     be_update_vm_nic = {
       network_interface_id = module.linux_vms["vm-be-update-${var.subscription_name}-${var.location}"].network_interface_ids[0]
-      backend_pool_name     = "backend-address-pool-todo-app"
+      backend_pool_name    = "backend-address-pool-todo-app"
     },
     be_delete_vm_nic = {
       network_interface_id = module.linux_vms["vm-be-delete-${var.subscription_name}-${var.location}"].network_interface_ids[0]
-      backend_pool_name     = "backend-address-pool-todo-app"
+      backend_pool_name    = "backend-address-pool-todo-app"
     }
 
   }
@@ -426,6 +426,25 @@ module "route_table_subnet_001" {
   resource_group_name = module.rg.name
   routes              = local.snet1_rt_routes
   tags                = var.tags
+}
+
+resource "random_password" "mssql_server_password" {
+  length      = 30
+  min_lower   = 1
+  min_upper   = 1
+  min_numeric = 1
+  min_special = 1
+  special     = false
+}
+
+module "mssql_server" {
+  source = "../../modules/mssql_server"
+
+  name                   = "mssql-${var.subscription_name}-${var.location}-001"
+  location               = var.location
+  resource_group_name    = module.rg.Name
+  administrator_login    = "tung"
+  administrator_password = random_password.mssql_server_password.result
 }
 
 output "vnet_id" {
