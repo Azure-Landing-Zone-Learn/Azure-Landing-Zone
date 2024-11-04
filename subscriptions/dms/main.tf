@@ -277,6 +277,27 @@ module "linux_vms" {
   disk_size_gb        = each.value.disk_size_gb
 }
 
+module "window_vms" {
+  source = "../../modules/window_vms"
+
+  for_each = { for vm in local.window_virtual_machines : vm.vm_name => vm }
+
+  name                = each.value.vm_name
+  location            = var.location
+  resource_group_name = module.rg.name
+  tags                = var.tags
+  size                = each.value.vm_size
+  computer_name       = each.value.computer_name
+  admin_username      = each.value.admin_username
+  admin_password      = random_password.window_vms[each.key].result
+  os_disk_name        = each.value.os_disk_name
+  publisher           = each.value.os_publisher
+  offer               = each.value.os_offer
+  sku                 = each.value.os_sku
+  nics                = each.value.nics
+  disk_size_gb        = each.value.disk_size_gb
+}
+
 module "agw_pip" {
   source = "../../modules/public_ip"
 
