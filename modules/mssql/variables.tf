@@ -225,35 +225,6 @@ variable "creation_source_database_id" {
   default     = null
 }
 
-# PE
-variable "is_private" {
-  description = "Is the SQL Server private"
-  type        = bool
-}
-
-variable "subnet_id" {
-  description = "The id of the subnet"
-  type        = string
-  default     = null
-}
-
-variable "sql_subresource_name" {
-  description = "The subresource name of the SQL Server"
-  type        = string
-  default     = "databases"
-}
-
-variable "private_dns_zone_name" {
-  description = "The name of the private dns zone"
-  type        = string
-  default     = "privateLink.database.windows.net"
-}
-
-variable "vnet_id" {
-  description = "The id of the virtual network"
-  type        = string
-  default     = null
-}
 
 variable "identity" {
   description = "The identity for the SQL Server"
@@ -262,17 +233,4 @@ variable "identity" {
     identity_ids  = list(string)
   })
   default = null
-}
-
-variable "location" {
-  description = "The location/region where the SQL Server will be created"
-  type        = string
-  nullable    = false
-}
-
-variable "resource_group_name" {
-  description = "The name of the resource group in which the SQL Server will be created"
-  type        = string
-  nullable    = false
-
 }

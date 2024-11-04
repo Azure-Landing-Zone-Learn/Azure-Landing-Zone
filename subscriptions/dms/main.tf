@@ -447,6 +447,10 @@ module "mssql_server" {
   resource_group_name          = module.rg.name
   administrator_login          = "tung"
   administrator_login_password = random_password.mssql_server_password.result
+
+  is_private          = true
+  subnet_id           = module.vnet.subnets["subnet-mssql-${var.subscription_name}-${var.location}"]
+  vnet_id             = module.vnet.id
 }
 
 module "private_mssql" {
@@ -454,11 +458,6 @@ module "private_mssql" {
 
   name                = "mssql-${var.subscription_name}-${var.location}-001"
   server_id           = module.mssql_server.id
-  is_private          = true
-  location            = var.location
-  resource_group_name = module.rg.name
-  subnet_id           = module.vnet.subnets["subnet-mssql-${var.subscription_name}-${var.location}"]
-  vnet_id             = module.vnet.id
 }
 
 output "vnet_id" {

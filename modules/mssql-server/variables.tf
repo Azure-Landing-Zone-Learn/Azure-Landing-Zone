@@ -60,3 +60,33 @@ variable "identity" {
   })
   default = null
 }
+
+# PE
+variable "is_private" {
+  description = "Is the SQL Server private"
+  type        = bool
+}
+
+variable "subnet_id" {
+  description = "The id of the subnet"
+  type        = string
+  default     = null
+}
+
+variable "sql_subresource_name" {
+  description = "The subresource name of the SQL Server"
+  type        = string
+  default     = "databases"
+}
+
+variable "private_dns_zone_name" {
+  description = "The name of the private dns zone"
+  type        = string
+  default     = "privateLink.database.windows.net"
+}
+
+variable "vnet_id" {
+  description = "The id of the virtual network"
+  type        = string
+  default     = null
+}
