@@ -507,14 +507,9 @@ module "mssql_server" {
   administrator_login_password = random_password.mssql_server_password.result
 
   is_private          = true
-  subnet_id           = module.vnet.subnets["subnet-mssql-${var.subscription_name}-${var.location}"]
+  subnet_id           = module.vnet.subnets["subnet-jump-${var.subscription_name}-${var.location}"]
   vnet_id             = module.vnet.id
-  virtual_network_rules = [
-    {
-      name = "vnet-rule1"
-      subnet_id   = module.vnet.subnets["subnet-jump-${var.subscription_name}-${var.location}"]
-    }
-  ]
+  public_network_access_enabled = false
 }
 
 module "private_mssql" {

@@ -91,6 +91,12 @@ variable "vnet_id" {
   default     = null
 }
 
+variable "public_network_access_enabled" {
+  description = "Is public network access enabled for the SQL Server"
+  type        = bool
+  default     = true
+}
+
 # rule
 variable "virtual_network_rules" {
   description = "List of virtual network rules for the SQL server, each containing a name and subnet ID."

@@ -1,10 +1,11 @@
 resource "azurerm_mssql_server" "server" {
-  name                         = var.name
-  resource_group_name          = var.resource_group_name
-  location                     = var.location
-  version                      = var.sql_server_version
-  administrator_login          = var.administrator_login
-  administrator_login_password = var.administrator_login_password
+  name                          = var.name
+  resource_group_name           = var.resource_group_name
+  location                      = var.location
+  version                       = var.sql_server_version
+  administrator_login           = var.administrator_login
+  administrator_login_password  = var.administrator_login_password
+  public_network_access_enabled = var.public_network_access_enabled
 
   connection_policy = var.connection_policy
 
@@ -74,7 +75,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "vnet_link" {
 }
 
 resource "azurerm_mssql_virtual_network_rule" "virtual_network_rules" {
-  count = var.is_private ? length(var.virtual_network_rules) : 0
+  count = var.is_private ? 0 : length(var.virtual_network_rules)
 
   name                                 = var.virtual_network_rules[count.index].name
   server_id                            = azurerm_mssql_server.server.id
