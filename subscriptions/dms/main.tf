@@ -440,7 +440,7 @@ resource "random_password" "mssql_server_password" {
 module "mssql_server" {
   source = "../../modules/mssql_server"
 
-  name                   = "mssql-${var.subscription_name}-${var.location}-001"
+  name                   = "mssqlserver-${var.subscription_name}-${var.location}-001"
   location               = var.location
   resource_group_name    = module.rg.Name
   administrator_login    = "tung"

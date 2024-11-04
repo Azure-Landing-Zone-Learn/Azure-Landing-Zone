@@ -1,5 +1,5 @@
 resource "azurerm_mssql_server" "server" {
-  name                         = var.server_name
+  name                         = var.name
   resource_group_name          = var.resource_group_name
   location                     = var.location
   version                      = var.version
@@ -9,8 +9,8 @@ resource "azurerm_mssql_server" "server" {
   connection_policy = var.connection_policy
 
   identity {
-    type         = var.server_identity.identity_type
-    identity_ids = var.server_identity.identity_ids
+    type         = var.identity.identity_type
+    identity_ids = var.identity.identity_ids
   }
 
   azuread_administrator {

@@ -1,6 +1,6 @@
 
 resource "azurerm_mssql_database" "database" {
-  name                        = var.database_name
+  name                        = var.name
   server_id                   = azurerm_mssql_server.server.id
   auto_pause_delay_in_minutes = var.auto_pause_delay_in_minutes
   create_mode                 = var.create_mode
@@ -53,8 +53,8 @@ resource "azurerm_mssql_database" "database" {
     retention_days       = var.threat_detection_policy.retention_days
   }
   identity {
-    type         = var.database_identity.type
-    identity_ids = var.database_identity.identity_ids
+    type         = var.identity.type
+    identity_ids = var.identity.identity_ids
   }
   transparent_data_encryption_enabled                        = var.transparent_data_encryption_enabled
   transparent_data_encryption_key_vault_key_id               = var.transparent_data_encryption_key_vault_key_id
@@ -66,13 +66,13 @@ resource "azurerm_mssql_database" "database" {
 
 module "pe" {
   source              = "../../modules/private_endpoint"
-  name                = "pe-${var.database_name}"
+  name                = "pe-${var.name}"
   location            = var.location
   resource_group_name = var.resource_group_name
   subnet_id           = var.subnet_id
 
   private_service_connection = {
-    name                           = "psc-${var.database_name}"
+    name                           = "psc-${var.name}"
     private_connection_resource_id = azurerm_mssql_database.database.id
     is_manual_connection           = false
     subresource_names              = [var.sql_subresource_name]
@@ -89,7 +89,7 @@ module "private_dns_zone" {
   resource_group_name = var.resource_group_name
   # mssql.mssqlxxx
   // TODO: record_name not hardcode
-  record_name = "mssql.${var.database_name}"
+  record_name = "mssql.${var.name}"
   records     = var.is_private ? [module.pe[0].private_ip_address] : []
 
   count = var.is_private ? 1 : 0
@@ -98,7 +98,7 @@ module "private_dns_zone" {
 
 resource "azurerm_private_dns_zone_virtual_network_link" "vnet_link" {
   // TODO: name not hardcode
-  name                  = "mssql-dns-link-${var.database_name}"
+  name                  = "mssql-dns-link-${var.name}"
   resource_group_name   = var.resource_group_name
   private_dns_zone_name = var.private_dns_zone_name
   virtual_network_id    = var.vnet_id

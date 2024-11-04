@@ -1,6 +1,6 @@
 
 # Database
-variable "database_name" {
+variable "name" {
   description = "The name of the SQL Database"
   type        = string
   nullable    = false
@@ -231,4 +231,12 @@ variable "vnet_id" {
   description = "The id of the virtual network"
   type        = string
   nullable    = false
+}
+
+variable "identity" {
+  description = "The identity for the SQL Server"
+  type = object({
+    identity_type = string
+    identity_ids  = list(string)
+  })
 }

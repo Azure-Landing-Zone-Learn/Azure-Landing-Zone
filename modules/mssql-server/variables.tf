@@ -1,5 +1,5 @@
 #server
-variable "server_name" {
+variable "name" {
   description = "The name of the SQL Server"
   type        = string
   nullable    = false
@@ -50,7 +50,7 @@ variable "connection_policy" {
   default     = "Default"
 }
 
-variable "server_identity" {
+variable "identity" {
   description = "The identity for the SQL Server"
   type = object({
     identity_type = string
