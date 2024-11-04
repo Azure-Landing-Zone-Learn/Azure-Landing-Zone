@@ -402,8 +402,6 @@ module "public_acr" {
   sku                           = "Basic"
   admin_enabled                 = true
   public_network_access_enabled = true
-  subnet_id                     = module.vnet.subnets["subnet-acr-${var.subscription_name}-${var.location}"]
-  vnet_id                       = module.vnet.id
   is_private                    = false
 }
 
@@ -445,6 +443,16 @@ module "mssql_server" {
   resource_group_name          = module.rg.name
   administrator_login          = "tung"
   administrator_login_password = random_password.mssql_server_password.result
+}
+
+module "private_mssql" {
+  source = "../../modules/mssql"
+
+  name                = "mssql-${var.subscription_name}-${var.location}-001"
+  server_id           = module.mssql_server.id
+  is_private          = true
+  location            = var.location
+  resource_group_name = module.rg.name
 }
 
 output "vnet_id" {

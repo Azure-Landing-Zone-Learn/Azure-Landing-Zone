@@ -38,13 +38,13 @@ variable "public_network_access_enabled" {
 variable "vnet_id" {
   description = "The id of the virtual network"
   type        = string
-  nullable    = false
+  default     = null
 }
 
 variable "subnet_id" {
   description = "The id of the subnet"
   type        = string
-  nullable    = false
+  default     = null
 }
 
 variable "private_dns_zone_name" {

@@ -11,8 +11,8 @@ resource "azurerm_mssql_server" "server" {
   dynamic "identity" {
     for_each = var.identity != null ? [var.identity] : []
     content {
-      type = identity.value.type
-      identity_ids  = identity.value.identity_ids
+      type         = identity.value.type
+      identity_ids = identity.value.identity_ids
     }
   }
 
