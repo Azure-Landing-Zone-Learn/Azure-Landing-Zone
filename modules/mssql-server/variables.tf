@@ -55,11 +55,8 @@ variable "connection_policy" {
 variable "identity" {
   description = "The identity for the SQL Server"
   type = object({
-    identity_type = string
+    type = string
     identity_ids  = list(string)
   })
-  default = {
-    identity_type = "SystemAssigned"
-    identity_ids  = []
-  }
+  default =  null
 }

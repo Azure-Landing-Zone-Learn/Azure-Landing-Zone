@@ -8,15 +8,21 @@ resource "azurerm_mssql_server" "server" {
 
   connection_policy = var.connection_policy
 
-  identity {
-    type         = var.identity.identity_type
-    identity_ids = var.identity.identity_ids
+  dynamic "identity" {
+    for_each = var.identity != null ? [var.identity] : []
+    content {
+      type = identity.value.type
+      identity_ids  = identity.value.identity_ids
+    }
   }
 
-  azuread_administrator {
-    login_username              = var.azuread_administrator.login_username
-    tenant_id                   = var.azuread_administrator.tenant_id
-    object_id                   = var.azuread_administrator.object_id
-    azuread_authentication_only = var.azuread_administrator.azuread_authentication_only
+  dynamic "azuread_administrator" {
+    for_each = var.azuread_administrator != null ? [var.azuread_administrator] : []
+    content {
+      login_username              = azuread_administrator.value.login_username
+      tenant_id                   = azuread_administrator.value.tenant_id
+      object_id                   = azuread_administrator.value.object_id
+      azuread_authentication_only = azuread_administrator.value.azuread_authentication_only
+    }
   }
 }
