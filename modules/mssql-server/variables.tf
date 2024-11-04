@@ -27,11 +27,13 @@ variable "version" {
 variable "administrator_login" {
   description = "The administrator login for the SQL Server"
   type        = string
+  default     = null
 }
 
 variable "administrator_login_password" {
   description = "The administrator login password for the SQL Server"
   type        = string
+  default     = null
 }
 
 variable "azuread_administrator" {
@@ -42,6 +44,7 @@ variable "azuread_administrator" {
     object_id                   = string
     azuread_authentication_only = bool
   })
+  default = null
 }
 
 variable "connection_policy" {
@@ -56,12 +59,5 @@ variable "identity" {
     identity_type = string
     identity_ids  = list(string)
   })
-}
-
-variable "database_identity" {
-  description = "The identity for the SQL Server"
-  type = object({
-    identity_type = string
-    identity_ids  = list(string)
-  })
+  default = null
 }
