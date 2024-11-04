@@ -100,6 +100,18 @@ locals {
         }
       ]
       tags = var.tags
+    },
+    {
+      name = "nic-jumphost-${var.subscription_name}-${var.location}"
+      ip_configuration = [
+        {
+          name                          = "ipconfig1"
+          subnet_id                     = module.vnet.subnets["subnet-jump-${var.subscription_name}-${var.location}"]
+          private_ip_address_allocation = "Dynamic"
+          public_ip_address_id          = module.jumpbox_pip.id
+        }
+      ]
+      tags = var.tags
     }
   ]
 
@@ -168,6 +180,21 @@ locals {
       disk_size_gb                    = 30
       disable_password_authentication = false
       nics                            = { "${local.network_interfaces[4].name}" = local.network_interfaces[4] }
+    }
+  ]
+
+    window_virtual_machines = [
+    {
+      vm_name        = "vm-jumphost-${var.subscription_name}-${var.location}"
+      vm_size        = "STANDARD_DS1_V2"
+      admin_username = "tung"
+      computer_name  = "TungMacbook4"
+      os_disk_name   = "os-disk-${var.subscription_name}-${var.location}-006"
+      os_publisher   = "MicrosoftWindowsServer"
+      os_offer       = "WindowsServer"
+      os_sku         = "2019-Datacenter"
+      disk_size_gb   = 127
+      nics           = { "${local.network_interfaces[5].name}" = local.network_interfaces[5] }
     }
   ]
 
