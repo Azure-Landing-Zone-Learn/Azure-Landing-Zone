@@ -25,6 +25,10 @@ locals {
     {
       name             = "subnet-jump-${var.subscription_name}-${var.location}"
       address_prefixes = ["10.1.5.0/24"]
+    },
+    {
+      name             = "subnet-mssql-${var.subscription_name}-${var.location}"
+      address_prefixes = ["10.1.6.0/24"]
     }
   ]
   peerings = [
@@ -453,6 +457,8 @@ module "private_mssql" {
   is_private          = true
   location            = var.location
   resource_group_name = module.rg.name
+  subnet_id           = module.vnet.subnets["subnet-mssql-${var.subscription_name}-${var.location}"]
+  vnet_id             = module.vnet.id
 }
 
 output "vnet_id" {
