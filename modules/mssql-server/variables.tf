@@ -76,7 +76,7 @@ variable "subnet_id" {
 variable "sql_subresource_name" {
   description = "The subresource name of the SQL Server"
   type        = string
-  default     = "databases"
+  default     = "sqlServer"
 }
 
 variable "private_dns_zone_name" {
