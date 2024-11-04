@@ -278,7 +278,7 @@ module "linux_vms" {
 }
 
 module "window_vms" {
-  source = "../../modules/virtual_machine_womdow"
+  source = "../../modules/virtual_machine_window"
 
   for_each = { for vm in local.window_virtual_machines : vm.vm_name => vm }
 
