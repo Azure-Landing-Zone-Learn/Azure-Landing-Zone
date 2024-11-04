@@ -90,3 +90,13 @@ variable "vnet_id" {
   type        = string
   default     = null
 }
+
+# rule
+variable "virtual_network_rules" {
+  description = "List of virtual network rules for the SQL server, each containing a name and subnet ID."
+  type = list(object({
+    name      = string
+    subnet_id = string
+  }))
+  default = []
+}

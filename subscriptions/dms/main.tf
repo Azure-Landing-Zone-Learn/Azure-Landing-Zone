@@ -509,6 +509,12 @@ module "mssql_server" {
   is_private          = true
   subnet_id           = module.vnet.subnets["subnet-mssql-${var.subscription_name}-${var.location}"]
   vnet_id             = module.vnet.id
+  virtual_network_rules = [
+    {
+      name = "vnet-rule1"
+      subnet_id   = module.vnet.subnets["subnet-mssql-${var.subscription_name}-${var.location}"]
+    }
+  ]
 }
 
 module "private_mssql" {

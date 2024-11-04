@@ -27,7 +27,6 @@ resource "azurerm_mssql_server" "server" {
   }
 }
 
-
 module "pe" {
   source              = "../../modules/private_endpoint"
   name                = "pe-${var.name}"
@@ -74,6 +73,14 @@ resource "azurerm_private_dns_zone_virtual_network_link" "vnet_link" {
   count = var.is_private ? 1 : 0
 }
 
+resource "azurerm_mssql_virtual_network_rule" "virtual_network_rules" {
+  count = var.is_private ? length(var.virtual_network_rules) : 0
+
+  name                                 = var.virtual_network_rules[count.index].name
+  server_id                            = azurerm_mssql_server.server.id
+  subnet_id                            = var.virtual_network_rules[count.index].subnet_id
+  ignore_missing_vnet_service_endpoint = true
+}
 
 output "id" {
   value = azurerm_mssql_server.server.id
