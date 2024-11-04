@@ -277,6 +277,16 @@ module "linux_vms" {
   disk_size_gb        = each.value.disk_size_gb
 }
 
+resource "random_password" "window_server_password" {
+  for_each    = { for vm in local.window_virtual_machines : vm.vm_name => vm }
+  length      = 30
+  min_lower   = 1
+  min_upper   = 1
+  min_numeric = 1
+  min_special = 1
+  special     = false
+}
+
 module "window_vms" {
   source = "../../modules/virtual_machine_window"
 
