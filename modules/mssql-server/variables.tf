@@ -21,7 +21,6 @@ variable "version" {
   description = "The version of the SQL Server"
   type        = string
   default     = "12.0"
-  nullable    = false
 }
 
 variable "administrator_login" {
