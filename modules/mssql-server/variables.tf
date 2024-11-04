@@ -17,7 +17,7 @@ variable "location" {
   nullable    = false
 }
 
-variable "version" {
+variable "sql_server_version" {
   description = "The version of the SQL Server"
   type        = string
   default     = "12.0"
