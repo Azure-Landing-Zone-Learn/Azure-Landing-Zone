@@ -58,5 +58,8 @@ variable "identity" {
     identity_type = string
     identity_ids  = list(string)
   })
-  default = null
+  default = {
+    identity_type = "SystemAssigned"
+    identity_ids  = []
+  }
 }
