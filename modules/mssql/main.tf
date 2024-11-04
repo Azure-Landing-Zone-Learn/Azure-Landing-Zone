@@ -1,7 +1,7 @@
 
 resource "azurerm_mssql_database" "database" {
   name      = var.name
-  server_id = var.server.id
+  server_id = var.server_id
 
   auto_pause_delay_in_minutes = var.auto_pause_delay_in_minutes
   create_mode                 = var.create_mode

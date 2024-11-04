@@ -26,3 +26,7 @@ resource "azurerm_mssql_server" "server" {
     }
   }
 }
+
+output "id" {
+  value = azurerm_mssql_server.server.id
+}
