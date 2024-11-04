@@ -229,7 +229,6 @@ variable "creation_source_database_id" {
 variable "is_private" {
   description = "Is the SQL Server private"
   type        = bool
-  nullable    = false
 }
 
 variable "subnet_id" {

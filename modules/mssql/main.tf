@@ -87,7 +87,8 @@ module "pe" {
   name                = "pe-${var.name}"
   location            = var.location
   resource_group_name = var.resource_group_name
-  subnet_id           = var.is_private ? var.subnet_id : null
+  
+  subnet_id           = var.is_private ? var.subnet_id : null 
 
   private_service_connection = {
     name                           = "psc-${var.name}"
@@ -96,8 +97,9 @@ module "pe" {
     subresource_names              = [var.sql_subresource_name]
   }
 
-  count = var.is_private ? 1 : 0
+  count = var.is_private ? 1 : 0 
 }
+
 
 module "private_dns_zone" {
   source = "../../modules/private_dns_zone"
