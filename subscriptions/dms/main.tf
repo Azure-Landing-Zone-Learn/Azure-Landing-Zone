@@ -289,7 +289,7 @@ module "window_vms" {
   size                = each.value.vm_size
   computer_name       = each.value.computer_name
   admin_username      = each.value.admin_username
-  admin_password      = random_password.window_vms[each.key].result
+  admin_password      = random_password.virtual_machine_window[each.key].result
   os_disk_name        = each.value.os_disk_name
   publisher           = each.value.os_publisher
   offer               = each.value.os_offer
