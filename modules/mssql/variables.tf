@@ -204,7 +204,7 @@ variable "transparent_data_encryption_key_vault_key_id" {
 variable "transparent_data_encryption_key_automatic_rotation_enabled" {
   description = "Specifies whether TDE automatically rotates the encryption Key to the latest version."
   type        = bool
-  default     = false
+  default     = null
 }
 
 variable "zone_redundant" {
