@@ -38,7 +38,7 @@ module "pe" {
 
   private_service_connection = {
     name                           = "psc-${var.name}"
-    private_connection_resource_id = azurerm_mssql_database.database.id
+    private_connection_resource_id = azurerm_mssql_server.server.id
     is_manual_connection           = false
     subresource_names              = [var.sql_subresource_name]
   }
