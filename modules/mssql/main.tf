@@ -87,7 +87,7 @@ module "pe" {
   name                = "pe-${var.name}"
   location            = var.location
   resource_group_name = var.resource_group_name
-  subnet_id           = var.subnet_id
+  subnet_id           = var.is_private ? var.subnet_id : null
 
   private_service_connection = {
     name                           = "psc-${var.name}"
