@@ -512,7 +512,7 @@ module "mssql_server" {
   virtual_network_rules = [
     {
       name = "vnet-rule1"
-      subnet_id   = module.vnet.subnets["subnet-mssql-${var.subscription_name}-${var.location}"]
+      subnet_id   = module.vnet.subnets["subnet-jump-${var.subscription_name}-${var.location}"]
     }
   ]
 }
