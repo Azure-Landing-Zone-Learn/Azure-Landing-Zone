@@ -31,21 +31,21 @@ resource "azurerm_mssql_server" "server" {
 resource "azurerm_private_endpoint" "sql_private_endpoints" {
   for_each = toset(var.subnet_ids)
 
-  name                = "pe-${each.value}-${each.key}"  # Unique name for each PE
+  name                = "pe-${each.key}"  # Unique name for each PE
   location            = var.location
   resource_group_name = var.resource_group_name
 
   subnet_id = each.value  # Reference the current subnet ID
 
   private_service_connection {
-    name                           = "psc-${each.value}-${each.key}"
+    name                           = "psc-${each.key}"
     private_connection_resource_id = azurerm_mssql_server.server.id
     is_manual_connection           = false
     subresource_names              = [var.sql_subresource_name]
   }
 
   private_dns_zone_group {
-    name                 = "pdzg-${each.value}-${each.key}"
+    name                 = "pdzg-${each.key}"
     private_dns_zone_ids = [module.private_dns_zone[0].id]  
   }
 }
