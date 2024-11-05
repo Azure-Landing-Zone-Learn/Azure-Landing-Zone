@@ -503,10 +503,10 @@ module "mssql_server" {
   public_network_access_enabled = false
 }
 
-module "private_mssql" {
+module "todo_database" {
   source = "../../modules/mssql"
 
-  name      = "mssql-${var.subscription_name}-${var.location}-001"
+  name      = "todo-database"
   server_id = module.mssql_server.id
 }
 
