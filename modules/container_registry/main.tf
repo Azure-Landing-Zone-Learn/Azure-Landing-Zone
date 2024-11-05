@@ -7,6 +7,20 @@ resource "azurerm_container_registry" "acr" {
   public_network_access_enabled = var.is_private ? false : true
 }
 
+module "private_dns_zone" {
+  source = "../../modules/private_dns_zone"
+  # privateLink.acrxxx.io
+  name = var.private_dns_zone_name
+
+  resource_group_name = var.resource_group_name
+  # acr.acrxxx
+  // TODO: record_name not hardcode
+  record_name = "acr.${var.name}"
+  records     = var.is_private ? [module.pe[0].private_ip_address] : []
+
+  count = var.is_private ? 1 : 0
+}
+
 module "pe" {
   source = "../../modules/private_endpoint"
   // TODO: pe_name not hardcode
@@ -28,21 +42,6 @@ module "pe" {
   }
 
   count = var.is_private ? 1 : 0
-}
-
-module "private_dns_zone" {
-  source = "../../modules/private_dns_zone"
-  # privateLink.acrxxx.io
-  name = var.private_dns_zone_name
-
-  resource_group_name = var.resource_group_name
-  # acr.acrxxx
-  // TODO: record_name not hardcode
-  record_name = "acr.${var.name}"
-  records     = var.is_private ? [module.pe[0].private_ip_address] : []
-
-  count = var.is_private ? 1 : 0
-
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "vnet_link" {
