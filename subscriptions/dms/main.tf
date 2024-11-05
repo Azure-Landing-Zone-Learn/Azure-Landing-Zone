@@ -25,6 +25,7 @@ locals {
     {
       name             = "subnet-jump-${var.subscription_name}-${var.location}"
       address_prefixes = ["10.1.5.0/24"]
+      route_table_id   = module.route_table_subnet_001.id
     },
     {
       name             = "subnet-mssql-${var.subscription_name}-${var.location}"
@@ -183,7 +184,7 @@ locals {
     }
   ]
 
-    window_virtual_machines = [
+  window_virtual_machines = [
     {
       vm_name        = "vm-jumphost-${var.subscription_name}-${var.location}"
       vm_size        = "STANDARD_DS1_V2"
@@ -496,17 +497,17 @@ module "mssql_server" {
   administrator_login          = "tung"
   administrator_login_password = random_password.mssql_server_password.result
 
-  is_private          = true
-  subnet_id           = module.vnet.subnets["subnet-jump-${var.subscription_name}-${var.location}"]
-  vnet_id             = module.vnet.id
+  is_private                    = true
+  subnet_id                     = module.vnet.subnets["subnet-jump-${var.subscription_name}-${var.location}"]
+  vnet_id                       = module.vnet.id
   public_network_access_enabled = false
 }
 
 module "private_mssql" {
   source = "../../modules/mssql"
 
-  name                = "mssql-${var.subscription_name}-${var.location}-001"
-  server_id           = module.mssql_server.id
+  name      = "mssql-${var.subscription_name}-${var.location}-001"
+  server_id = module.mssql_server.id
 }
 
 output "vnet_id" {

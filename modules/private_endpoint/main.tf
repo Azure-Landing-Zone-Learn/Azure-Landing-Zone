@@ -12,7 +12,10 @@ resource "azurerm_private_endpoint" "pe" {
     subresource_names              = var.private_service_connection.subresource_names
   }
 
-  // TODO: private dns zone group
+  private_dns_zone_group {
+    name                 = var.private_dns_zone_group.name
+    private_dns_zone_ids = var.private_dns_zone_group.private_dns_zone_ids
+  }
 }
 
 output "private_ip_address" {
