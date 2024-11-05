@@ -29,7 +29,7 @@ resource "azurerm_mssql_server" "server" {
 }
 
 resource "azurerm_private_endpoint" "sql_private_endpoints" {
-  for_each = var.is_private ? var.subnet_ids : {}  # Create only if is_private is true
+  for_each = var.subnet_ids 
 
   name                = "pe-${each.value}-${each.key}"  # Unique name for each PE
   location            = var.location
