@@ -57,7 +57,7 @@ module "private_dns_zone" {
   resource_group_name = var.resource_group_name
   
   record_name = var.name
-  records     = var.is_private ? [for pe in module.pe : pe.private_ip_address] : []  # Collecting IPs from all private endpoints
+  records     = var.is_private ? [for pe in azurerm_private_endpoint.sql_private_endpoints : pe.private_ip_address] : []  # Collecting IPs from all private endpoints
 
   count = var.is_private ? 1 : 0
 }
