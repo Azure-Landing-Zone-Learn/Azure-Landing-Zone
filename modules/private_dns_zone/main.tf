@@ -11,3 +11,6 @@ resource "azurerm_private_dns_a_record" "a_record" {
   records             = var.records
 }
 
+output "id" {
+  value = azurerm_private_dns_zone.dns_zone.id
+}
