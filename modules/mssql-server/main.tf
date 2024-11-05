@@ -28,27 +28,26 @@ resource "azurerm_mssql_server" "server" {
   }
 }
 
-module "pe" {
-  source              = "../../modules/private_endpoint"
-  name                = "pe-${var.name}"
+resource "azurerm_private_endpoint" "sql_private_endpoints" {
+  for_each = var.is_private ? var.subnet_ids : {}  # Create only if is_private is true
+
+  name                = "pe-${each.value}-${each.key}"  # Unique name for each PE
   location            = var.location
   resource_group_name = var.resource_group_name
 
-  subnet_id = var.subnet_id
+  subnet_id = each.value  # Reference the current subnet ID
 
-  private_service_connection = {
-    name                           = "psc-${var.name}"
+  private_service_connection {
+    name                           = "psc-${each.value}-${each.key}"
     private_connection_resource_id = azurerm_mssql_server.server.id
     is_manual_connection           = false
     subresource_names              = [var.sql_subresource_name]
   }
 
-  private_dns_zone_group = {
-    name                 = "pdzg-${var.name}"
-    private_dns_zone_ids = [module.private_dns_zone[0].id]  # Access the first item in the list
+  private_dns_zone_group {
+    name                 = "pdzg-${each.value}-${each.key}"
+    private_dns_zone_ids = [module.private_dns_zone[0].id]  
   }
-
-  count = var.is_private ? 1 : 0
 }
 
 module "private_dns_zone" {

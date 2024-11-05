@@ -106,3 +106,9 @@ variable "virtual_network_rules" {
   }))
   default = []
 }
+
+variable "subnet_ids" {
+  description = "List of subnet IDs for the private endpoints"
+  type = list(string)
+  default = []
+}
