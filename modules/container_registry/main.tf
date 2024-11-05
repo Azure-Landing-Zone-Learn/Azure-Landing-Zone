@@ -25,7 +25,7 @@ module "pe" {
 
   private_dns_zone_group = {
     name                 = "pdzg-${var.name}"
-    private_dns_zone_ids = [module.private_dns_zone.id]
+    private_dns_zone_ids = [module.private_dns_zone[0].id]  # Access the first item in the list
   }
 
   count = var.is_private ? 1 : 0
