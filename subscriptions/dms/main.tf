@@ -225,16 +225,6 @@ module "rg" {
   tags     = var.tags
 }
 
-module "jumpbox_pip" {
-  source = "../../modules/public_ip"
-
-  name                = "jumpbox-pip-${var.subscription_name}-${var.location}-001"
-  location            = var.location
-  resource_group_name = module.rg.name
-  allocation_method   = "Static"
-  sku                 = "Standard"
-}
-
 module "vnet" {
   source = "../../modules/virtual_network"
 
