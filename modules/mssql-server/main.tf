@@ -43,6 +43,11 @@ module "pe" {
     subresource_names              = [var.sql_subresource_name]
   }
 
+  private_dns_zone_group = {
+    name                 = "pdzg-${var.name}"
+    private_dns_zone_ids = [module.private_dns_zone.id]
+  }
+
   count = var.is_private ? 1 : 0
 }
 
