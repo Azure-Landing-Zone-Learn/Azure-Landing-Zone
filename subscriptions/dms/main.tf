@@ -515,7 +515,8 @@ output "vnet_id" {
 
 output "allowed_to_internet_vms_dms" {
   value = [
-    module.linux_vms["vm-be-get-${var.subscription_name}-${var.location}"].private_ip_addresses[0]
+    module.linux_vms["vm-be-get-${var.subscription_name}-${var.location}"].private_ip_addresses[0],
+    module.window_vms["vm-jumphost-${var.subscription_name}-${var.location}"].private_ip_addresses[0]
   ]
 }
 
