@@ -52,21 +52,17 @@ resource "azurerm_private_endpoint" "sql_private_endpoints" {
 
 module "private_dns_zone" {
   source = "../../modules/private_dns_zone"
-  # privateLink.mssqlxxx.io
+  
   name = var.private_dns_zone_name
-
   resource_group_name = var.resource_group_name
-  # mssql.mssqlxxx
-  // TODO: record_name not hardcode
-  record_name = "${var.name}"
-  records     = var.is_private ? [module.pe[0].private_ip_address] : []
+  
+  record_name = var.name
+  records     = var.is_private ? [for pe in module.pe : pe.private_ip_address] : []  # Collecting IPs from all private endpoints
 
   count = var.is_private ? 1 : 0
-
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "vnet_link" {
-  // TODO: name not hardcode
   name                  = "mssql-dns-link-${var.name}"
   resource_group_name   = var.resource_group_name
   private_dns_zone_name = var.private_dns_zone_name
