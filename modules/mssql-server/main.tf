@@ -59,7 +59,7 @@ module "private_dns_zone" {
   resource_group_name = var.resource_group_name
   # mssql.mssqlxxx
   // TODO: record_name not hardcode
-  record_name = "mssql.${var.name}"
+  record_name = "${var.name}"
   records     = var.is_private ? [module.pe[0].private_ip_address] : []
 
   count = var.is_private ? 1 : 0
