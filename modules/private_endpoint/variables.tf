@@ -27,11 +27,3 @@ variable "private_service_connection" {
     subresource_names              = list(string)
   })
 }
-
-variable "private_dns_zone_group" {
-  description = "The private DNS zone group configuration"
-  type = object({
-    name                 = string
-    private_dns_zone_ids = list(string)
-  })
-}

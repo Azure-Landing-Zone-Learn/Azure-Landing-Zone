@@ -22,10 +22,15 @@ module "pe" {
     subresource_names              = [var.acr_subresource_name]
   }
 
-  private_dns_zone_group = {
-    name                 = "pdzg-${var.name}"
-    private_dns_zone_ids = [module.private_dns_zone.id]
-  }
+  count = var.is_private ? 1 : 0
+}
+
+resource "azurerm_private_dns_zone_group" "private_dns_zone_group" {
+  name                 = "pdzg-${var.name}"
+  resource_group_name  = var.resource_group_name
+  private_endpoint_id  = module.pe[0].private_endpoint_id
+  private_dns_zone_ids = [module.private_dns_zone[0].id]
+
   count = var.is_private ? 1 : 0
 }
 
